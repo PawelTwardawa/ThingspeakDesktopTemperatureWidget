@@ -37,15 +37,26 @@
             this.trackBarRefreshTime = new System.Windows.Forms.TrackBar();
             this.labelRefresh = new System.Windows.Forms.Label();
             this.textBoxRefreshTime = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboBoxFields = new System.Windows.Forms.ComboBox();
+            this.comboBoxRefreshTimeUnit = new System.Windows.Forms.ComboBox();
             this.labelField = new System.Windows.Forms.Label();
+            this.groupBoxConnections = new System.Windows.Forms.GroupBox();
+            this.groupBoxProperties = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.buttonColor = new System.Windows.Forms.Button();
+            this.textBoxTransparency = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.trackBarTransparency = new System.Windows.Forms.TrackBar();
+            this.colorDialog = new System.Windows.Forms.ColorDialog();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshTime)).BeginInit();
+            this.groupBoxConnections.SuspendLayout();
+            this.groupBoxProperties.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarTransparency)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(453, 155);
+            this.buttonSave.Location = new System.Drawing.Point(284, 313);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 0;
@@ -56,7 +67,7 @@
             // checkBoxDateLabel
             // 
             this.checkBoxDateLabel.AutoSize = true;
-            this.checkBoxDateLabel.Location = new System.Drawing.Point(358, 43);
+            this.checkBoxDateLabel.Location = new System.Drawing.Point(19, 99);
             this.checkBoxDateLabel.Name = "checkBoxDateLabel";
             this.checkBoxDateLabel.Size = new System.Drawing.Size(102, 17);
             this.checkBoxDateLabel.TabIndex = 1;
@@ -66,7 +77,7 @@
             // labelChannel
             // 
             this.labelChannel.AutoSize = true;
-            this.labelChannel.Location = new System.Drawing.Point(14, 16);
+            this.labelChannel.Location = new System.Drawing.Point(16, 21);
             this.labelChannel.Name = "labelChannel";
             this.labelChannel.Size = new System.Drawing.Size(46, 13);
             this.labelChannel.TabIndex = 2;
@@ -75,7 +86,7 @@
             // labelApi
             // 
             this.labelApi.AutoSize = true;
-            this.labelApi.Location = new System.Drawing.Point(14, 43);
+            this.labelApi.Location = new System.Drawing.Point(16, 48);
             this.labelApi.Name = "labelApi";
             this.labelApi.Size = new System.Drawing.Size(46, 13);
             this.labelApi.TabIndex = 3;
@@ -83,21 +94,23 @@
             // 
             // textBoxChannel
             // 
-            this.textBoxChannel.Location = new System.Drawing.Point(89, 12);
+            this.textBoxChannel.Location = new System.Drawing.Point(88, 19);
             this.textBoxChannel.Name = "textBoxChannel";
-            this.textBoxChannel.Size = new System.Drawing.Size(260, 20);
+            this.textBoxChannel.Size = new System.Drawing.Size(259, 20);
             this.textBoxChannel.TabIndex = 4;
+            this.textBoxChannel.TextChanged += new System.EventHandler(this.textBoxChannel_TextChanged);
             // 
             // textBoxApi
             // 
-            this.textBoxApi.Location = new System.Drawing.Point(89, 40);
+            this.textBoxApi.Location = new System.Drawing.Point(88, 45);
             this.textBoxApi.Name = "textBoxApi";
-            this.textBoxApi.Size = new System.Drawing.Size(260, 20);
+            this.textBoxApi.Size = new System.Drawing.Size(259, 20);
             this.textBoxApi.TabIndex = 5;
+            this.textBoxApi.TextChanged += new System.EventHandler(this.textBoxChannel_TextChanged);
             // 
             // trackBarRefreshTime
             // 
-            this.trackBarRefreshTime.Location = new System.Drawing.Point(89, 66);
+            this.trackBarRefreshTime.Location = new System.Drawing.Point(88, 98);
             this.trackBarRefreshTime.Maximum = 100;
             this.trackBarRefreshTime.Minimum = 1;
             this.trackBarRefreshTime.Name = "trackBarRefreshTime";
@@ -111,7 +124,7 @@
             // labelRefresh
             // 
             this.labelRefresh.AutoSize = true;
-            this.labelRefresh.Location = new System.Drawing.Point(14, 69);
+            this.labelRefresh.Location = new System.Drawing.Point(16, 101);
             this.labelRefresh.Name = "labelRefresh";
             this.labelRefresh.Size = new System.Drawing.Size(66, 13);
             this.labelRefresh.TabIndex = 7;
@@ -119,63 +132,140 @@
             // 
             // textBoxRefreshTime
             // 
-            this.textBoxRefreshTime.Location = new System.Drawing.Point(241, 67);
+            this.textBoxRefreshTime.Location = new System.Drawing.Point(239, 98);
             this.textBoxRefreshTime.Name = "textBoxRefreshTime";
             this.textBoxRefreshTime.Size = new System.Drawing.Size(59, 20);
             this.textBoxRefreshTime.TabIndex = 8;
             // 
-            // comboBox1
+            // comboBoxFields
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(390, 11);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(138, 21);
-            this.comboBox1.TabIndex = 9;
+            this.comboBoxFields.FormattingEnabled = true;
+            this.comboBoxFields.Location = new System.Drawing.Point(88, 71);
+            this.comboBoxFields.Name = "comboBoxFields";
+            this.comboBoxFields.Size = new System.Drawing.Size(138, 21);
+            this.comboBoxFields.TabIndex = 9;
             // 
-            // comboBox2
+            // comboBoxRefreshTimeUnit
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.comboBoxRefreshTimeUnit.FormattingEnabled = true;
+            this.comboBoxRefreshTimeUnit.Items.AddRange(new object[] {
             "s",
             "m",
             "h"});
-            this.comboBox2.Location = new System.Drawing.Point(306, 66);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(43, 21);
-            this.comboBox2.TabIndex = 10;
+            this.comboBoxRefreshTimeUnit.Location = new System.Drawing.Point(304, 98);
+            this.comboBoxRefreshTimeUnit.Name = "comboBoxRefreshTimeUnit";
+            this.comboBoxRefreshTimeUnit.Size = new System.Drawing.Size(43, 21);
+            this.comboBoxRefreshTimeUnit.TabIndex = 10;
             // 
             // labelField
             // 
             this.labelField.AutoSize = true;
-            this.labelField.Location = new System.Drawing.Point(355, 16);
+            this.labelField.Location = new System.Drawing.Point(16, 74);
             this.labelField.Name = "labelField";
             this.labelField.Size = new System.Drawing.Size(29, 13);
             this.labelField.TabIndex = 11;
             this.labelField.Text = "Field";
             // 
+            // groupBoxConnections
+            // 
+            this.groupBoxConnections.Controls.Add(this.textBoxChannel);
+            this.groupBoxConnections.Controls.Add(this.comboBoxRefreshTimeUnit);
+            this.groupBoxConnections.Controls.Add(this.textBoxRefreshTime);
+            this.groupBoxConnections.Controls.Add(this.labelField);
+            this.groupBoxConnections.Controls.Add(this.labelRefresh);
+            this.groupBoxConnections.Controls.Add(this.labelChannel);
+            this.groupBoxConnections.Controls.Add(this.trackBarRefreshTime);
+            this.groupBoxConnections.Controls.Add(this.labelApi);
+            this.groupBoxConnections.Controls.Add(this.comboBoxFields);
+            this.groupBoxConnections.Controls.Add(this.textBoxApi);
+            this.groupBoxConnections.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxConnections.Name = "groupBoxConnections";
+            this.groupBoxConnections.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.groupBoxConnections.Size = new System.Drawing.Size(365, 148);
+            this.groupBoxConnections.TabIndex = 12;
+            this.groupBoxConnections.TabStop = false;
+            this.groupBoxConnections.Text = "Connection";
+            // 
+            // groupBoxProperties
+            // 
+            this.groupBoxProperties.Controls.Add(this.label2);
+            this.groupBoxProperties.Controls.Add(this.buttonColor);
+            this.groupBoxProperties.Controls.Add(this.textBoxTransparency);
+            this.groupBoxProperties.Controls.Add(this.checkBoxDateLabel);
+            this.groupBoxProperties.Controls.Add(this.label1);
+            this.groupBoxProperties.Controls.Add(this.trackBarTransparency);
+            this.groupBoxProperties.Location = new System.Drawing.Point(12, 166);
+            this.groupBoxProperties.Name = "groupBoxProperties";
+            this.groupBoxProperties.Size = new System.Drawing.Size(365, 131);
+            this.groupBoxProperties.TabIndex = 13;
+            this.groupBoxProperties.TabStop = false;
+            this.groupBoxProperties.Text = "Widget Properties";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 75);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(31, 13);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "Color";
+            // 
+            // buttonColor
+            // 
+            this.buttonColor.Location = new System.Drawing.Point(88, 70);
+            this.buttonColor.Name = "buttonColor";
+            this.buttonColor.Size = new System.Drawing.Size(23, 23);
+            this.buttonColor.TabIndex = 15;
+            this.buttonColor.UseVisualStyleBackColor = true;
+            this.buttonColor.Click += new System.EventHandler(this.buttonColor_Click);
+            // 
+            // textBoxTransparency
+            // 
+            this.textBoxTransparency.Location = new System.Drawing.Point(239, 19);
+            this.textBoxTransparency.Name = "textBoxTransparency";
+            this.textBoxTransparency.Size = new System.Drawing.Size(59, 20);
+            this.textBoxTransparency.TabIndex = 14;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(72, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Transparency";
+            // 
+            // trackBarTransparency
+            // 
+            this.trackBarTransparency.Location = new System.Drawing.Point(88, 19);
+            this.trackBarTransparency.Maximum = 100;
+            this.trackBarTransparency.Minimum = 1;
+            this.trackBarTransparency.Name = "trackBarTransparency";
+            this.trackBarTransparency.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.trackBarTransparency.Size = new System.Drawing.Size(145, 45);
+            this.trackBarTransparency.TabIndex = 12;
+            this.trackBarTransparency.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBarTransparency.Value = 1;
+            this.trackBarTransparency.ValueChanged += new System.EventHandler(this.trackBarTransparency_ValueChanged);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 190);
-            this.Controls.Add(this.labelField);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBoxRefreshTime);
-            this.Controls.Add(this.labelRefresh);
-            this.Controls.Add(this.trackBarRefreshTime);
-            this.Controls.Add(this.textBoxApi);
-            this.Controls.Add(this.textBoxChannel);
-            this.Controls.Add(this.labelApi);
-            this.Controls.Add(this.labelChannel);
-            this.Controls.Add(this.checkBoxDateLabel);
+            this.ClientSize = new System.Drawing.Size(390, 358);
+            this.Controls.Add(this.groupBoxProperties);
+            this.Controls.Add(this.groupBoxConnections);
             this.Controls.Add(this.buttonSave);
             this.Name = "Settings";
             this.Text = "Settings";
-            this.Load += new System.EventHandler(this.Settings_Load);
+            this.Load += new System.EventHandler(this.Settings_LoadAsync);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshTime)).EndInit();
+            this.groupBoxConnections.ResumeLayout(false);
+            this.groupBoxConnections.PerformLayout();
+            this.groupBoxProperties.ResumeLayout(false);
+            this.groupBoxProperties.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarTransparency)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -190,8 +280,16 @@
         private System.Windows.Forms.TrackBar trackBarRefreshTime;
         private System.Windows.Forms.Label labelRefresh;
         private System.Windows.Forms.TextBox textBoxRefreshTime;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox comboBoxFields;
+        private System.Windows.Forms.ComboBox comboBoxRefreshTimeUnit;
         private System.Windows.Forms.Label labelField;
+        private System.Windows.Forms.GroupBox groupBoxConnections;
+        private System.Windows.Forms.GroupBox groupBoxProperties;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button buttonColor;
+        private System.Windows.Forms.TextBox textBoxTransparency;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TrackBar trackBarTransparency;
+        private System.Windows.Forms.ColorDialog colorDialog;
     }
 }

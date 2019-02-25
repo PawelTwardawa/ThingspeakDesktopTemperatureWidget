@@ -9,12 +9,12 @@ using TempetarureWidget.DTO;
 
 namespace TempetarureWidget
 {
-    class Manager : IManager
+   public class Manager : IManager
     {
         public event Action<string> SetTemperatureLabel;
         public event Action<string> setUpdataDataLabel;
 
-        private int _refreshTime = 1000;
+        private int _refreshTime = 2000;
 
         public Fields Field { get; set; }
         public string Channel{ get; set; }
@@ -27,7 +27,7 @@ namespace TempetarureWidget
             }
             set
             {
-                if(value < 1 || value > 3600) //second
+                if(value < 1000 || value > 216000000) //second
                 {
                     throw new ArgumentException("RefreshTime out of range");
                 }
@@ -35,7 +35,7 @@ namespace TempetarureWidget
             }
         }
 
-        private  GetData _getData;
+        private static  GetData _getData;
 
         public Manager()
         {
@@ -52,7 +52,7 @@ namespace TempetarureWidget
 
             Data data = await getDataAsync();
 
-            SetTemperatureLabel.Invoke(data.feeds[0].field2);
+            SetTemperatureLabel.Invoke(temperatureFromFieldAsync(data));
             setUpdataDataLabel.Invoke(data.feeds[0].created_at);
 
         }
@@ -83,9 +83,8 @@ namespace TempetarureWidget
             return fields;
         }
 
-        public async Task<string> temperatureFromFieldAsync()
+        private string temperatureFromFieldAsync( Data data)
         {
-            Data data = await getDataAsync();
 
             switch(Field)
             {

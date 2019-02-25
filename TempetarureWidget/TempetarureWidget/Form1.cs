@@ -32,7 +32,7 @@ namespace TempetarureWidget
 
         private void UpdataDateTimeLabel(string value)
         {
-
+            labelUpdateDate.Invoke(new Action(() => labelUpdateDate.Text = value));
         }
 
         private void UpdateTemperatureLabel(string value)
@@ -40,20 +40,6 @@ namespace TempetarureWidget
             //labelTemp.Text = value;
 
             labelTemp.Invoke(new Action(() => labelTemp.Text = value + i++));
-        }
-
-        private async void button1_ClickAsync(object sender, EventArgs e)
-        {
-            AppSettings settings = AppSettings.Load();
-
-            settings.api_key = "2W9E39YOZ0I2L5PL";
-            settings.channel = "685438";
-
-
-            settings.Save();
-
-
-
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -73,14 +59,30 @@ namespace TempetarureWidget
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //this.Opacity = .80;
+            loadSettings(AppSettings.Load());
             manager.Start();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings();
-            settings.Show();
+            Settings settings = new Settings(this, manager);
+            settings.ShowDialog(this);
+        }
+
+        public void loadSettings(AppSettings settings)
+        {
+            //TODO: poprawic to
+
+            if (!string.IsNullOrEmpty(settings.api_key))
+            {
+                manager.ApiKey = settings.api_key;
+                manager.Channel = settings.channel;
+                manager.Field = settings.field;
+                manager.RefreshTime = settings.refreshTime;
+                this.BackColor = settings.color;
+                this.Opacity = settings.opacity;
+                labelUpdateDate.Visible = settings.dataVisable;
+            }
         }
     }
 }
