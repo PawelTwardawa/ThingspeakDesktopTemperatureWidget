@@ -13,9 +13,17 @@ namespace TempetarureWidget.SettingsApp
         public string api_key;
         public string channel;
         public int refreshTime;
-        public bool dataVisable;
+        public bool dateVisable;
+        public bool nameVisable;
+        public bool channelNameVisable;
+        public bool fieldNameVisable;
+        public bool runWithWindows;
         public Fields field;
-        public Color color;
+        public Color backColor;
+        public Color textColor;
         public float opacity;
+        public float temperatureSize;
+        public float dateSize;
+        public Deegree deegree;
     }
 }
