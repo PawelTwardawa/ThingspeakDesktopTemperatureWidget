@@ -1,7 +1,7 @@
 ﻿
 namespace TempetarureWidget
 {
-    partial class Form1
+    partial class WidgetForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,22 +29,17 @@ namespace TempetarureWidget
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WidgetForm));
             this.labelTemp = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.labelUpdateDate = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
-            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.contextMenuStripNotifyIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItemSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStripNotifyIcon.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelTemp
             // 
             this.labelTemp.AutoSize = true;
+            this.labelTemp.BackColor = System.Drawing.Color.Transparent;
             this.labelTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelTemp.Location = new System.Drawing.Point(0, 25);
             this.labelTemp.Name = "labelTemp";
@@ -54,6 +49,7 @@ namespace TempetarureWidget
             this.labelTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelTemp.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.labelTemp.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
+            this.labelTemp.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);
             // 
             // button2
             // 
@@ -73,9 +69,10 @@ namespace TempetarureWidget
             // labelUpdateDate
             // 
             this.labelUpdateDate.AutoSize = true;
+            this.labelUpdateDate.BackColor = System.Drawing.Color.Transparent;
             this.labelUpdateDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelUpdateDate.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.labelUpdateDate.Location = new System.Drawing.Point(0, 88);
+            this.labelUpdateDate.Location = new System.Drawing.Point(18, 88);
             this.labelUpdateDate.Name = "labelUpdateDate";
             this.labelUpdateDate.Size = new System.Drawing.Size(217, 25);
             this.labelUpdateDate.TabIndex = 4;
@@ -83,6 +80,7 @@ namespace TempetarureWidget
             this.labelUpdateDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelUpdateDate.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.labelUpdateDate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
+            this.labelUpdateDate.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);
             // 
             // labelName
             // 
@@ -90,7 +88,7 @@ namespace TempetarureWidget
             this.labelName.BackColor = System.Drawing.Color.Transparent;
             this.labelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.labelName.Location = new System.Drawing.Point(0, 0);
+            this.labelName.Location = new System.Drawing.Point(39, 0);
             this.labelName.Name = "labelName";
             this.labelName.Size = new System.Drawing.Size(156, 25);
             this.labelName.TabIndex = 5;
@@ -98,37 +96,9 @@ namespace TempetarureWidget
             this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.labelName.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
+            this.labelName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);
             // 
-            // notifyIcon
-            // 
-            this.notifyIcon.ContextMenuStrip = this.contextMenuStripNotifyIcon;
-            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-            this.notifyIcon.Text = "Temperature Widget";
-            this.notifyIcon.Visible = true;
-            // 
-            // contextMenuStripNotifyIcon
-            // 
-            this.contextMenuStripNotifyIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemSettings,
-            this.toolStripMenuItemExit});
-            this.contextMenuStripNotifyIcon.Name = "contextMenuStripNotifyIcon";
-            this.contextMenuStripNotifyIcon.Size = new System.Drawing.Size(117, 48);
-            // 
-            // toolStripMenuItemSettings
-            // 
-            this.toolStripMenuItemSettings.Name = "toolStripMenuItemSettings";
-            this.toolStripMenuItemSettings.Size = new System.Drawing.Size(116, 22);
-            this.toolStripMenuItemSettings.Text = "Settings";
-            this.toolStripMenuItemSettings.Click += new System.EventHandler(this.buttonOpenSettingsForm_Click);
-            // 
-            // toolStripMenuItemExit
-            // 
-            this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-            this.toolStripMenuItemExit.Size = new System.Drawing.Size(116, 22);
-            this.toolStripMenuItemExit.Text = "Exit";
-            this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
-            // 
-            // Form1
+            // WidgetForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -142,14 +112,14 @@ namespace TempetarureWidget
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.Name = "Form1";
+            this.Name = "WidgetForm";
             this.ShowInTaskbar = false;
             this.Text = "Form1";
-            this.TransparencyKey = System.Drawing.Color.Red;
+            this.TransparencyKey = System.Drawing.Color.Transparent;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
-            this.contextMenuStripNotifyIcon.ResumeLayout(false);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -160,10 +130,6 @@ namespace TempetarureWidget
         private System.Windows.Forms.Button button2;
         public System.Windows.Forms.Label labelUpdateDate;
         public System.Windows.Forms.Label labelName;
-        private System.Windows.Forms.NotifyIcon notifyIcon;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripNotifyIcon;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSettings;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
     }
 }
 

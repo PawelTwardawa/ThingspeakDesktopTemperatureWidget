@@ -86,27 +86,34 @@
     <Compile Include="DTO\Feed.cs" />
     <Compile Include="enumerate\Deegree.cs" />
     <Compile Include="enumerate\Fields.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="MultiWidgetContext.cs" />
+    <Compile Include="SettingsApp\Settings.cs" />
+    <Compile Include="WidgetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="WidgetForm.Designer.cs">
+      <DependentUpon>WidgetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GetData.cs" />
     <Compile Include="IManager.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs">
+    <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings.Designer.cs">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <Compile Include="SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SettingsApp\AppSettings.cs" />
     <Compile Include="SettingsApp\SettingsManager.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="WidgetNotifyIcon.cs" />
+    <Compile Include="WidgetToolStripMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="WidgetForm.resx">
+      <DependentUpon>WidgetForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -117,8 +124,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Settings.resx">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <EmbeddedResource Include="SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -146,6 +154,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

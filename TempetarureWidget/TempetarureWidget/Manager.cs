@@ -6,27 +6,51 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TempetarureWidget.DTO;
+using TempetarureWidget.SettingsApp;
 
 namespace TempetarureWidget
 {
-   public class Manager : IManager
+   public class Manager : IManager, IDisposable
     {
         public event Action<string> SetTemperatureLabel;
-        public event Action<string> setUpdataDataLabel;
+        public event Action<string> SetUpdataDataLabel;
+        public event Action<string, string> SetNameLabel;
 
         private int _refreshTime = 2000;
-        private Data data;
+        private Data _data;
+        private static GetData _getData;
+        private Thread mainThread;
 
-        public Fields Field { get; set; }
-        public string Channel{ get; set; }
-        public string ApiKey { get; set; }
+
+
+        //private AppSettings _settings;
+
+        //public AppSettings Settings
+        //{
+        //    get
+        //    {
+        //        return _settings;
+        //    }
+
+        //    set
+        //    {
+
+        //    }
+        //}
+
+        public string FieldName { get; private set; }
+        public string ChannelName { get; private set; }
+        //TODO: usunac setery
+        public Fields Field { get; private set; }
+        public string Channel{ get; private set; }
+        public string ApiKey { get; private set; }
         public int RefreshTime
         {
             get
             {
                 return _refreshTime;
             }
-            set
+            private set
             {
                 if(value < 1000 || value > 216000000) //second
                 {
@@ -36,64 +60,93 @@ namespace TempetarureWidget
             }
         }
 
-        private static  GetData _getData;
-
         public Manager()
         {
             _getData = new GetData();
         }
 
-        public string channelName()
+        public Manager(Settings settings) : this()
         {
-            if(data != null)
+            ChangeSetting(settings);
+        }
+
+        public Manager(string api_key, string channel) : this()
+        {
+            ApiKey = api_key;
+            Channel = channel;
+        }
+
+
+        public async void ChangeSetting(Settings settings)
+        {
+            mainThread?.Abort();
+            RefreshTime = settings.refreshTime;
+            Field = settings.field;
+            Channel = settings.channel;
+            ApiKey = settings.api_key;
+
+            _data = await getDataAsync();
+
+            ChannelName = channelName();
+            FieldName = fieldName(Field);
+
+            SetNameLabel?.Invoke(ChannelName, FieldName);
+            if (!mainThread.IsAlive)
+                Start();
+
+        }
+
+        private string channelName()
+        {
+            if(_data != null)
             {
-                return data.channel.name;
+                return _data.channel.name;
             }
             return null;
         }
         
-        public string fieldName()
+        private string fieldName()
         {
             return fieldName(Field);
         }
 
-        public string fieldName(Fields field)
+        private string fieldName(Fields field)
         {
-            if(data != null)
+            if(_data != null)
             {
                 switch(field)
                 {
                     case Fields.field1:
                         {
-                            return data.channel.field1;
+                            return _data.channel.field1;
                         }
                     case Fields.field2:
                         {
-                            return data.channel.field2;
+                            return _data.channel.field2;
                         }
                     case Fields.field3:
                         {
-                            return data.channel.field3;
+                            return _data.channel.field3;
                         }
                     case Fields.field4:
                         {
-                            return data.channel.field4;
+                            return _data.channel.field4;
                         }
                     case Fields.field5:
                         {
-                            return data.channel.field5;
+                            return _data.channel.field5;
                         }
                     case Fields.field6:
                         {
-                            return data.channel.field6;
+                            return _data.channel.field6;
                         }
                     case Fields.field7:
                         {
-                            return data.channel.field7;
+                            return _data.channel.field7;
                         }
                     case Fields.field8:
                         {
-                            return data.channel.field8;
+                            return _data.channel.field8;
                         }
                 }
             }
@@ -107,11 +160,12 @@ namespace TempetarureWidget
 
         public async void GetTemperatureAsync()
         {
+            //GC.Collect();
+            GC.Collect(2, GCCollectionMode.Forced);
+            /*Data*/ _data = await getDataAsync();
 
-            /*Data*/ data = await getDataAsync();
-
-            SetTemperatureLabel.Invoke(temperatureFromFieldAsync(data));
-            setUpdataDataLabel.Invoke(data.feeds[0].created_at);
+            SetTemperatureLabel.Invoke(temperatureFromFieldAsync(_data));
+            SetUpdataDataLabel.Invoke(_data.feeds[0].created_at);
 
         }
 
@@ -119,24 +173,24 @@ namespace TempetarureWidget
         {
             Dictionary<Fields, string> fields = new Dictionary<Fields, string>();
 
-            /*Data*/ data = await getDataAsync();
+            /*Data*/ _data = await getDataAsync();
 
-            if (!string.IsNullOrEmpty(data.channel.field1))
-                fields.Add(Fields.field1, data.channel.field1);
-            if (!string.IsNullOrEmpty(data.channel.field2))
-                fields.Add(Fields.field2, data.channel.field2);
-            if (!string.IsNullOrEmpty(data.channel.field3))
-                fields.Add(Fields.field3, data.channel.field3);
-            if (!string.IsNullOrEmpty(data.channel.field4))
-                fields.Add(Fields.field4, data.channel.field4);
-            if (!string.IsNullOrEmpty(data.channel.field5))
-                fields.Add(Fields.field5, data.channel.field5);
-            if (!string.IsNullOrEmpty(data.channel.field6))
-                fields.Add(Fields.field6, data.channel.field6);
-            if (!string.IsNullOrEmpty(data.channel.field7))
-                fields.Add(Fields.field7, data.channel.field7);
-            if (!string.IsNullOrEmpty(data.channel.field8))
-                fields.Add(Fields.field8, data.channel.field8);
+            if (!string.IsNullOrEmpty(_data.channel.field1))
+                fields.Add(Fields.field1, _data.channel.field1);
+            if (!string.IsNullOrEmpty(_data.channel.field2))
+                fields.Add(Fields.field2, _data.channel.field2);
+            if (!string.IsNullOrEmpty(_data.channel.field3))
+                fields.Add(Fields.field3, _data.channel.field3);
+            if (!string.IsNullOrEmpty(_data.channel.field4))
+                fields.Add(Fields.field4, _data.channel.field4);
+            if (!string.IsNullOrEmpty(_data.channel.field5))
+                fields.Add(Fields.field5, _data.channel.field5);
+            if (!string.IsNullOrEmpty(_data.channel.field6))
+                fields.Add(Fields.field6, _data.channel.field6);
+            if (!string.IsNullOrEmpty(_data.channel.field7))
+                fields.Add(Fields.field7, _data.channel.field7);
+            if (!string.IsNullOrEmpty(_data.channel.field8))
+                fields.Add(Fields.field8, _data.channel.field8);
 
             return fields;
         }
@@ -212,18 +266,23 @@ namespace TempetarureWidget
 
         public void Start()
         {
-            Thread thread = new Thread(new ThreadStart( () =>
+            mainThread = new Thread(new ThreadStart( () =>
             {
                 while (true)
                 {
                     if(!string.IsNullOrWhiteSpace(ApiKey) || !string.IsNullOrWhiteSpace(Channel))
                         GetTemperatureAsync();
-                    Thread.Sleep(_refreshTime);
+                    Thread.Sleep(RefreshTime);
                 }
             }));
 
-            thread.Start();
+            mainThread.Start();
 
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }

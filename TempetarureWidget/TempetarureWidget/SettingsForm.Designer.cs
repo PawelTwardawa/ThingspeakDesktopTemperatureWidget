@@ -1,6 +1,6 @@
 ﻿namespace TempetarureWidget
 {
-    partial class Settings
+    partial class SettingsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -47,14 +47,14 @@
             this.checkBoxFieldName = new System.Windows.Forms.CheckBox();
             this.checkBoxChannelName = new System.Windows.Forms.CheckBox();
             this.checkBoxShowName = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.numericUpDownDateSize = new System.Windows.Forms.NumericUpDown();
+            this.labelDateSize = new System.Windows.Forms.Label();
             this.groupBoxDeegrees = new System.Windows.Forms.GroupBox();
             this.radioButtonCelsius = new System.Windows.Forms.RadioButton();
             this.radioButtonFahrentheit = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.buttonTextColor = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.numericUpDownDateSize = new System.Windows.Forms.NumericUpDown();
-            this.labelDateSize = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.numericUpDownTemperatureSize = new System.Windows.Forms.NumericUpDown();
             this.labelTempratureSize = new System.Windows.Forms.Label();
@@ -65,13 +65,14 @@
             this.trackBarTransparency = new System.Windows.Forms.TrackBar();
             this.colorDialogBackground = new System.Windows.Forms.ColorDialog();
             this.colorDialogText = new System.Windows.Forms.ColorDialog();
+            this.buttonRemoveWidget = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshTime)).BeginInit();
             this.groupBoxConnections.SuspendLayout();
             this.groupBoxProperties.SuspendLayout();
             this.groupBoxChannelName.SuspendLayout();
-            this.groupBoxDeegrees.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDateSize)).BeginInit();
+            this.groupBoxDeegrees.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTemperatureSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarTransparency)).BeginInit();
@@ -157,14 +158,15 @@
             this.textBoxRefreshTime.Name = "textBoxRefreshTime";
             this.textBoxRefreshTime.Size = new System.Drawing.Size(59, 20);
             this.textBoxRefreshTime.TabIndex = 8;
+            this.textBoxRefreshTime.Validating += new System.ComponentModel.CancelEventHandler(this.textBoxRefreshTime_Validating);
             // 
             // comboBoxFields
             // 
-            this.comboBoxFields.FormattingEnabled = true;
             this.comboBoxFields.Location = new System.Drawing.Point(88, 71);
             this.comboBoxFields.Name = "comboBoxFields";
             this.comboBoxFields.Size = new System.Drawing.Size(138, 21);
             this.comboBoxFields.TabIndex = 9;
+            this.comboBoxFields.TextUpdate += new System.EventHandler(this.comboBoxFields_TextUpdate);
             // 
             // comboBoxRefreshTimeUnit
             // 
@@ -254,6 +256,8 @@
             // checkBoxFieldName
             // 
             this.checkBoxFieldName.AutoSize = true;
+            this.checkBoxFieldName.Checked = true;
+            this.checkBoxFieldName.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxFieldName.Location = new System.Drawing.Point(6, 42);
             this.checkBoxFieldName.Name = "checkBoxFieldName";
             this.checkBoxFieldName.Size = new System.Drawing.Size(104, 17);
@@ -264,6 +268,8 @@
             // checkBoxChannelName
             // 
             this.checkBoxChannelName.AutoSize = true;
+            this.checkBoxChannelName.Checked = true;
+            this.checkBoxChannelName.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxChannelName.Location = new System.Drawing.Point(6, 19);
             this.checkBoxChannelName.Name = "checkBoxChannelName";
             this.checkBoxChannelName.Size = new System.Drawing.Size(123, 17);
@@ -281,6 +287,51 @@
             this.checkBoxShowName.Text = "Show channel name label";
             this.checkBoxShowName.UseVisualStyleBackColor = true;
             this.checkBoxShowName.CheckStateChanged += new System.EventHandler(this.checkBoxShowChannelName_CheckStateChanged);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.numericUpDownDateSize);
+            this.groupBox2.Controls.Add(this.labelDateSize);
+            this.groupBox2.Location = new System.Drawing.Point(173, 174);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(186, 124);
+            this.groupBox2.TabIndex = 20;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Date and name size";
+            // 
+            // numericUpDownDateSize
+            // 
+            this.numericUpDownDateSize.Location = new System.Drawing.Point(125, 16);
+            this.numericUpDownDateSize.Maximum = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
+            this.numericUpDownDateSize.Minimum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.numericUpDownDateSize.Name = "numericUpDownDateSize";
+            this.numericUpDownDateSize.Size = new System.Drawing.Size(55, 20);
+            this.numericUpDownDateSize.TabIndex = 1;
+            this.numericUpDownDateSize.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.numericUpDownDateSize.ValueChanged += new System.EventHandler(this.numericUpDownDateSize_ValueChanged);
+            // 
+            // labelDateSize
+            // 
+            this.labelDateSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 80F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelDateSize.Location = new System.Drawing.Point(3, 16);
+            this.labelDateSize.Margin = new System.Windows.Forms.Padding(0);
+            this.labelDateSize.Name = "labelDateSize";
+            this.labelDateSize.Size = new System.Drawing.Size(181, 105);
+            this.labelDateSize.TabIndex = 0;
+            this.labelDateSize.Text = "Aa";
+            this.labelDateSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBoxDeegrees
             // 
@@ -332,51 +383,6 @@
             this.buttonTextColor.TabIndex = 21;
             this.buttonTextColor.UseVisualStyleBackColor = true;
             this.buttonTextColor.Click += new System.EventHandler(this.buttonTextColor_Click);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.numericUpDownDateSize);
-            this.groupBox2.Controls.Add(this.labelDateSize);
-            this.groupBox2.Location = new System.Drawing.Point(173, 174);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(186, 124);
-            this.groupBox2.TabIndex = 20;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Date and name size";
-            // 
-            // numericUpDownDateSize
-            // 
-            this.numericUpDownDateSize.Location = new System.Drawing.Point(125, 16);
-            this.numericUpDownDateSize.Maximum = new decimal(new int[] {
-            150,
-            0,
-            0,
-            0});
-            this.numericUpDownDateSize.Minimum = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-            this.numericUpDownDateSize.Name = "numericUpDownDateSize";
-            this.numericUpDownDateSize.Size = new System.Drawing.Size(55, 20);
-            this.numericUpDownDateSize.TabIndex = 1;
-            this.numericUpDownDateSize.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-            this.numericUpDownDateSize.ValueChanged += new System.EventHandler(this.numericUpDownDateSize_ValueChanged);
-            // 
-            // labelDateSize
-            // 
-            this.labelDateSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 80F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelDateSize.Location = new System.Drawing.Point(3, 16);
-            this.labelDateSize.Margin = new System.Windows.Forms.Padding(0);
-            this.labelDateSize.Name = "labelDateSize";
-            this.labelDateSize.Size = new System.Drawing.Size(181, 105);
-            this.labelDateSize.TabIndex = 0;
-            this.labelDateSize.Text = "Aa";
-            this.labelDateSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox1
             // 
@@ -448,6 +454,7 @@
             this.textBoxTransparency.Name = "textBoxTransparency";
             this.textBoxTransparency.Size = new System.Drawing.Size(59, 20);
             this.textBoxTransparency.TabIndex = 14;
+            this.textBoxTransparency.Validating += new System.ComponentModel.CancelEventHandler(this.textBoxTransparency_Validating);
             // 
             // label1
             // 
@@ -462,25 +469,36 @@
             // 
             this.trackBarTransparency.Location = new System.Drawing.Point(88, 19);
             this.trackBarTransparency.Maximum = 100;
-            this.trackBarTransparency.Minimum = 1;
+            this.trackBarTransparency.Minimum = 10;
             this.trackBarTransparency.Name = "trackBarTransparency";
             this.trackBarTransparency.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.trackBarTransparency.Size = new System.Drawing.Size(145, 45);
             this.trackBarTransparency.TabIndex = 12;
             this.trackBarTransparency.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBarTransparency.Value = 1;
+            this.trackBarTransparency.Value = 10;
             this.trackBarTransparency.ValueChanged += new System.EventHandler(this.trackBarTransparency_ValueChanged);
             // 
-            // Settings
+            // buttonRemoveWidget
+            // 
+            this.buttonRemoveWidget.Location = new System.Drawing.Point(199, 487);
+            this.buttonRemoveWidget.Name = "buttonRemoveWidget";
+            this.buttonRemoveWidget.Size = new System.Drawing.Size(97, 23);
+            this.buttonRemoveWidget.TabIndex = 14;
+            this.buttonRemoveWidget.Text = "Remove Widget";
+            this.buttonRemoveWidget.UseVisualStyleBackColor = true;
+            this.buttonRemoveWidget.Click += new System.EventHandler(this.buttonRemoveWidget_Click);
+            // 
+            // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(387, 521);
+            this.Controls.Add(this.buttonRemoveWidget);
             this.Controls.Add(this.groupBoxProperties);
             this.Controls.Add(this.groupBoxConnections);
             this.Controls.Add(this.buttonSave);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "Settings";
+            this.Name = "SettingsForm";
             this.Text = "Settings";
             this.Load += new System.EventHandler(this.Settings_LoadAsync);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshTime)).EndInit();
@@ -490,10 +508,10 @@
             this.groupBoxProperties.PerformLayout();
             this.groupBoxChannelName.ResumeLayout(false);
             this.groupBoxChannelName.PerformLayout();
-            this.groupBoxDeegrees.ResumeLayout(false);
-            this.groupBoxDeegrees.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDateSize)).EndInit();
+            this.groupBoxDeegrees.ResumeLayout(false);
+            this.groupBoxDeegrees.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTemperatureSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarTransparency)).EndInit();
@@ -540,5 +558,6 @@
         private System.Windows.Forms.CheckBox checkBoxFieldName;
         private System.Windows.Forms.CheckBox checkBoxChannelName;
         private System.Windows.Forms.CheckBox checkBoxRunWithWindows;
+        private System.Windows.Forms.Button buttonRemoveWidget;
     }
 }
