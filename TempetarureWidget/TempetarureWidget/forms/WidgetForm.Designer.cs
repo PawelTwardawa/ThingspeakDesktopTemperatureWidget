@@ -29,7 +29,6 @@ namespace TempetarureWidget
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WidgetForm));
             this.labelTemp = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.labelUpdateDate = new System.Windows.Forms.Label();
@@ -54,7 +53,7 @@ namespace TempetarureWidget
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.Transparent;
-            this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
+            this.button2.BackgroundImage = global::TempetarureWidget.Properties.Resources.settingIcon;
             this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
