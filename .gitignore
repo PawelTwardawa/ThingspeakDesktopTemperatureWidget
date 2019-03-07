@@ -212,7 +212,7 @@ _pkginfo.txt
 !*.[Cc]ache/
 
 # Others
-TempetarureWidget/WidgetSetup
+TempetarureWidget/WidgetSetup/*
 ClientBin/
 ~$*
 *~
