@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using IWshRuntimeLibrary;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -78,8 +79,7 @@ namespace TempetarureWidget
                 numericUpDownDateSize.Value = (decimal)_settings.dateSize;
                 //numericUpDownDateSize.Value = (decimal)_parent.labelUpdateDate.Font.Size;
 
-                
-                checkBoxRunWithWindows.CheckedChanged += checkBoxRunWithWindows_CheckedChanged;
+              
                 
                 checkBoxDateLabel.Checked = _settings.dateVisable;
                 checkBoxShowName.Checked = _settings.nameVisable;
@@ -190,6 +190,8 @@ namespace TempetarureWidget
             _settings.channelNameVisable = checkBoxChannelName.Checked;
             _settings.runWithWindows = checkBoxRunWithWindows.Checked;
 
+            runWithWindows();
+
             if (radioButtonCelsius.Checked)
                 _settings.deegree = Deegree.C;
             else if (radioButtonFahrentheit.Checked)
@@ -265,18 +267,42 @@ namespace TempetarureWidget
                 groupBoxChannelName.Visible = false;
         }
 
-        private void checkBoxRunWithWindows_CheckedChanged(object sender, EventArgs e)
+        private void runWithWindows()
         {
-            var path = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(path, true);
-            if (checkBoxRunWithWindows.Checked)
+            string shortcutPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), Application.ProductName + ".lnk");
+
+            if (checkBoxRunWithWindows.Checked && !System.IO.File.Exists(shortcutPath))
             {
-                key.SetValue(Path.GetFileName(Application.ExecutablePath), Application.ExecutablePath.ToString());
+                WshShell shell = new WshShell();
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), Application.ProductName + ".lnk"));
+                shortcut.WorkingDirectory = Application.StartupPath;
+                shortcut.TargetPath = Application.ExecutablePath;
+                shortcut.Save();
             }
-            else
+            else if(!checkBoxRunWithWindows.Checked && System.IO.File.Exists(shortcutPath))
             {
-                key.DeleteValue(Path.GetFileName(Application.ExecutablePath), false);
+                System.IO.File.Delete(shortcutPath);
             }
+
+            
+
+
+
+            //var path = @"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+            //RegistryKey key = Registry.CurrentUser.OpenSubKey(path, true);
+            //var startVal = key.GetValue(Application.ProductName);
+            //if (checkBoxRunWithWindows.Checked)
+            //{
+            //    if(startVal == null)
+            //    //key.SetValue(Path.GetFileName(Application.ExecutablePath), "\"" + Application.ExecutablePath + "\"");
+            //        key.SetValue(Application.ProductName, "\"" + Application.ExecutablePath + "\"");
+            //}
+            //else
+            //{
+            //    if(startVal != null)
+            //    //key.DeleteValue(Path.GetFileName(Application.ExecutablePath), false);
+            //        key.DeleteValue(Application.ProductName, false);
+            //}
         }
 
         private void buttonRemoveWidget_Click(object sender, EventArgs e)

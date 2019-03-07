@@ -37,7 +37,10 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -60,6 +63,9 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>TempetarureWidget.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -81,17 +87,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\Channel.cs" />
-    <Compile Include="DTO\Data.cs" />
-    <Compile Include="DTO\Feed.cs" />
+    <Compile Include="DTOs\Channel.cs" />
+    <Compile Include="DTOs\Data.cs" />
+    <Compile Include="DTOs\Feed.cs" />
     <Compile Include="enumerate\Deegree.cs" />
     <Compile Include="enumerate\Fields.cs" />
     <Compile Include="MultiWidgetContext.cs" />
-    <Compile Include="SettingsApp\Settings.cs" />
-    <Compile Include="WidgetForm.cs">
+    <Compile Include="settingsApp\Settings.cs" />
+    <Compile Include="forms\WidgetForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WidgetForm.Designer.cs">
+    <Compile Include="forms\WidgetForm.Designer.cs">
       <DependentUpon>WidgetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GetData.cs" />
@@ -99,19 +105,19 @@
     <Compile Include="Manager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SettingsForm.cs">
+    <Compile Include="forms\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SettingsForm.Designer.cs">
+    <Compile Include="forms\SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SettingsApp\AppSettings.cs" />
-    <Compile Include="SettingsApp\SettingsManager.cs" />
+    <Compile Include="settingsApp\AppSettings.cs" />
+    <Compile Include="settingsApp\SettingsManager.cs" />
     <Compile Include="WidgetNotifyIcon.cs" />
     <Compile Include="WidgetToolStripMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <EmbeddedResource Include="WidgetForm.resx">
+    <EmbeddedResource Include="forms\WidgetForm.resx">
       <DependentUpon>WidgetForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -123,11 +129,15 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SettingsForm.resx">
+    <EmbeddedResource Include="forms\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Resource Include="bin\Debug\settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -138,7 +148,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="TempetarureWidget_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -156,9 +165,20 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app.ico">
+    <Content Include="icons\app.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

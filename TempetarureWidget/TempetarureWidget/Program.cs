@@ -24,7 +24,6 @@ namespace TempetarureWidget
             SettingsManager settings = new SettingsManager();
             var s = settings.Load();
             List<WidgetForm> forms = new List<WidgetForm>();
-            //if (s.settings.Length > 0)
             if (s.settings.Count > 0)
             {
                 for (int i = 0; i < s.settings.Count; i++)
@@ -44,24 +43,11 @@ namespace TempetarureWidget
             }
 
             WidgetNotifyIcon notifyIcon = new WidgetNotifyIcon(forms);
-            notifyIcon.Icon = new Icon("app.ico");
-            notifyIcon.Text = "Form1 (NotifyIcon example)";
+            notifyIcon.Icon = new Icon("icons/app.ico");
+            notifyIcon.Text = "Temperature Widget";
             notifyIcon.Visible = true;
 
-
-            //NotifyIcon notifyIcon1 = new NotifyIcon();
-            //ContextMenu contextMenu1 = new ContextMenu();
-            //MenuItem menuItem1 = new MenuItem();
-            //contextMenu1.MenuItems.AddRange(new MenuItem[] { menuItem1 });
-            //menuItem1.Index = 0;
-            //menuItem1.Text = "ddddd";
-            //notifyIcon1.Icon = new Icon("app.ico");
-            //notifyIcon1.Text = "Form1 (NotifyIcon example)";
-            //notifyIcon1.ContextMenu = contextMenu1;
-            //notifyIcon1.Visible = true;
-
             Application.Run(new MultiWidgetContext(forms.ToArray()));
-            //Application.Run();
         }
     }
 }

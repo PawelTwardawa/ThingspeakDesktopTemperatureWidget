@@ -78,6 +78,7 @@ namespace TempetarureWidget
             this.labelUpdateDate.TabIndex = 4;
             this.labelUpdateDate.Text = "2019-02-27T10:20:57Z";
             this.labelUpdateDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelUpdateDate.Visible = false;
             this.labelUpdateDate.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.labelUpdateDate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.labelUpdateDate.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);
@@ -94,6 +95,7 @@ namespace TempetarureWidget
             this.labelName.TabIndex = 5;
             this.labelName.Text = "Temperature out";
             this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelName.Visible = false;
             this.labelName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.labelName.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.labelName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);

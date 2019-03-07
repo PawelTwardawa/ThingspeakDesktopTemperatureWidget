@@ -111,9 +111,21 @@ namespace TempetarureWidget
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if(!_settings.location.IsEmpty)
+            if (_settings.IsEmpty)
+            {
+                labelTemp.Text = "Go to Settings ↗";
+            }
+            else
+            {
+                labelTemp.Text = "Loading...";
+                labelName.Text = "";
+                labelUpdateDate.Text = "";
+            }
+            ResizeWidget();
+            if (!_settings.location.IsEmpty)
                 Location = _settings.location;
             _manager.Start();
+            
         }
 
         private void buttonOpenSettingsForm_Click(object sender, EventArgs e)
@@ -128,11 +140,6 @@ namespace TempetarureWidget
             else if (v == DialogResult.Abort)
                 ExitWidget();
 
-        }
-
-        public string WidgetName()
-        {
-            return "";
         }
 
         public void loadSettings(Settings settings)
