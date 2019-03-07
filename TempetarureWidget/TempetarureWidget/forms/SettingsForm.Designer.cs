@@ -66,6 +66,8 @@
             this.colorDialogBackground = new System.Windows.Forms.ColorDialog();
             this.colorDialogText = new System.Windows.Forms.ColorDialog();
             this.buttonRemoveWidget = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBoxTimezone = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshTime)).BeginInit();
             this.groupBoxConnections.SuspendLayout();
             this.groupBoxProperties.SuspendLayout();
@@ -80,7 +82,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(302, 487);
+            this.buttonSave.Location = new System.Drawing.Point(302, 502);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 0;
@@ -132,7 +134,7 @@
             // 
             // trackBarRefreshTime
             // 
-            this.trackBarRefreshTime.Location = new System.Drawing.Point(88, 98);
+            this.trackBarRefreshTime.Location = new System.Drawing.Point(88, 125);
             this.trackBarRefreshTime.Maximum = 100;
             this.trackBarRefreshTime.Minimum = 1;
             this.trackBarRefreshTime.Name = "trackBarRefreshTime";
@@ -146,7 +148,7 @@
             // labelRefresh
             // 
             this.labelRefresh.AutoSize = true;
-            this.labelRefresh.Location = new System.Drawing.Point(16, 101);
+            this.labelRefresh.Location = new System.Drawing.Point(16, 129);
             this.labelRefresh.Name = "labelRefresh";
             this.labelRefresh.Size = new System.Drawing.Size(66, 13);
             this.labelRefresh.TabIndex = 7;
@@ -154,7 +156,7 @@
             // 
             // textBoxRefreshTime
             // 
-            this.textBoxRefreshTime.Location = new System.Drawing.Point(239, 98);
+            this.textBoxRefreshTime.Location = new System.Drawing.Point(239, 126);
             this.textBoxRefreshTime.Name = "textBoxRefreshTime";
             this.textBoxRefreshTime.Size = new System.Drawing.Size(59, 20);
             this.textBoxRefreshTime.TabIndex = 8;
@@ -164,7 +166,7 @@
             // 
             this.comboBoxFields.Location = new System.Drawing.Point(88, 71);
             this.comboBoxFields.Name = "comboBoxFields";
-            this.comboBoxFields.Size = new System.Drawing.Size(138, 21);
+            this.comboBoxFields.Size = new System.Drawing.Size(196, 21);
             this.comboBoxFields.TabIndex = 9;
             this.comboBoxFields.TextUpdate += new System.EventHandler(this.comboBoxFields_TextUpdate);
             // 
@@ -175,7 +177,7 @@
             "s",
             "m",
             "h"});
-            this.comboBoxRefreshTimeUnit.Location = new System.Drawing.Point(304, 98);
+            this.comboBoxRefreshTimeUnit.Location = new System.Drawing.Point(304, 125);
             this.comboBoxRefreshTimeUnit.Name = "comboBoxRefreshTimeUnit";
             this.comboBoxRefreshTimeUnit.Size = new System.Drawing.Size(43, 21);
             this.comboBoxRefreshTimeUnit.TabIndex = 10;
@@ -191,6 +193,8 @@
             // 
             // groupBoxConnections
             // 
+            this.groupBoxConnections.Controls.Add(this.comboBoxTimezone);
+            this.groupBoxConnections.Controls.Add(this.label4);
             this.groupBoxConnections.Controls.Add(this.textBoxChannel);
             this.groupBoxConnections.Controls.Add(this.comboBoxRefreshTimeUnit);
             this.groupBoxConnections.Controls.Add(this.textBoxRefreshTime);
@@ -204,7 +208,7 @@
             this.groupBoxConnections.Location = new System.Drawing.Point(12, 12);
             this.groupBoxConnections.Name = "groupBoxConnections";
             this.groupBoxConnections.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.groupBoxConnections.Size = new System.Drawing.Size(365, 148);
+            this.groupBoxConnections.Size = new System.Drawing.Size(365, 163);
             this.groupBoxConnections.TabIndex = 12;
             this.groupBoxConnections.TabStop = false;
             this.groupBoxConnections.Text = "Connection";
@@ -225,7 +229,7 @@
             this.groupBoxProperties.Controls.Add(this.checkBoxDateLabel);
             this.groupBoxProperties.Controls.Add(this.label1);
             this.groupBoxProperties.Controls.Add(this.trackBarTransparency);
-            this.groupBoxProperties.Location = new System.Drawing.Point(12, 166);
+            this.groupBoxProperties.Location = new System.Drawing.Point(12, 181);
             this.groupBoxProperties.Name = "groupBoxProperties";
             this.groupBoxProperties.Size = new System.Drawing.Size(365, 315);
             this.groupBoxProperties.TabIndex = 13;
@@ -480,7 +484,7 @@
             // 
             // buttonRemoveWidget
             // 
-            this.buttonRemoveWidget.Location = new System.Drawing.Point(199, 487);
+            this.buttonRemoveWidget.Location = new System.Drawing.Point(199, 502);
             this.buttonRemoveWidget.Name = "buttonRemoveWidget";
             this.buttonRemoveWidget.Size = new System.Drawing.Size(97, 23);
             this.buttonRemoveWidget.TabIndex = 14;
@@ -488,11 +492,158 @@
             this.buttonRemoveWidget.UseVisualStyleBackColor = true;
             this.buttonRemoveWidget.Click += new System.EventHandler(this.buttonRemoveWidget_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(16, 101);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(53, 13);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "Timezone";
+            // 
+            // comboBoxTimezone
+            // 
+            this.comboBoxTimezone.FormattingEnabled = true;
+            this.comboBoxTimezone.Items.AddRange(new object[] {
+            "Africa/Algiers",
+            "Africa/Cairo",
+            "Africa/Casablanca",
+            "Africa/Harare",
+            "Africa/Johannesburg",
+            "Africa/Monrovia",
+            "Africa/Nairobi",
+            "America/Argentina/Buenos_Aires",
+            "America/Bogota",
+            "America/Caracas",
+            "America/Chicago",
+            "America/Chihuahua",
+            "America/Denver",
+            "America/Godthab",
+            "America/Guatemala",
+            "America/Guyana",
+            "America/Halifax",
+            "America/Indiana/Indianapolis",
+            "America/Juneau",
+            "America/La_Paz",
+            "America/Lima",
+            "America/Los_Angeles",
+            "America/Mazatlan",
+            "America/Mexico_City",
+            "America/Monterrey",
+            "America/Montevideo",
+            "America/New_York",
+            "America/Phoenix",
+            "America/Regina",
+            "America/Santiago",
+            "America/Sao_Paulo",
+            "America/St_Johns",
+            "America/Tijuana",
+            "Asia/Almaty",
+            "Asia/Baghdad",
+            "Asia/Baku",
+            "Asia/Bangkok",
+            "Asia/Chongqing",
+            "Asia/Colombo",
+            "Asia/Dhaka",
+            "Asia/Hong_Kong",
+            "Asia/Irkutsk",
+            "Asia/Jakarta",
+            "Asia/Jerusalem",
+            "Asia/Kabul",
+            "Asia/Kamchatka",
+            "Asia/Karachi",
+            "Asia/Kathmandu",
+            "Asia/Kolkata",
+            "Asia/Krasnoyarsk",
+            "Asia/Kuala_Lumpur",
+            "Asia/Kuwait",
+            "Asia/Magadan",
+            "Asia/Muscat",
+            "Asia/Novosibirsk",
+            "Asia/Rangoon",
+            "Asia/Riyadh",
+            "Asia/Seoul",
+            "Asia/Shanghai",
+            "Asia/Singapore",
+            "Asia/Taipei",
+            "Asia/Tashkent",
+            "Asia/Tbilisi",
+            "Asia/Tehran",
+            "Asia/Tokyo",
+            "Asia/Ulaanbaatar",
+            "Asia/Urumqi",
+            "Asia/Vladivostok",
+            "Asia/Yakutsk",
+            "Asia/Yekaterinburg",
+            "Asia/Yerevan",
+            "Atlantic/Azores",
+            "Atlantic/Cape_Verde",
+            "Atlantic/South_Georgia",
+            "Australia/Adelaide",
+            "Australia/Brisbane",
+            "Australia/Darwin",
+            "Australia/Hobart",
+            "Australia/Melbourne",
+            "Australia/Perth",
+            "Australia/Sydney",
+            "Etc/UTC",
+            "Europe/Amsterdam",
+            "Europe/Athens",
+            "Europe/Belgrade",
+            "Europe/Berlin",
+            "Europe/Bratislava",
+            "Europe/Brussels",
+            "Europe/Bucharest",
+            "Europe/Budapest",
+            "Europe/Copenhagen",
+            "Europe/Dublin",
+            "Europe/Helsinki",
+            "Europe/Istanbul",
+            "Europe/Kiev",
+            "Europe/Lisbon",
+            "Europe/Ljubljana",
+            "Europe/London",
+            "Europe/Madrid",
+            "Europe/Minsk",
+            "Europe/Moscow",
+            "Europe/Paris",
+            "Europe/Prague",
+            "Europe/Riga",
+            "Europe/Rome",
+            "Europe/Sarajevo",
+            "Europe/Skopje",
+            "Europe/Sofia",
+            "Europe/Stockholm",
+            "Europe/Tallinn",
+            "Europe/Vienna",
+            "Europe/Vilnius",
+            "Europe/Warsaw",
+            "Europe/Zagreb",
+            "Pacific/Apia",
+            "Pacific/Auckland",
+            "Pacific/Chatham",
+            "Pacific/Fakaofo",
+            "Pacific/Fiji",
+            "Pacific/Guadalcanal",
+            "Pacific/Guam",
+            "Pacific/Honolulu",
+            "Pacific/Majuro",
+            "Pacific/Midway",
+            "Pacific/Noumea",
+            "Pacific/Pago_Pago",
+            "Pacific/Port_Moresby",
+            "Pacific/Tongatapu"});
+            this.comboBoxTimezone.Location = new System.Drawing.Point(88, 98);
+            this.comboBoxTimezone.Name = "comboBoxTimezone";
+            this.comboBoxTimezone.Size = new System.Drawing.Size(196, 21);
+            this.comboBoxTimezone.Sorted = true;
+            this.comboBoxTimezone.TabIndex = 13;
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(387, 521);
+            this.ClientSize = new System.Drawing.Size(387, 537);
             this.Controls.Add(this.buttonRemoveWidget);
             this.Controls.Add(this.groupBoxProperties);
             this.Controls.Add(this.groupBoxConnections);
@@ -559,5 +710,7 @@
         private System.Windows.Forms.CheckBox checkBoxChannelName;
         private System.Windows.Forms.CheckBox checkBoxRunWithWindows;
         private System.Windows.Forms.Button buttonRemoveWidget;
+        private System.Windows.Forms.ComboBox comboBoxTimezone;
+        private System.Windows.Forms.Label label4;
     }
 }

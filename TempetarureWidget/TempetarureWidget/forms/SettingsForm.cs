@@ -48,6 +48,7 @@ namespace TempetarureWidget
             trackBarTransparency.Value = 100;
             numericUpDownDateSize.Value = numericUpDownDateSize.Maximum;
             numericUpDownTemperatureSize.Value = numericUpDownTemperatureSize.Maximum;
+            comboBoxTimezone.SelectedIndex = 1;
 
             
             switch (_settings.deegree)
@@ -132,6 +133,9 @@ namespace TempetarureWidget
                     comboBoxFields.SelectedIndex = data.Keys.ToList().IndexOf(_settings.field);
                 }
             }
+
+            if(!string.IsNullOrWhiteSpace(_settings.timezone))
+                comboBoxTimezone.SelectedItem = _settings.timezone;
                 
             //}
             //}colorDialogBackground.Color = _parent.BackColor;
@@ -189,6 +193,7 @@ namespace TempetarureWidget
             _settings.fieldNameVisable = checkBoxFieldName.Checked;
             _settings.channelNameVisable = checkBoxChannelName.Checked;
             _settings.runWithWindows = checkBoxRunWithWindows.Checked;
+            _settings.timezone = comboBoxTimezone.SelectedItem.ToString();
 
             runWithWindows();
 

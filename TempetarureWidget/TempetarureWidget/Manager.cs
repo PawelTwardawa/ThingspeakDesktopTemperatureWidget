@@ -37,7 +37,7 @@ namespace TempetarureWidget
 
         //    }
         //}
-
+        public string Timezone { get; private set; }
         public string FieldName { get; private set; }
         public string ChannelName { get; private set; }
         //TODO: usunac setery
@@ -84,6 +84,7 @@ namespace TempetarureWidget
             Field = settings.field;
             Channel = settings.channel;
             ApiKey = settings.api_key;
+            Timezone = settings.timezone;
 
             _data = await getDataAsync();
 
@@ -155,7 +156,7 @@ namespace TempetarureWidget
 
         private async Task<Data> getDataAsync()
         {
-            return await _getData.GetDataAsync($"https://api.thingspeak.com/channels/{Channel}/feeds.json?api_key={ApiKey}&results=1");
+            return await _getData.GetDataAsync($"https://api.thingspeak.com/channels/{Channel}/feeds.json?api_key={ApiKey}&results=1&timezone={Timezone}");
         }
 
         public async void GetTemperatureAsync()

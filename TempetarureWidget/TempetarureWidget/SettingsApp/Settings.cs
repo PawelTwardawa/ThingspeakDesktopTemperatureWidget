@@ -26,6 +26,7 @@ namespace TempetarureWidget.SettingsApp
         public float dateSize;
         public Deegree deegree;
         public Point location;
+        public string timezone;
 
         internal bool IsEmpty
         {
