@@ -10,6 +10,7 @@ namespace TempetarureWidget
     public enum Deegree
     {
         F,
-        C
+        C,
+        User
     }
 }

@@ -47,7 +47,7 @@ namespace TempetarureWidget
             notifyIcon.Text = "Temperature Widget";
             notifyIcon.Visible = true;
 
-            Application.Run(new MultiWidgetContext(forms.ToArray()));
+            Application.Run(new MultiWidgetContext( forms.ToArray()));
         }
     }
 }

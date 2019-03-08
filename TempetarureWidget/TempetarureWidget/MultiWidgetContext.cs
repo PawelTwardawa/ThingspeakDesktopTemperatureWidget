@@ -21,13 +21,10 @@ namespace TempetarureWidget
                 form.FormClosed += (s, args) =>
                 {
                     if (Interlocked.Decrement(ref openForms) == 0)
-                        //ExitThread();
                         System.Environment.Exit(0);
                 };
 
                 form.Show();
-                //new Thread(() => form.Show()).Start();
-                //new Thread(new ThreadStart(() => form.Show())).Start();
             }
         }
     }

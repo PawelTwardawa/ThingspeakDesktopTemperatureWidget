@@ -98,6 +98,8 @@
     <Compile Include="DTOs\Feed.cs" />
     <Compile Include="enumerate\Deegree.cs" />
     <Compile Include="enumerate\Fields.cs" />
+    <Compile Include="forms\IWidgetForm.cs" />
+    <Compile Include="IManager.cs" />
     <Compile Include="MultiWidgetContext.cs" />
     <Compile Include="settingsApp\Settings.cs" />
     <Compile Include="forms\WidgetForm.cs">
@@ -107,7 +109,6 @@
       <DependentUpon>WidgetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GetData.cs" />
-    <Compile Include="IManager.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

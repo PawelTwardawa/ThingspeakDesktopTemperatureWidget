@@ -9,6 +9,6 @@ namespace TempetarureWidget
 {
     class WidgetToolStripMenuItem : ToolStripMenuItem
     {
-        public WidgetForm WidgetForm { get; set; }
+        public IWidgetForm WidgetForm { get; set; }
     }
 }

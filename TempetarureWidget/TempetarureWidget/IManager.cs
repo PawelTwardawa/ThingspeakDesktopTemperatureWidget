@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using TempetarureWidget.SettingsApp;
 
 namespace TempetarureWidget
 {
-    interface IManager
+    public interface IManager
     {
-        //Task<string> TemperatureFromFieldAsync();
+        bool InternetConnection { get; }
+
+        event Action<string, string> SetNameLabel;
+        event Action<string> SetTemperatureLabel;
+        event Action<string, string, string> SetUpdataDataLabel;
+
+        Task<Dictionary<Fields, string>> AvailableFieldsAsync();
+        void ChangeSetting(Settings settings);
+        void GetTemperatureAsync();
         void Start();
+        void Stop();
     }
 }

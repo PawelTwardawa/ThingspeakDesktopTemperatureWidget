@@ -12,15 +12,8 @@ namespace TempetarureWidget.SettingsApp
     public class SettingsManager
     {
         private static readonly string FILENAME = Path.Combine(Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments), Application.ProductName, "settings.json");
-        //private const string FILENAME = "settings.json";
-
         private static AppSettings appSettings;
         private static int _uid = 0;
-
-        public static void AddSettings(ref Settings settings)
-        {
-           
-        }
 
         public static int GetUniqeId()
         {
@@ -36,10 +29,16 @@ namespace TempetarureWidget.SettingsApp
 
         public static void Save(int id, Settings settings)
         {
-            if (id >= appSettings.settings.Count)
-                appSettings.settings.Add(settings);
-            else
-                appSettings.settings[id] = settings;
+            for(int i = 0; i <appSettings.settings.Count; i++)
+            {
+                if(appSettings.settings[i]._id == id)
+                {
+                    appSettings.settings[i] = settings;
+                    Save();
+                    return;
+                }
+            }
+            appSettings.settings.Add(settings);
             Save();
         }
 
@@ -57,7 +56,6 @@ namespace TempetarureWidget.SettingsApp
                 return ref appSettings;
                 
             }
-
             appSettings = new AppSettings();
             return ref appSettings;
         }

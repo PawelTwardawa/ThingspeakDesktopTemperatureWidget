@@ -29,6 +29,7 @@ namespace TempetarureWidget
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WidgetForm));
             this.labelTemp = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.labelUpdateDate = new System.Windows.Forms.Label();
@@ -112,10 +113,11 @@ namespace TempetarureWidget
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.Name = "WidgetForm";
             this.ShowInTaskbar = false;
-            this.Text = "Form1";
+            this.Text = "Widget";
             this.TransparencyKey = System.Drawing.Color.Transparent;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);

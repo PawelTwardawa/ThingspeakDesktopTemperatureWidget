@@ -52,61 +52,49 @@ namespace TempetarureWidget
 
             
             switch (_settings.deegree)
-            //switch (_parent.deegree)
-                {
-                    case Deegree.C:
-                        {
-                            radioButtonCelsius.Checked = true;
-                            break;
-                        }
-                    case Deegree.F:
-                        {
-                            radioButtonFahrentheit.Checked = true;
-                            break;
-                        }
-                }
+            {
+                case Deegree.C:
+                    {
+                        radioButtonCelsiusUnit.Checked = true;
+                        break;
+                    }
+                case Deegree.F:
+                    {
+                        radioButtonFahrentheitUnit.Checked = true;
+                        break;
+                    }
+                case Deegree.User:
+                    {
+                        radioButtonUserUnit.Checked = true;
+                        break;
+                    }
+            }
 
-
-                textBoxApi.Text = _settings.api_key;
-                //textBoxApi.Text = _manager.ApiKey;
+            textBoxUserUnits.Text = _settings.unit;
+            textBoxApi.Text = _settings.api_key;
                 textBoxChannel.Text = _settings.channel;
-                //textBoxChannel.Text = _manager.Channel;
                 labelTempratureSize.Font = new Font(labelTempratureSize.Font.FontFamily, (_settings.temperatureSize > 80 ? 80 : _settings.temperatureSize), labelTempratureSize.Font.Style);
-                //labelTempratureSize.Font = new Font(labelTempratureSize.Font.FontFamily, (_parent.labelTemp.Font.Size > 80 ? 80 : _parent.labelTemp.Font.Size), labelTempratureSize.Font.Style);
-                numericUpDownTemperatureSize.Value = (decimal)_settings.temperatureSize;
-                //numericUpDownTemperatureSize.Value = (decimal)_parent.labelTemp.Font.Size;
+                 numericUpDownTemperatureSize.Value = (decimal)_settings.temperatureSize;
                 labelDateSize.Font = new Font(labelDateSize.Font.FontFamily, (_settings.dateSize > 80 ? 80 : _settings.dateSize), labelDateSize.Font.Style);
-                //labelDateSize.Font = new Font(labelDateSize.Font.FontFamily, (_parent.labelUpdateDate.Font.Size > 80 ? 80 : _parent.labelUpdateDate.Font.Size), labelDateSize.Font.Style);
                 numericUpDownDateSize.Value = (decimal)_settings.dateSize;
-                //numericUpDownDateSize.Value = (decimal)_parent.labelUpdateDate.Font.Size;
-
-              
+                              
                 
                 checkBoxDateLabel.Checked = _settings.dateVisable;
                 checkBoxShowName.Checked = _settings.nameVisable;
                 groupBoxChannelName.Visible = _settings.nameVisable;
-                //checkBoxDateLabel.Checked = _parent.labelUpdateDate.Visible;
-                //checkBoxShowName.Checked = _parent.labelName.Visible;
-                //groupBoxChannelName.Visible = _parent.labelName.Visible;
 
-                //if (_manager.RefreshTime >= 1000 && _manager.RefreshTime < 60000)
                 if (_settings.refreshTime >= 1000 && _settings.refreshTime < 60000)
                 {
-                    //trackBarRefreshTime.Value = _manager.RefreshTime / 1000;
                     trackBarRefreshTime.Value = _settings.refreshTime / 1000;
                     comboBoxRefreshTimeUnit.SelectedItem = "s";
                 }
-                //else if (_manager.RefreshTime >= 60000 && _manager.RefreshTime < 3600000)
                 else if (_settings.refreshTime >= 60000 && _settings.refreshTime < 3600000)
                 {
-                    //trackBarRefreshTime.Value = _manager.RefreshTime / 60000;
                     trackBarRefreshTime.Value = _settings.refreshTime / 60000;
                     comboBoxRefreshTimeUnit.SelectedItem = "m";
                 }
-                //else if (_manager.RefreshTime >= 3600000 && _manager.RefreshTime < 216000000)
                 else if (_settings.refreshTime >= 3600000 && _settings.refreshTime < 216000000)
                 {
-                    //trackBarRefreshTime.Value = _manager.RefreshTime / 3600000;
                     trackBarRefreshTime.Value = _settings.refreshTime / 3600000;
                     comboBoxRefreshTimeUnit.SelectedItem = "h";
                 }
@@ -119,12 +107,10 @@ namespace TempetarureWidget
 
             trackBarTransparency.Value = (int)(_settings.opacity * 100);
 
-            //if (_parent.appSettings != null)
-            //{
                 checkBoxChannelName.Checked = _settings.channelNameVisable;
                 checkBoxFieldName.Checked = _settings.fieldNameVisable;
                 checkBoxRunWithWindows.Checked = _settings.runWithWindows;
-            //if (!string.IsNullOrEmpty(_settings.api_key) && !string.IsNullOrEmpty(_settings.channel))
+
             if (!_settings.IsEmpty)
             {
                 using (Manager manager = new Manager(_settings.api_key, _settings.channel))
@@ -137,22 +123,6 @@ namespace TempetarureWidget
             if(!string.IsNullOrWhiteSpace(_settings.timezone))
                 comboBoxTimezone.SelectedItem = _settings.timezone;
                 
-            //}
-            //}colorDialogBackground.Color = _parent.BackColor;
-            //buttonBackColor.BackColor = _parent.BackColor;
-            //colorDialogText.Color = _parent.labelTemp.ForeColor;
-            //buttonTextColor.BackColor = _parent.labelTemp.ForeColor;
-
-            //trackBarTransparency.Value = (int)(_parent.Opacity * 100);
-
-            //if (_parent.appSettings != null)
-            //{
-            //    checkBoxChannelName.Checked = _parent.appSettings.channelNameVisable;
-            //    checkBoxFieldName.Checked = _parent.appSettings.fieldNameVisable;
-            //    checkBoxRunWithWindows.Checked = _parent.appSettings.runWithWindows;
-            //    Dictionary<Fields, string> data = await fillComboBoxField(_manager);
-            //    comboBoxFields.SelectedIndex = data.Keys.ToList().IndexOf(_manager.Field);
-            //}
 
             textBoxApi.TextChanged += textBoxChannel_TextChanged;
             textBoxChannel.TextChanged += textBoxChannel_TextChanged;
@@ -197,10 +167,15 @@ namespace TempetarureWidget
 
             runWithWindows();
 
-            if (radioButtonCelsius.Checked)
+            if (radioButtonCelsiusUnit.Checked)
                 _settings.deegree = Deegree.C;
-            else if (radioButtonFahrentheit.Checked)
+            else if (radioButtonFahrentheitUnit.Checked)
                 _settings.deegree = Deegree.F;
+            else if (radioButtonUserUnit.Checked)
+            {
+                _settings.deegree = Deegree.User;
+                _settings.unit = textBoxUserUnits.Text;
+            }
 
             if (comboBoxRefreshTimeUnit.SelectedItem.Equals("s"))
             {
@@ -215,11 +190,7 @@ namespace TempetarureWidget
                 _settings.refreshTime = trackBarRefreshTime.Value * 3600000;
             }
 
-            //_settings.Save();
-
             _settings.Save();
-
-            //_parent.loadSettings(settings);
 
             this.Close();
             DialogResult = DialogResult.OK;
@@ -288,32 +259,11 @@ namespace TempetarureWidget
             {
                 System.IO.File.Delete(shortcutPath);
             }
-
-            
-
-
-
-            //var path = @"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
-            //RegistryKey key = Registry.CurrentUser.OpenSubKey(path, true);
-            //var startVal = key.GetValue(Application.ProductName);
-            //if (checkBoxRunWithWindows.Checked)
-            //{
-            //    if(startVal == null)
-            //    //key.SetValue(Path.GetFileName(Application.ExecutablePath), "\"" + Application.ExecutablePath + "\"");
-            //        key.SetValue(Application.ProductName, "\"" + Application.ExecutablePath + "\"");
-            //}
-            //else
-            //{
-            //    if(startVal != null)
-            //    //key.DeleteValue(Path.GetFileName(Application.ExecutablePath), false);
-            //        key.DeleteValue(Application.ProductName, false);
-            //}
         }
 
         private void buttonRemoveWidget_Click(object sender, EventArgs e)
         {
             SettingsManager.RemoveSettings(_settings);
-            //_settings = null;
             DialogResult = DialogResult.Abort;
             this.Close();
         }
@@ -378,6 +328,14 @@ namespace TempetarureWidget
                 MessageBox.Show("Invalid field name", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 comboBoxFields.Focus();
             }
+        }
+
+        private void radioButtonUserUnit_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonUserUnit.Checked)
+                textBoxUserUnits.Enabled = true;
+            else
+                textBoxUserUnits.Enabled = false;
         }
     }
 }

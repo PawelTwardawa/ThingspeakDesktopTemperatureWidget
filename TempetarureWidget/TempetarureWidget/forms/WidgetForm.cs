@@ -13,18 +13,16 @@ using TempetarureWidget.SettingsApp;
 
 namespace TempetarureWidget
 {
-    public partial class WidgetForm : Form
+    public partial class WidgetForm : Form, IWidgetForm
     {
         public event Action<string> UpdateToolStripMenuItemText;
         public event Action RemoveToolStripMenuItem;
 
         private Point _mouseDownPoint;
-        private Manager _manager;
-        //private AppSettings _settings;
+        private IManager _manager;
         private Settings _settings;
+        private string Name { get; set; }
 
-        public string Name { get; set; }
-        
         private WidgetForm()
         {
             InitializeComponent();
@@ -34,10 +32,6 @@ namespace TempetarureWidget
             _manager.SetTemperatureLabel += UpdateTemperatureLabel;
             _manager.SetUpdataDataLabel += UpdataDateTimeLabel;
             _manager.SetNameLabel += UpdateNameLabel;
-
-            
-
-            //loadSettings(new Settings());
         }
 
         public WidgetForm(Settings settings) : this()
@@ -52,37 +46,36 @@ namespace TempetarureWidget
 
             UpdateToolStripMenuItemText?.Invoke(channel + " " + field);
 
-            if (_settings.channelNameVisable && _settings.fieldNameVisable)
-                //labelName.Text = channel + " " + field;
-                labelName.Invoke(new Action(() => labelName.Text = channel + " " + field));
-            else if (_settings.channelNameVisable)
-                //labelName.Text = channel;
-                labelName.Invoke(new Action(() => labelName.Text = channel));
-            else if (_settings.fieldNameVisable)
-                //labelName.Text = field;
-                labelName.Invoke(new Action(() => labelName.Text = field));
-            else
-                //labelName.Text = "";
-                labelName.Invoke(new Action(() => labelName.Text = ""));
+            if (labelName.IsHandleCreated)
+            {
 
-            ResizeWidget();
+                if (_settings.channelNameVisable && _settings.fieldNameVisable)
+                    labelName.Invoke(new Action(() => labelName.Text = channel + " " + field));
+                else if (_settings.channelNameVisable)
+                    labelName.Invoke(new Action(() => labelName.Text = channel));
+                else if (_settings.fieldNameVisable)
+                    labelName.Invoke(new Action(() => labelName.Text = field));
+                else
+                    labelName.Invoke(new Action(() => labelName.Text = ""));
+
+                Invoke(new Action(() => ResizeWidget()));
+            }
         }
 
-        private void UpdataDateTimeLabel(string value)
+        private void UpdataDateTimeLabel(string date, string time, string timeZone)
         {
             if (labelUpdateDate.InvokeRequired)
             {
-                labelUpdateDate.Invoke(new Action(() => labelUpdateDate.Text = value));
+                labelUpdateDate.Invoke(new Action(() => labelUpdateDate.Text = date + " " + time));
                 Invoke(new Action(() => ResizeWidget()));
             }
         }
 
         private void UpdateTemperatureLabel(string value)
         {
-            //labelTemp.Text = value;
             if (labelTemp.InvokeRequired)
             {
-                labelTemp.Invoke(new Action(() => labelTemp.Text = value /*+ i++*/ + " \u00B0" + _settings.deegree.ToString()));
+                labelTemp.Invoke(new Action(() => labelTemp.Text = value + " "  + (_settings.deegree != Deegree.User ? "\u00B0" + _settings.deegree.ToString() : _settings.unit)));// " \u00B0" + _settings.deegree.ToString()));
             }
         }
 
@@ -130,8 +123,8 @@ namespace TempetarureWidget
 
         private void buttonOpenSettingsForm_Click(object sender, EventArgs e)
         {
-
-            //Settings settings = new Settings(this, manager);
+            if (!_manager.InternetConnection)
+                return;
             SettingsForm settings = new SettingsForm(ref _settings);
             var v = settings.ShowDialog(this);
 
@@ -142,9 +135,8 @@ namespace TempetarureWidget
 
         }
 
-        public void loadSettings(Settings settings)
+        private void loadSettings(Settings settings)
         {
-            //if (!string.IsNullOrEmpty(settings.api_key) && !string.IsNullOrEmpty(settings.channel))
             if (!settings.IsEmpty)
             {
                 _manager.ChangeSetting(settings);
@@ -178,6 +170,7 @@ namespace TempetarureWidget
 
         public void ExitWidget()
         {
+            _manager.Stop();
             RemoveToolStripMenuItem();
             this.Close();
             Dispose();
@@ -202,7 +195,5 @@ namespace TempetarureWidget
             labelTemp.Location = new Point((Width - labelTemp.Width)/2, (labelName.Visible ? labelName.Height : 0));
             labelName.Location = new Point((Width - button2.Width - labelName.Width) / 2, 0);
         }
-
-        
     }
 }

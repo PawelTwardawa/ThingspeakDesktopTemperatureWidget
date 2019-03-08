@@ -9,7 +9,7 @@ namespace TempetarureWidget.SettingsApp
 {
     public class Settings
     {
-        private readonly int _id;
+        internal readonly int _id;
         public string api_key;
         public string channel;
         public int refreshTime;
@@ -25,6 +25,7 @@ namespace TempetarureWidget.SettingsApp
         public float temperatureSize;
         public float dateSize;
         public Deegree deegree;
+        public string unit;
         public Point location;
         public string timezone;
 
@@ -42,10 +43,6 @@ namespace TempetarureWidget.SettingsApp
         public Settings()
         {
             int uid = SettingsManager.GetUniqeId();
-            if(uid == -1)
-            {
-                throw new ArgumentOutOfRangeException("Maximum widget are created");
-            }
 
             _id = uid;
         }

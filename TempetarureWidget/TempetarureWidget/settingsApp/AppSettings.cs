@@ -11,9 +11,6 @@ namespace TempetarureWidget.SettingsApp
 {
     public class AppSettings
     {
-
         public List<Settings> settings = new List<Settings>();
-
-
     }
 }

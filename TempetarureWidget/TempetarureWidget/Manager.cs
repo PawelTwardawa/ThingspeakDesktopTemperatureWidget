@@ -3,44 +3,43 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using TempetarureWidget.DTO;
 using TempetarureWidget.SettingsApp;
 
 namespace TempetarureWidget
 {
-   public class Manager : IManager, IDisposable
+   public class Manager : IDisposable, IManager
     {
         public event Action<string> SetTemperatureLabel;
-        public event Action<string> SetUpdataDataLabel;
+        public event Action<string, string, string> SetUpdataDataLabel;
         public event Action<string, string> SetNameLabel;
 
         private int _refreshTime = 2000;
         private Data _data;
         private static GetData _getData;
         private Thread mainThread;
+        private volatile bool _internetConnection;
+
+        public bool InternetConnection
+        {
+            get
+            {
+                return _internetConnection;
+            }
+            private set
+            {
+                _internetConnection = value;
+            }
+        }
 
 
-
-        //private AppSettings _settings;
-
-        //public AppSettings Settings
-        //{
-        //    get
-        //    {
-        //        return _settings;
-        //    }
-
-        //    set
-        //    {
-
-        //    }
-        //}
         public string Timezone { get; private set; }
         public string FieldName { get; private set; }
         public string ChannelName { get; private set; }
-        //TODO: usunac setery
         public Fields Field { get; private set; }
         public string Channel{ get; private set; }
         public string ApiKey { get; private set; }
@@ -63,7 +62,9 @@ namespace TempetarureWidget
         public Manager()
         {
             _getData = new GetData();
+            InternetConnection = true;
         }
+
 
         public Manager(Settings settings) : this()
         {
@@ -86,7 +87,8 @@ namespace TempetarureWidget
             ApiKey = settings.api_key;
             Timezone = settings.timezone;
 
-            _data = await getDataAsync();
+             _data = await getDataAsync();
+
 
             ChannelName = channelName();
             FieldName = fieldName(Field);
@@ -156,17 +158,40 @@ namespace TempetarureWidget
 
         private async Task<Data> getDataAsync()
         {
-            return await _getData.GetDataAsync($"https://api.thingspeak.com/channels/{Channel}/feeds.json?api_key={ApiKey}&results=1&timezone={Timezone}");
+            try
+            {
+                var data = await _getData.GetDataAsync($"https://api.thingspeak.com/channels/{Channel}/feeds.json?api_key={ApiKey}&results=1&timezone={Timezone}");
+                if (!InternetConnection)
+                {
+                    InternetConnection = true;
+                }
+                return data;
+            }
+            catch(System.Net.Http.HttpRequestException ex)
+            {
+                InternetConnection = false;
+                return null;
+            }
         }
 
         public async void GetTemperatureAsync()
         {
-            //GC.Collect();
             GC.Collect(2, GCCollectionMode.Forced);
-            /*Data*/ _data = await getDataAsync();
 
-            SetTemperatureLabel.Invoke(temperatureFromFieldAsync(_data));
-            SetUpdataDataLabel.Invoke(_data.feeds[0].created_at);
+            _data = await getDataAsync();
+
+            if (InternetConnection)
+            {
+                ChannelName = channelName();
+                FieldName = fieldName(Field);
+                SetNameLabel?.Invoke(ChannelName, FieldName);
+
+                SetTemperatureLabel?.Invoke(temperatureFromFieldAsync(_data));
+
+                string[] dateTime = _data.feeds[0].created_at.Split('T');
+                string[] time = Regex.Split(dateTime[1], @"(?=[+-])");
+                SetUpdataDataLabel?.Invoke(dateTime[0], time[0], time[1]);
+            }
 
         }
 
@@ -174,7 +199,7 @@ namespace TempetarureWidget
         {
             Dictionary<Fields, string> fields = new Dictionary<Fields, string>();
 
-            /*Data*/ _data = await getDataAsync();
+             _data = await getDataAsync();
 
             if (!string.IsNullOrEmpty(_data.channel.field1))
                 fields.Add(Fields.field1, _data.channel.field1);
@@ -260,7 +285,7 @@ namespace TempetarureWidget
                     }
                 default:
                     {
-                        throw new ArgumentNullException("Field must be initialized");
+                        throw new ArgumentNullException("Field not be initialized");
                     }
             }
         }
@@ -279,6 +304,11 @@ namespace TempetarureWidget
 
             mainThread.Start();
 
+        }
+
+        public void Stop()
+        {
+            mainThread?.Abort();
         }
 
         public void Dispose()
