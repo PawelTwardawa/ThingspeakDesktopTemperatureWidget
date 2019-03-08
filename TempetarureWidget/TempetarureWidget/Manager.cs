@@ -36,7 +36,6 @@ namespace TempetarureWidget
             }
         }
 
-
         public string Timezone { get; private set; }
         public string FieldName { get; private set; }
         public string ChannelName { get; private set; }
