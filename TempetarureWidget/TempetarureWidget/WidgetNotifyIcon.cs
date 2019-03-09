@@ -114,5 +114,10 @@ namespace TempetarureWidget
 
             return widgetToolStripMenuItem;
         }
+
+        public void ShowBalloonTip(int timeout, string tipTitle, string tipText, ToolTipIcon tipIcon)
+        {
+            _notifyIcon.ShowBalloonTip(timeout, tipTitle, tipText, tipIcon);
+        }
     }
 }

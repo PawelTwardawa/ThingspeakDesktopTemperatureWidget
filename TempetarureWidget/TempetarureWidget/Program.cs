@@ -47,6 +47,8 @@ namespace TempetarureWidget
             notifyIcon.Text = "Temperature Widget";
             notifyIcon.Visible = true;
 
+            //notifyIcon.ShowBalloonTip(1, "tytul", "1\n 2 \n 3\n 4\n 5", ToolTipIcon.Warning);
+
             Application.Run(new MultiWidgetContext( forms.ToArray()));
         }
     }

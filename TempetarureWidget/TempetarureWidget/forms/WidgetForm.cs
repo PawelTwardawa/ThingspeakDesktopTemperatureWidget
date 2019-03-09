@@ -123,7 +123,8 @@ namespace TempetarureWidget
 
         private void buttonOpenSettingsForm_Click(object sender, EventArgs e)
         {
-            if (!_manager.InternetConnection)
+            //if (!_manager.InternetConnection)
+            if (!Manager.InternetConnection)
                 return;
             SettingsForm settings = new SettingsForm(ref _settings);
             var v = settings.ShowDialog(this);

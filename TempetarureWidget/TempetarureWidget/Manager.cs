@@ -22,9 +22,11 @@ namespace TempetarureWidget
         private Data _data;
         private static GetData _getData;
         private Thread mainThread;
-        private volatile bool _internetConnection;
+        private static volatile bool _internetConnection;
 
-        public bool InternetConnection
+        private string host = "api.thingspeak.com";
+
+        public static bool InternetConnection
         {
             get
             {
@@ -159,14 +161,15 @@ namespace TempetarureWidget
         {
             try
             {
-                var data = await _getData.GetDataAsync($"https://api.thingspeak.com/channels/{Channel}/feeds.json?api_key={ApiKey}&results=1&timezone={Timezone}");
+                var data = await _getData.GetDataAsync($"https://{host}/channels/{Channel}/feeds.json?api_key={ApiKey}&results=1&timezone={Timezone}");
                 if (!InternetConnection)
                 {
                     InternetConnection = true;
                 }
                 return data;
             }
-            catch(System.Net.Http.HttpRequestException ex)
+            catch (System.Net.Http.HttpRequestException ex) when (ex.InnerException.StackTrace.Contains("System.Net.HttpWebRequest.EndGetResponse")) //(ex.InnerException.Message.Contains(host))
+            //StackTrace = "   at System.Net.HttpWebRequest.EndGetResponse(IAsyncResult asyncResult)\r\n   at System.Net.Http.HttpClientHandler.GetResponseCallback(IAsyncResult ar)"
             {
                 InternetConnection = false;
                 return null;

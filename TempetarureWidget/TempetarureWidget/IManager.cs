@@ -7,7 +7,7 @@ namespace TempetarureWidget
 {
     public interface IManager
     {
-        bool InternetConnection { get; }
+        //bool InternetConnection { get; }
 
         event Action<string, string> SetNameLabel;
         event Action<string> SetTemperatureLabel;
