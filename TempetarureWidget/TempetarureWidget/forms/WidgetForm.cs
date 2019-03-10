@@ -76,6 +76,7 @@ namespace TempetarureWidget
             if (labelTemp.InvokeRequired)
             {
                 labelTemp.Invoke(new Action(() => labelTemp.Text = value + " "  + (_settings.deegree != Deegree.User ? "\u00B0" + _settings.deegree.ToString() : _settings.unit)));// " \u00B0" + _settings.deegree.ToString()));
+                Invoke(new Action(() => ResizeWidget()));
             }
         }
 
@@ -123,9 +124,7 @@ namespace TempetarureWidget
 
         private void buttonOpenSettingsForm_Click(object sender, EventArgs e)
         {
-            //if (!_manager.InternetConnection)
-            if (!Manager.InternetConnection)
-                return;
+  
             SettingsForm settings = new SettingsForm(ref _settings);
             var v = settings.ShowDialog(this);
 

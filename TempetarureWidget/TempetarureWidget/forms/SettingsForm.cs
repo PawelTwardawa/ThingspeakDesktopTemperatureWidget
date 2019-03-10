@@ -26,19 +26,9 @@ namespace TempetarureWidget
 
         private  async Task<Dictionary<Fields, string>> fillComboBoxField(Manager manager)
         {
-            try
-            {
                 var data = await manager.AvailableFieldsAsync();
                 comboBoxFields.DataSource = new BindingSource(data, null);
                 return data;
-            }
-            catch(System.Net.Http.HttpRequestException ex) when (ex.Message.Contains("404") || ex.Message.Contains("400"))
-            {
-                comboBoxFields.DataSource = new List<string> { "not found" };
-            }
-
-            return null;
-
         }
 
         private async void Settings_LoadAsync(object sender, EventArgs e)
@@ -72,32 +62,33 @@ namespace TempetarureWidget
 
             textBoxUserUnits.Text = _settings.unit;
             textBoxApi.Text = _settings.api_key;
-                textBoxChannel.Text = _settings.channel;
-                labelTempratureSize.Font = new Font(labelTempratureSize.Font.FontFamily, (_settings.temperatureSize > 80 ? 80 : _settings.temperatureSize), labelTempratureSize.Font.Style);
-                 numericUpDownTemperatureSize.Value = (decimal)_settings.temperatureSize;
-                labelDateSize.Font = new Font(labelDateSize.Font.FontFamily, (_settings.dateSize > 80 ? 80 : _settings.dateSize), labelDateSize.Font.Style);
-                numericUpDownDateSize.Value = (decimal)_settings.dateSize;
+            textBoxChannel.Text = _settings.channel;
+
+            labelTempratureSize.Font = new Font(labelTempratureSize.Font.FontFamily, (_settings.temperatureSize > 80 ? 80 : _settings.temperatureSize), labelTempratureSize.Font.Style);
+                numericUpDownTemperatureSize.Value = (decimal)_settings.temperatureSize;
+            labelDateSize.Font = new Font(labelDateSize.Font.FontFamily, (_settings.dateSize > 80 ? 80 : _settings.dateSize), labelDateSize.Font.Style);
+            numericUpDownDateSize.Value = (decimal)_settings.dateSize;
                               
                 
-                checkBoxDateLabel.Checked = _settings.dateVisable;
-                checkBoxShowName.Checked = _settings.nameVisable;
-                groupBoxChannelName.Visible = _settings.nameVisable;
+            checkBoxDateLabel.Checked = _settings.dateVisable;
+            checkBoxShowName.Checked = _settings.nameVisable;
+            groupBoxChannelName.Visible = _settings.nameVisable;
 
-                if (_settings.refreshTime >= 1000 && _settings.refreshTime < 60000)
-                {
-                    trackBarRefreshTime.Value = _settings.refreshTime / 1000;
-                    comboBoxRefreshTimeUnit.SelectedItem = "s";
-                }
-                else if (_settings.refreshTime >= 60000 && _settings.refreshTime < 3600000)
-                {
-                    trackBarRefreshTime.Value = _settings.refreshTime / 60000;
-                    comboBoxRefreshTimeUnit.SelectedItem = "m";
-                }
-                else if (_settings.refreshTime >= 3600000 && _settings.refreshTime < 216000000)
-                {
-                    trackBarRefreshTime.Value = _settings.refreshTime / 3600000;
-                    comboBoxRefreshTimeUnit.SelectedItem = "h";
-                }
+            if (_settings.refreshTime >= 1000 && _settings.refreshTime < 60000)
+            {
+                trackBarRefreshTime.Value = _settings.refreshTime / 1000;
+                comboBoxRefreshTimeUnit.SelectedItem = "s";
+            }
+            else if (_settings.refreshTime >= 60000 && _settings.refreshTime < 3600000)
+            {
+                trackBarRefreshTime.Value = _settings.refreshTime / 60000;
+                comboBoxRefreshTimeUnit.SelectedItem = "m";
+            }
+            else if (_settings.refreshTime >= 3600000 && _settings.refreshTime < 216000000)
+            {
+                trackBarRefreshTime.Value = _settings.refreshTime / 3600000;
+                comboBoxRefreshTimeUnit.SelectedItem = "h";
+            }
 
 
             colorDialogBackground.Color = _settings.backColor;
@@ -107,22 +98,24 @@ namespace TempetarureWidget
 
             trackBarTransparency.Value = (int)(_settings.opacity * 100);
 
-                checkBoxChannelName.Checked = _settings.channelNameVisable;
-                checkBoxFieldName.Checked = _settings.fieldNameVisable;
-                checkBoxRunWithWindows.Checked = _settings.runWithWindows;
+            checkBoxChannelName.Checked = _settings.channelNameVisable;
+            checkBoxFieldName.Checked = _settings.fieldNameVisable;
+            checkBoxRunWithWindows.Checked = _settings.runWithWindows;
+
+            if (!string.IsNullOrWhiteSpace(_settings.timezone))
+                comboBoxTimezone.SelectedItem = _settings.timezone;
 
             if (!_settings.IsEmpty)
             {
                 using (Manager manager = new Manager(_settings.api_key, _settings.channel))
                 {
                     Dictionary<Fields, string> data = await fillComboBoxField(manager);
-                    comboBoxFields.SelectedIndex = data.Keys.ToList().IndexOf(_settings.field);
+                    int index = data.Keys.ToList().IndexOf(_settings.field);
+                    if (index == -1)
+                        index = 0;
+                    comboBoxFields.SelectedIndex = index;
                 }
             }
-
-            if(!string.IsNullOrWhiteSpace(_settings.timezone))
-                comboBoxTimezone.SelectedItem = _settings.timezone;
-                
 
             textBoxApi.TextChanged += textBoxChannel_TextChanged;
             textBoxChannel.TextChanged += textBoxChannel_TextChanged;
@@ -146,11 +139,22 @@ namespace TempetarureWidget
             _settings.channel = textBoxChannel.Text;
             try
             {
-                _settings.field = ((KeyValuePair<Fields, string>)comboBoxFields.SelectedItem).Key;
+                Fields field  = ((KeyValuePair<Fields, string>)comboBoxFields.SelectedItem).Key;
+                if(field == Fields.unknown)
+                {
+                    MessageBox.Show("Cannot save with incorrect or unknown field name", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                _settings.field = field;
             }
             catch(InvalidCastException ex)
             {
                 MessageBox.Show("Cannot save with incorrect field name", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            catch(NullReferenceException ex)
+            {
+                MessageBox.Show("Cannot save with empty field name", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             _settings.backColor = colorDialogBackground.Color;
@@ -320,7 +324,7 @@ namespace TempetarureWidget
             }
         }
 
-        private void comboBoxFields_TextUpdate(object sender, EventArgs e)
+        private void comboBoxFields_Validated(object sender, EventArgs e)
         {
             int index = comboBoxFields.FindString(comboBoxFields.Text);
             if (index < 0)

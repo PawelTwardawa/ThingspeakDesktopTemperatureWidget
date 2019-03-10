@@ -22,21 +22,8 @@ namespace TempetarureWidget
         private Data _data;
         private static GetData _getData;
         private Thread mainThread;
-        private static volatile bool _internetConnection;
 
         private string host = "api.thingspeak.com";
-
-        public static bool InternetConnection
-        {
-            get
-            {
-                return _internetConnection;
-            }
-            private set
-            {
-                _internetConnection = value;
-            }
-        }
 
         public string Timezone { get; private set; }
         public string FieldName { get; private set; }
@@ -63,7 +50,6 @@ namespace TempetarureWidget
         public Manager()
         {
             _getData = new GetData();
-            InternetConnection = true;
         }
 
 
@@ -88,7 +74,7 @@ namespace TempetarureWidget
             ApiKey = settings.api_key;
             Timezone = settings.timezone;
 
-             _data = await getDataAsync();
+             _data = (await getDataAsync()).Item1;
 
 
             ChannelName = channelName();
@@ -157,32 +143,18 @@ namespace TempetarureWidget
             return null;
         }
 
-        private async Task<Data> getDataAsync()
+        private async Task<(Data, System.Net.HttpStatusCode)> getDataAsync()
         {
-            try
-            {
-                var data = await _getData.GetDataAsync($"https://{host}/channels/{Channel}/feeds.json?api_key={ApiKey}&results=1&timezone={Timezone}");
-                if (!InternetConnection)
-                {
-                    InternetConnection = true;
-                }
-                return data;
-            }
-            catch (System.Net.Http.HttpRequestException ex) when (ex.InnerException.StackTrace.Contains("System.Net.HttpWebRequest.EndGetResponse")) //(ex.InnerException.Message.Contains(host))
-            //StackTrace = "   at System.Net.HttpWebRequest.EndGetResponse(IAsyncResult asyncResult)\r\n   at System.Net.Http.HttpClientHandler.GetResponseCallback(IAsyncResult ar)"
-            {
-                InternetConnection = false;
-                return null;
-            }
+            return await _getData.GetDataAsync($"https://{host}/channels/{Channel}/feeds.json?api_key={ApiKey}&results=1&timezone={Timezone}");
         }
 
         public async void GetTemperatureAsync()
         {
-            GC.Collect(2, GCCollectionMode.Forced);
+            System.Net.HttpStatusCode status;
 
-            _data = await getDataAsync();
+            (_data, status) = await getDataAsync();
 
-            if (InternetConnection)
+            if (status.Equals(System.Net.HttpStatusCode.OK))
             {
                 ChannelName = channelName();
                 FieldName = fieldName(Field);
@@ -194,31 +166,49 @@ namespace TempetarureWidget
                 string[] time = Regex.Split(dateTime[1], @"(?=[+-])");
                 SetUpdataDataLabel?.Invoke(dateTime[0], time[0], time[1]);
             }
+            else if(status.Equals(System.Net.HttpStatusCode.ServiceUnavailable))
+            {
+                SetTemperatureLabel?.Invoke("INTERNET CONNECTION ERROR");
+            }
+
+            GC.Collect(2, GCCollectionMode.Forced);
 
         }
 
         public async Task<Dictionary<Fields, string>> AvailableFieldsAsync()
         {
             Dictionary<Fields, string> fields = new Dictionary<Fields, string>();
+            System.Net.HttpStatusCode status;
 
-             _data = await getDataAsync();
+             (_data, status) = await getDataAsync();
 
-            if (!string.IsNullOrEmpty(_data.channel.field1))
-                fields.Add(Fields.field1, _data.channel.field1);
-            if (!string.IsNullOrEmpty(_data.channel.field2))
-                fields.Add(Fields.field2, _data.channel.field2);
-            if (!string.IsNullOrEmpty(_data.channel.field3))
-                fields.Add(Fields.field3, _data.channel.field3);
-            if (!string.IsNullOrEmpty(_data.channel.field4))
-                fields.Add(Fields.field4, _data.channel.field4);
-            if (!string.IsNullOrEmpty(_data.channel.field5))
-                fields.Add(Fields.field5, _data.channel.field5);
-            if (!string.IsNullOrEmpty(_data.channel.field6))
-                fields.Add(Fields.field6, _data.channel.field6);
-            if (!string.IsNullOrEmpty(_data.channel.field7))
-                fields.Add(Fields.field7, _data.channel.field7);
-            if (!string.IsNullOrEmpty(_data.channel.field8))
-                fields.Add(Fields.field8, _data.channel.field8);
+            if (status.Equals(System.Net.HttpStatusCode.OK))
+            {
+                if (!string.IsNullOrEmpty(_data.channel.field1))
+                    fields.Add(Fields.field1, _data.channel.field1);
+                if (!string.IsNullOrEmpty(_data.channel.field2))
+                    fields.Add(Fields.field2, _data.channel.field2);
+                if (!string.IsNullOrEmpty(_data.channel.field3))
+                    fields.Add(Fields.field3, _data.channel.field3);
+                if (!string.IsNullOrEmpty(_data.channel.field4))
+                    fields.Add(Fields.field4, _data.channel.field4);
+                if (!string.IsNullOrEmpty(_data.channel.field5))
+                    fields.Add(Fields.field5, _data.channel.field5);
+                if (!string.IsNullOrEmpty(_data.channel.field6))
+                    fields.Add(Fields.field6, _data.channel.field6);
+                if (!string.IsNullOrEmpty(_data.channel.field7))
+                    fields.Add(Fields.field7, _data.channel.field7);
+                if (!string.IsNullOrEmpty(_data.channel.field8))
+                    fields.Add(Fields.field8, _data.channel.field8);
+            }
+            else if(status.Equals(System.Net.HttpStatusCode.BadRequest) || status.Equals(System.Net.HttpStatusCode.NotFound))
+            {
+                fields.Add(Fields.unknown, "not found");
+            }
+            else
+            {
+                fields.Add(Fields.unknown, "connection error");
+            }
 
             return fields;
         }
@@ -287,7 +277,7 @@ namespace TempetarureWidget
                     }
                 default:
                     {
-                        throw new ArgumentNullException("Field not be initialized");
+                        throw new ArgumentNullException("Field not initialized");
                     }
             }
         }

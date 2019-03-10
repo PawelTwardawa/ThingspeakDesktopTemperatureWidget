@@ -170,7 +170,7 @@
             this.comboBoxFields.Name = "comboBoxFields";
             this.comboBoxFields.Size = new System.Drawing.Size(196, 21);
             this.comboBoxFields.TabIndex = 9;
-            this.comboBoxFields.TextUpdate += new System.EventHandler(this.comboBoxFields_TextUpdate);
+            this.comboBoxFields.Validated += new System.EventHandler(this.comboBoxFields_Validated);
             // 
             // comboBoxRefreshTimeUnit
             // 
