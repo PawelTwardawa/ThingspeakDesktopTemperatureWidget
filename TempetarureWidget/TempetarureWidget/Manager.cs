@@ -17,6 +17,7 @@ namespace TempetarureWidget
         public event Action<string> SetTemperatureLabel;
         public event Action<string, string, string> SetUpdataDataLabel;
         public event Action<string, string> SetNameLabel;
+        public event Action<bool> ShowNoConnIcon;
 
         private int _refreshTime = 2000;
         private Data _data;
@@ -74,7 +75,7 @@ namespace TempetarureWidget
             ApiKey = settings.api_key;
             Timezone = settings.timezone;
 
-             _data = (await getDataAsync()).Item1;
+             _data = (await getDataAsync(Field)).Item1;
 
 
             ChannelName = channelName();
@@ -148,27 +149,40 @@ namespace TempetarureWidget
             return await _getData.GetDataAsync($"https://{host}/channels/{Channel}/feeds.json?api_key={ApiKey}&results=1&timezone={Timezone}");
         }
 
+        private async Task<(Data, System.Net.HttpStatusCode)> getDataAsync(Fields field)
+        {
+            return await _getData.GetDataAsync($"https://{host}/channels/{Channel}/fields/{(int)field}.json?api_key={ApiKey}&results=1&timezone={Timezone}");
+        }
+
         public async void GetTemperatureAsync()
         {
             System.Net.HttpStatusCode status;
 
-            (_data, status) = await getDataAsync();
+            (_data, status) = await getDataAsync(Field);
 
             if (status.Equals(System.Net.HttpStatusCode.OK))
             {
+                ShowNoConnIcon(false);
+                
                 ChannelName = channelName();
                 FieldName = fieldName(Field);
                 SetNameLabel?.Invoke(ChannelName, FieldName);
 
-                SetTemperatureLabel?.Invoke(temperatureFromFieldAsync(_data));
+                string value = temperatureFromFieldAsync(_data);
 
-                string[] dateTime = _data.feeds[0].created_at.Split('T');
-                string[] time = Regex.Split(dateTime[1], @"(?=[+-])");
-                SetUpdataDataLabel?.Invoke(dateTime[0], time[0], time[1]);
+                if (value != null)
+                {
+                    SetTemperatureLabel?.Invoke(value);
+
+                    string[] dateTime = _data.feeds[0].created_at.Split('T');
+                    string[] time = Regex.Split(dateTime[1], @"(?=[+-])");
+                    SetUpdataDataLabel?.Invoke(dateTime[0], time[0], time[1]);
+                }
             }
             else if(status.Equals(System.Net.HttpStatusCode.ServiceUnavailable))
             {
-                SetTemperatureLabel?.Invoke("INTERNET CONNECTION ERROR");
+                //SetTemperatureLabel?.Invoke("INTERNET CONNECTION ERROR");
+                ShowNoConnIcon(true);
             }
 
             GC.Collect(2, GCCollectionMode.Forced);

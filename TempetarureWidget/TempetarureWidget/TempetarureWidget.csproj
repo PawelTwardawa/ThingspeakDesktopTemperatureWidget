@@ -172,6 +172,8 @@
     <Content Include="icons\app.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\noConn2.png" />
+    <None Include="Resources\noConn.png" />
     <None Include="Resources\settingIcon.png" />
   </ItemGroup>
   <ItemGroup>

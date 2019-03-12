@@ -31,9 +31,11 @@ namespace TempetarureWidget
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WidgetForm));
             this.labelTemp = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.labelUpdateDate = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
+            this.pictureBoxNoConn = new System.Windows.Forms.PictureBox();
+            this.buttonSettings = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNoConn)).BeginInit();
             this.SuspendLayout();
             // 
             // labelTemp
@@ -50,21 +52,6 @@ namespace TempetarureWidget
             this.labelTemp.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.labelTemp.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.labelTemp.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.Transparent;
-            this.button2.BackgroundImage = global::TempetarureWidget.Properties.Resources.settingIcon;
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(229, 0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(20, 20);
-            this.button2.TabIndex = 3;
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.buttonOpenSettingsForm_Click);
             // 
             // labelUpdateDate
             // 
@@ -100,21 +87,51 @@ namespace TempetarureWidget
             this.labelName.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.labelName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);
             // 
+            // pictureBoxNoConn
+            // 
+            this.pictureBoxNoConn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBoxNoConn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBoxNoConn.Cursor = System.Windows.Forms.Cursors.Default;
+            this.pictureBoxNoConn.Image = global::TempetarureWidget.Properties.Resources.noConn2;
+            this.pictureBoxNoConn.Location = new System.Drawing.Point(229, 20);
+            this.pictureBoxNoConn.Name = "pictureBoxNoConn";
+            this.pictureBoxNoConn.Size = new System.Drawing.Size(20, 20);
+            this.pictureBoxNoConn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxNoConn.TabIndex = 6;
+            this.pictureBoxNoConn.TabStop = false;
+            this.pictureBoxNoConn.Visible = false;
+            // 
+            // buttonSettings
+            // 
+            this.buttonSettings.BackColor = System.Drawing.Color.Transparent;
+            this.buttonSettings.BackgroundImage = global::TempetarureWidget.Properties.Resources.settingIcon;
+            this.buttonSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonSettings.FlatAppearance.BorderSize = 0;
+            this.buttonSettings.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.buttonSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSettings.Location = new System.Drawing.Point(229, 0);
+            this.buttonSettings.Name = "buttonSettings";
+            this.buttonSettings.Size = new System.Drawing.Size(20, 20);
+            this.buttonSettings.TabIndex = 3;
+            this.buttonSettings.TabStop = false;
+            this.buttonSettings.UseVisualStyleBackColor = false;
+            this.buttonSettings.Click += new System.EventHandler(this.buttonOpenSettingsForm_Click);
+            // 
             // WidgetForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Red;
+            this.BackColor = System.Drawing.Color.Yellow;
             this.ClientSize = new System.Drawing.Size(249, 113);
+            this.Controls.Add(this.pictureBoxNoConn);
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.labelUpdateDate);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.buttonSettings);
             this.Controls.Add(this.labelTemp);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.Name = "WidgetForm";
             this.ShowInTaskbar = false;
             this.Text = "Widget";
@@ -123,6 +140,7 @@ namespace TempetarureWidget
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNoConn)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -130,9 +148,10 @@ namespace TempetarureWidget
 
         #endregion
         public System.Windows.Forms.Label labelTemp;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonSettings;
         public System.Windows.Forms.Label labelUpdateDate;
         public System.Windows.Forms.Label labelName;
+        private System.Windows.Forms.PictureBox pictureBoxNoConn;
     }
 }
 

@@ -32,6 +32,7 @@ namespace TempetarureWidget
             _manager.SetTemperatureLabel += UpdateTemperatureLabel;
             _manager.SetUpdataDataLabel += UpdataDateTimeLabel;
             _manager.SetNameLabel += UpdateNameLabel;
+            _manager.ShowNoConnIcon += ShowNoConnIcon;
         }
 
         public WidgetForm(Settings settings) : this()
@@ -39,6 +40,10 @@ namespace TempetarureWidget
             loadSettings(settings);
         }
 
+        private void ShowNoConnIcon(bool value)
+        {
+            pictureBoxNoConn.Invoke(new Action(() => pictureBoxNoConn.Visible = value));
+        }
 
         private void UpdateNameLabel(string channel, string field)
         {
@@ -183,17 +188,18 @@ namespace TempetarureWidget
 
         private void ResizeWidget()
         {
-            int pom = Math.Max(labelName.Visible ? labelName.Width + button2.Width : 0, labelUpdateDate.Visible ? labelUpdateDate.Width : 0);
-            Width = Math.Max(labelTemp.Width, pom == 0 ? labelTemp.Width + button2.Width : pom );
+            int pom = Math.Max(labelName.Visible ? labelName.Width + buttonSettings.Width : 0, labelUpdateDate.Visible ? labelUpdateDate.Width : 0);
+            Width = Math.Max(labelTemp.Width, pom == 0 ? labelTemp.Width + buttonSettings.Width : pom );
             Height = labelTemp.Height + (labelName.Visible ? labelName.Height : 0) + (labelUpdateDate.Visible ? labelUpdateDate.Height : 0);
 
-            labelName.Width = Width - button2.Width;
+            labelName.Width = Width - buttonSettings.Width;
             labelUpdateDate.Width = Width;
 
-            button2.Location = new Point(Width - button2.Width, button2.Location.Y);
+            buttonSettings.Location = new Point(Width - buttonSettings.Width, buttonSettings.Location.Y);
+            pictureBoxNoConn.Location = new Point(Width - pictureBoxNoConn.Width, buttonSettings.Height);
             labelUpdateDate.Location = new Point((Width - labelUpdateDate.Width)/2, Height - labelUpdateDate.Height);
             labelTemp.Location = new Point((Width - labelTemp.Width)/2, (labelName.Visible ? labelName.Height : 0));
-            labelName.Location = new Point((Width - button2.Width - labelName.Width) / 2, 0);
+            labelName.Location = new Point((Width - buttonSettings.Width - labelName.Width) / 2, 0);
         }
     }
 }

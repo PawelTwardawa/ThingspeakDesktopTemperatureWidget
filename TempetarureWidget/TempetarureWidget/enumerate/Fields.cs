@@ -8,14 +8,14 @@ namespace TempetarureWidget
 {
     public enum Fields
     {
-        unknown,
-        field1,
-        field2,
-        field3,
-        field4,
-        field5,
-        field6,
-        field7,
-        field8
+        unknown =-1,
+        field1 = 1,
+        field2 = 2,
+        field3 = 3,
+        field4 = 4,
+        field5 = 5,
+        field6 = 6,
+        field7 = 7,
+        field8 = 8
     }
 }
