@@ -116,6 +116,10 @@ namespace TempetarureWidget
                     comboBoxFields.SelectedIndex = index;
                 }
             }
+            else
+            {
+                comboBoxFields.DataSource = new BindingSource( new Dictionary<Fields, string>() { { Fields.unknown, "enter channel id" } }, null);
+            }
 
             textBoxApi.TextChanged += textBoxChannel_TextChanged;
             textBoxChannel.TextChanged += textBoxChannel_TextChanged;
