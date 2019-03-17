@@ -104,13 +104,15 @@ namespace TempetarureWidget
         private void WidgetForm_MouseUp(object sender, MouseEventArgs e)
         {
             _settings.location = new Point(Left, Top);
-            if(!_settings.IsEmpty)
+            //if(!_settings.IsEmpty)
+            if(!_settings.IsEmptyChannel)
                 _settings.Save();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (_settings.IsEmpty)
+            //if (_settings.IsEmpty)
+            if (_settings.IsEmptyChannel)
             {
                 labelTemp.Text = "Go to Settings ↗";
             }
@@ -142,7 +144,8 @@ namespace TempetarureWidget
 
         private void loadSettings(Settings settings)
         {
-            if (!settings.IsEmpty)
+            //if (!settings.IsEmpty)
+            if (!settings.IsEmptyChannel)
             {
                 _manager.ChangeSetting(settings);
                 BackColor = settings.backColor;

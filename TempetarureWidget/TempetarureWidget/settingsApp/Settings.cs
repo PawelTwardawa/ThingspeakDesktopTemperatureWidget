@@ -28,12 +28,24 @@ namespace TempetarureWidget.SettingsApp
         public string unit;
         public Point location;
         public string timezone;
+        public bool publicChannel;
 
         internal bool IsEmpty
         {
             get
             {
                 if (string.IsNullOrWhiteSpace(api_key) || string.IsNullOrWhiteSpace(channel))
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        internal bool IsEmptyChannel
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(channel))
                     return true;
                 else
                     return false;

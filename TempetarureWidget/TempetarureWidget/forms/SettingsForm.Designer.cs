@@ -70,6 +70,7 @@
             this.colorDialogBackground = new System.Windows.Forms.ColorDialog();
             this.colorDialogText = new System.Windows.Forms.ColorDialog();
             this.buttonRemoveWidget = new System.Windows.Forms.Button();
+            this.checkBoxPublicChannel = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshTime)).BeginInit();
             this.groupBoxConnections.SuspendLayout();
             this.groupBoxProperties.SuspendLayout();
@@ -84,7 +85,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(302, 502);
+            this.buttonSave.Location = new System.Drawing.Point(302, 511);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 0;
@@ -124,7 +125,7 @@
             // 
             this.textBoxChannel.Location = new System.Drawing.Point(88, 19);
             this.textBoxChannel.Name = "textBoxChannel";
-            this.textBoxChannel.Size = new System.Drawing.Size(259, 20);
+            this.textBoxChannel.Size = new System.Drawing.Size(196, 20);
             this.textBoxChannel.TabIndex = 4;
             // 
             // textBoxApi
@@ -168,7 +169,7 @@
             // 
             this.comboBoxFields.Location = new System.Drawing.Point(88, 71);
             this.comboBoxFields.Name = "comboBoxFields";
-            this.comboBoxFields.Size = new System.Drawing.Size(196, 21);
+            this.comboBoxFields.Size = new System.Drawing.Size(259, 21);
             this.comboBoxFields.TabIndex = 9;
             this.comboBoxFields.Validated += new System.EventHandler(this.comboBoxFields_Validated);
             // 
@@ -195,6 +196,7 @@
             // 
             // groupBoxConnections
             // 
+            this.groupBoxConnections.Controls.Add(this.checkBoxPublicChannel);
             this.groupBoxConnections.Controls.Add(this.comboBoxTimezone);
             this.groupBoxConnections.Controls.Add(this.label4);
             this.groupBoxConnections.Controls.Add(this.textBoxChannel);
@@ -210,7 +212,7 @@
             this.groupBoxConnections.Location = new System.Drawing.Point(12, 12);
             this.groupBoxConnections.Name = "groupBoxConnections";
             this.groupBoxConnections.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.groupBoxConnections.Size = new System.Drawing.Size(365, 163);
+            this.groupBoxConnections.Size = new System.Drawing.Size(365, 172);
             this.groupBoxConnections.TabIndex = 12;
             this.groupBoxConnections.TabStop = false;
             this.groupBoxConnections.Text = "Connection";
@@ -349,7 +351,7 @@
             "Pacific/Tongatapu"});
             this.comboBoxTimezone.Location = new System.Drawing.Point(88, 98);
             this.comboBoxTimezone.Name = "comboBoxTimezone";
-            this.comboBoxTimezone.Size = new System.Drawing.Size(196, 21);
+            this.comboBoxTimezone.Size = new System.Drawing.Size(259, 21);
             this.comboBoxTimezone.Sorted = true;
             this.comboBoxTimezone.TabIndex = 13;
             // 
@@ -378,7 +380,7 @@
             this.groupBoxProperties.Controls.Add(this.checkBoxDateLabel);
             this.groupBoxProperties.Controls.Add(this.label1);
             this.groupBoxProperties.Controls.Add(this.trackBarTransparency);
-            this.groupBoxProperties.Location = new System.Drawing.Point(12, 181);
+            this.groupBoxProperties.Location = new System.Drawing.Point(12, 190);
             this.groupBoxProperties.Name = "groupBoxProperties";
             this.groupBoxProperties.Size = new System.Drawing.Size(365, 315);
             this.groupBoxProperties.TabIndex = 13;
@@ -655,7 +657,7 @@
             // 
             // buttonRemoveWidget
             // 
-            this.buttonRemoveWidget.Location = new System.Drawing.Point(199, 502);
+            this.buttonRemoveWidget.Location = new System.Drawing.Point(199, 511);
             this.buttonRemoveWidget.Name = "buttonRemoveWidget";
             this.buttonRemoveWidget.Size = new System.Drawing.Size(97, 23);
             this.buttonRemoveWidget.TabIndex = 14;
@@ -663,11 +665,22 @@
             this.buttonRemoveWidget.UseVisualStyleBackColor = true;
             this.buttonRemoveWidget.Click += new System.EventHandler(this.buttonRemoveWidget_Click);
             // 
+            // checkBoxPublicChannel
+            // 
+            this.checkBoxPublicChannel.AutoSize = true;
+            this.checkBoxPublicChannel.Location = new System.Drawing.Point(292, 20);
+            this.checkBoxPublicChannel.Name = "checkBoxPublicChannel";
+            this.checkBoxPublicChannel.Size = new System.Drawing.Size(55, 17);
+            this.checkBoxPublicChannel.TabIndex = 14;
+            this.checkBoxPublicChannel.Text = "Public";
+            this.checkBoxPublicChannel.UseVisualStyleBackColor = true;
+            this.checkBoxPublicChannel.CheckedChanged += new System.EventHandler(this.checkBoxPublicChannel_CheckedChanged);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(387, 537);
+            this.ClientSize = new System.Drawing.Size(387, 542);
             this.Controls.Add(this.buttonRemoveWidget);
             this.Controls.Add(this.groupBoxProperties);
             this.Controls.Add(this.groupBoxConnections);
@@ -738,5 +751,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RadioButton radioButtonUserUnit;
         private System.Windows.Forms.TextBox textBoxUserUnits;
+        private System.Windows.Forms.CheckBox checkBoxPublicChannel;
     }
 }

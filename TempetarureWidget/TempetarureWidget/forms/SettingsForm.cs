@@ -61,8 +61,16 @@ namespace TempetarureWidget
             }
 
             textBoxUserUnits.Text = _settings.unit;
-            textBoxApi.Text = _settings.api_key;
             textBoxChannel.Text = _settings.channel;
+
+            if (_settings.publicChannel)
+            {
+                checkBoxPublicChannel.Checked = true;
+            }
+            else
+            {
+                textBoxApi.Text = _settings.api_key;
+            }
 
             labelTempratureSize.Font = new Font(labelTempratureSize.Font.FontFamily, (_settings.temperatureSize > 80 ? 80 : _settings.temperatureSize), labelTempratureSize.Font.Style);
                 numericUpDownTemperatureSize.Value = (decimal)_settings.temperatureSize;
@@ -105,7 +113,8 @@ namespace TempetarureWidget
             if (!string.IsNullOrWhiteSpace(_settings.timezone))
                 comboBoxTimezone.SelectedItem = _settings.timezone;
 
-            if (!_settings.IsEmpty)
+            //if (!_settings.IsEmpty)
+            if ((!_settings.IsEmpty && !_settings.publicChannel) || (!_settings.IsEmptyChannel && _settings.publicChannel))
             {
                 using (Manager manager = new Manager(_settings.api_key, _settings.channel))
                 {
@@ -133,14 +142,29 @@ namespace TempetarureWidget
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(textBoxApi.Text) || string.IsNullOrWhiteSpace(textBoxChannel.Text))
+            if(string.IsNullOrWhiteSpace(textBoxChannel.Text) && checkBoxPublicChannel.Checked)
+            {
+                MessageBox.Show("Cannot save with empty channel id", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if((string.IsNullOrWhiteSpace(textBoxApi.Text) || string.IsNullOrWhiteSpace(textBoxChannel.Text)) && !checkBoxPublicChannel.Checked)
             {
                 MessageBox.Show("Cannot save with empty Api key or Channel id", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            _settings.api_key = textBoxApi.Text;
             _settings.channel = textBoxChannel.Text;
+
+            if (checkBoxPublicChannel.Checked)
+            {
+                _settings.api_key = "";
+                _settings.publicChannel = true;
+            }
+            else
+            {
+                _settings.publicChannel = false;
+                _settings.api_key = textBoxApi.Text;
+            }
             try
             {
                 Fields field  = ((KeyValuePair<Fields, string>)comboBoxFields.SelectedItem).Key;
@@ -219,7 +243,7 @@ namespace TempetarureWidget
 
         private void textBoxChannel_TextChanged(object sender, EventArgs e)
         {
-            using (Manager manager = new Manager(textBoxApi.Text, textBoxChannel.Text))
+            using (Manager manager = new Manager(checkBoxPublicChannel.Checked? "" : textBoxApi.Text, textBoxChannel.Text))
             {
                 fillComboBoxField(manager);
             }
@@ -344,6 +368,16 @@ namespace TempetarureWidget
                 textBoxUserUnits.Enabled = true;
             else
                 textBoxUserUnits.Enabled = false;
+        }
+
+        private void checkBoxPublicChannel_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxPublicChannel.Checked)
+                textBoxApi.Enabled = false;
+            else
+                textBoxApi.Enabled = true;
+
+            textBoxChannel_TextChanged(null, null);
         }
     }
 }
