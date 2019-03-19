@@ -16,7 +16,6 @@ namespace TempetarureWidget
 
         Task<Dictionary<Fields, string>> AvailableFieldsAsync();
         void ChangeSetting(Settings settings);
-        void GetTemperatureAsync();
         void Start();
         void Stop();
     }

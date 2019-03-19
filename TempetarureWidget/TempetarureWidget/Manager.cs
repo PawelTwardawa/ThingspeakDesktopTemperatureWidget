@@ -23,6 +23,7 @@ namespace TempetarureWidget
         private Data _data;
         private static GetData _getData;
         private Thread mainThread;
+        private bool _internetConnection = true;
 
         private string host = "api.thingspeak.com";
 
@@ -47,6 +48,8 @@ namespace TempetarureWidget
                 _refreshTime = value;
             }
         }
+
+        private int _tmpRefreshTime;
 
         public Manager()
         {
@@ -82,7 +85,7 @@ namespace TempetarureWidget
             FieldName = fieldName(Field);
 
             SetNameLabel?.Invoke(ChannelName, FieldName);
-            if (!mainThread.IsAlive)
+            if (mainThread?.IsAlive == false)
                 Start();
 
         }
@@ -154,7 +157,7 @@ namespace TempetarureWidget
             return await _getData.GetDataAsync($"https://{host}/channels/{Channel}/fields/{(int)field}.json?api_key={ApiKey}&results=1&timezone={Timezone}");
         }
 
-        public async void GetTemperatureAsync()
+        private async void GetTemperatureAsync()
         {
             System.Net.HttpStatusCode status;
 
@@ -183,6 +186,22 @@ namespace TempetarureWidget
             {
                 //SetTemperatureLabel?.Invoke("INTERNET CONNECTION ERROR");
                 ShowNoConnIcon(true);
+            }
+
+            if (!status.Equals(System.Net.HttpStatusCode.OK) && _internetConnection)
+            {
+                _internetConnection = false;
+                Stop();
+                _tmpRefreshTime = RefreshTime;
+                RefreshTime = 1000;
+                Start();
+            }
+            else if (status.Equals(System.Net.HttpStatusCode.OK) && !_internetConnection)
+            {
+                _internetConnection = true;
+                Stop();
+                RefreshTime = _tmpRefreshTime;
+                Start();
             }
 
             GC.Collect(2, GCCollectionMode.Forced);

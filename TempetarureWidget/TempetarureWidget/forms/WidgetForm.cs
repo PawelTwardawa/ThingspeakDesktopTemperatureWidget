@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Json;
 using TempetarureWidget.DTO;
 using TempetarureWidget.SettingsApp;
+using System.IO;
 
 namespace TempetarureWidget
 {
