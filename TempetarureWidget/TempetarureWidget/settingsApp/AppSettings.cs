@@ -11,6 +11,8 @@ namespace TempetarureWidget.SettingsApp
 {
     public class AppSettings
     {
+        public bool checkForUpdate;
+        public bool runWithWindows;
         public List<Settings> settings = new List<Settings>();
     }
 }

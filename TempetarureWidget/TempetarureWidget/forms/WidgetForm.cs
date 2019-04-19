@@ -24,6 +24,8 @@ namespace TempetarureWidget
         private Settings _settings;
         private string Name { get; set; }
 
+        private AppSettings _appSettings;
+
         private WidgetForm()
         {
             InitializeComponent();
@@ -39,6 +41,11 @@ namespace TempetarureWidget
         public WidgetForm(Settings settings) : this()
         {
             loadSettings(settings);
+        }
+
+        public WidgetForm(ref AppSettings appSettings, Settings settings) : this(settings)
+        {
+            _appSettings = appSettings;
         }
 
         private void ShowNoConnIcon(bool value)
@@ -133,7 +140,8 @@ namespace TempetarureWidget
         private void buttonOpenSettingsForm_Click(object sender, EventArgs e)
         {
   
-            SettingsForm settings = new SettingsForm(ref _settings);
+            //SettingsForm settings = new SettingsForm(ref _settings);
+            SettingsForm settings = new SettingsForm(ref _appSettings, ref _settings);
             var v = settings.ShowDialog(this);
 
             if (v == DialogResult.OK)

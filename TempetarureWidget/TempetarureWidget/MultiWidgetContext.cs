@@ -10,7 +10,8 @@ namespace TempetarureWidget
 {
     class MultiWidgetContext : ApplicationContext
     {
-        private int openForms;
+        //private int openForms;
+        private static int openForms;
 
         public MultiWidgetContext(params Form[] forms)
         {
@@ -18,6 +19,7 @@ namespace TempetarureWidget
 
             foreach(var form in forms)
             {
+                //form.FormClosed += Close;
                 form.FormClosed += (s, args) =>
                 {
                     if (Interlocked.Decrement(ref openForms) == 0)
@@ -26,6 +28,17 @@ namespace TempetarureWidget
 
                 form.Show();
             }
+        }
+
+        public static void AddForm(Form form)
+        {
+            Interlocked.Increment(ref openForms);
+
+            form.FormClosed += (s, args) =>
+            {
+                if (Interlocked.Decrement(ref openForms) == 0)
+                    System.Environment.Exit(0);
+            };
         }
     }
 }

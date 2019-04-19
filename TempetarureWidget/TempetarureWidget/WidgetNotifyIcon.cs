@@ -12,6 +12,7 @@ namespace TempetarureWidget
     public class WidgetNotifyIcon
     {
         private NotifyIcon _notifyIcon;
+        private AppSettings _appSettings;
 
         public Icon Icon
         {
@@ -46,6 +47,10 @@ namespace TempetarureWidget
             }
         }
 
+        public WidgetNotifyIcon(List<WidgetForm> forms, ref AppSettings appSettings) : this(forms)
+        {
+            _appSettings = appSettings;
+        }
 
         public WidgetNotifyIcon(List<WidgetForm> forms)
         {
@@ -62,7 +67,10 @@ namespace TempetarureWidget
             AddWidgetToolStripMenuItem.Text = "Add Widget";
             AddWidgetToolStripMenuItem.Click += (sender, e) =>
             {
-                WidgetForm form = new WidgetForm(new Settings());
+                //MultiWidgetContext.AddForms();
+                //WidgetForm form = new WidgetForm(new Settings());
+                WidgetForm form = new WidgetForm(ref _appSettings, new Settings());
+                MultiWidgetContext.AddForm(form);
                 contextMenu.Items.Insert(0, addWidget(form));
                 form.Show();
             };

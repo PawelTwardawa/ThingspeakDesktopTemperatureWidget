@@ -17,11 +17,21 @@ namespace TempetarureWidget
     public partial class SettingsForm : Form
     {
         private Settings _settings;
+        private AppSettings _appSettings;
 
-        public SettingsForm(ref Settings settings)
+        public SettingsForm()
         {
-            _settings = settings;
             InitializeComponent();
+        }
+
+        public SettingsForm(ref Settings settings) : this()
+        {
+            _settings = settings;         
+        }
+
+        public SettingsForm(ref AppSettings appSettings, ref Settings settings) : this(ref settings)
+        {
+            _appSettings = appSettings;
         }
 
         private  async Task<Dictionary<Fields, string>> fillComboBoxField(Manager manager)
@@ -108,7 +118,9 @@ namespace TempetarureWidget
 
             checkBoxChannelName.Checked = _settings.channelNameVisable;
             checkBoxFieldName.Checked = _settings.fieldNameVisable;
-            checkBoxRunWithWindows.Checked = _settings.runWithWindows;
+
+            //checkBoxRunWithWindows.Checked = _settings.runWithWindows;
+            checkBoxRunWithWindows.Checked = _appSettings.runWithWindows;
 
             if (!string.IsNullOrWhiteSpace(_settings.timezone))
                 comboBoxTimezone.SelectedItem = _settings.timezone;
@@ -194,7 +206,10 @@ namespace TempetarureWidget
             _settings.temperatureSize = (float)numericUpDownTemperatureSize.Value;
             _settings.fieldNameVisable = checkBoxFieldName.Checked;
             _settings.channelNameVisable = checkBoxChannelName.Checked;
-            _settings.runWithWindows = checkBoxRunWithWindows.Checked;
+
+            //_settings.runWithWindows = checkBoxRunWithWindows.Checked;
+            _appSettings.runWithWindows = checkBoxRunWithWindows.Checked;
+
             _settings.timezone = comboBoxTimezone.SelectedItem.ToString();
 
             runWithWindows();

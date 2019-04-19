@@ -17,7 +17,7 @@ namespace TempetarureWidget.SettingsApp
         public bool nameVisable;
         public bool channelNameVisable;
         public bool fieldNameVisable;
-        public bool runWithWindows;
+        //public bool runWithWindows;
         public Fields field;
         public Color backColor;
         public Color textColor;
