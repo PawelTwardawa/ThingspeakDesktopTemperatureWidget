@@ -41,14 +41,16 @@
             this.comboBoxRefreshTimeUnit = new System.Windows.Forms.ComboBox();
             this.labelField = new System.Windows.Forms.Label();
             this.groupBoxConnections = new System.Windows.Forms.GroupBox();
+            this.checkBoxPublicChannel = new System.Windows.Forms.CheckBox();
             this.comboBoxTimezone = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBoxProperties = new System.Windows.Forms.GroupBox();
+            this.checkBoxShowName = new System.Windows.Forms.CheckBox();
+            this.checkBoxCheckForUpdate = new System.Windows.Forms.CheckBox();
             this.checkBoxRunWithWindows = new System.Windows.Forms.CheckBox();
             this.groupBoxChannelName = new System.Windows.Forms.GroupBox();
             this.checkBoxFieldName = new System.Windows.Forms.CheckBox();
             this.checkBoxChannelName = new System.Windows.Forms.CheckBox();
-            this.checkBoxShowName = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.numericUpDownDateSize = new System.Windows.Forms.NumericUpDown();
             this.labelDateSize = new System.Windows.Forms.Label();
@@ -70,7 +72,6 @@
             this.colorDialogBackground = new System.Windows.Forms.ColorDialog();
             this.colorDialogText = new System.Windows.Forms.ColorDialog();
             this.buttonRemoveWidget = new System.Windows.Forms.Button();
-            this.checkBoxPublicChannel = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshTime)).BeginInit();
             this.groupBoxConnections.SuspendLayout();
             this.groupBoxProperties.SuspendLayout();
@@ -96,7 +97,7 @@
             // checkBoxDateLabel
             // 
             this.checkBoxDateLabel.AutoSize = true;
-            this.checkBoxDateLabel.Location = new System.Drawing.Point(19, 164);
+            this.checkBoxDateLabel.Location = new System.Drawing.Point(19, 162);
             this.checkBoxDateLabel.Name = "checkBoxDateLabel";
             this.checkBoxDateLabel.Size = new System.Drawing.Size(102, 17);
             this.checkBoxDateLabel.TabIndex = 1;
@@ -216,6 +217,17 @@
             this.groupBoxConnections.TabIndex = 12;
             this.groupBoxConnections.TabStop = false;
             this.groupBoxConnections.Text = "Connection";
+            // 
+            // checkBoxPublicChannel
+            // 
+            this.checkBoxPublicChannel.AutoSize = true;
+            this.checkBoxPublicChannel.Location = new System.Drawing.Point(292, 20);
+            this.checkBoxPublicChannel.Name = "checkBoxPublicChannel";
+            this.checkBoxPublicChannel.Size = new System.Drawing.Size(55, 17);
+            this.checkBoxPublicChannel.TabIndex = 14;
+            this.checkBoxPublicChannel.Text = "Public";
+            this.checkBoxPublicChannel.UseVisualStyleBackColor = true;
+            this.checkBoxPublicChannel.CheckedChanged += new System.EventHandler(this.checkBoxPublicChannel_CheckedChanged);
             // 
             // comboBoxTimezone
             // 
@@ -366,9 +378,10 @@
             // 
             // groupBoxProperties
             // 
+            this.groupBoxProperties.Controls.Add(this.checkBoxShowName);
+            this.groupBoxProperties.Controls.Add(this.checkBoxCheckForUpdate);
             this.groupBoxProperties.Controls.Add(this.checkBoxRunWithWindows);
             this.groupBoxProperties.Controls.Add(this.groupBoxChannelName);
-            this.groupBoxProperties.Controls.Add(this.checkBoxShowName);
             this.groupBoxProperties.Controls.Add(this.groupBox2);
             this.groupBoxProperties.Controls.Add(this.groupBoxDeegrees);
             this.groupBoxProperties.Controls.Add(this.label3);
@@ -377,9 +390,9 @@
             this.groupBoxProperties.Controls.Add(this.label2);
             this.groupBoxProperties.Controls.Add(this.buttonBackColor);
             this.groupBoxProperties.Controls.Add(this.textBoxTransparency);
-            this.groupBoxProperties.Controls.Add(this.checkBoxDateLabel);
             this.groupBoxProperties.Controls.Add(this.label1);
             this.groupBoxProperties.Controls.Add(this.trackBarTransparency);
+            this.groupBoxProperties.Controls.Add(this.checkBoxDateLabel);
             this.groupBoxProperties.Location = new System.Drawing.Point(12, 190);
             this.groupBoxProperties.Name = "groupBoxProperties";
             this.groupBoxProperties.Size = new System.Drawing.Size(365, 315);
@@ -387,10 +400,33 @@
             this.groupBoxProperties.TabStop = false;
             this.groupBoxProperties.Text = "Widget Properties";
             // 
+            // checkBoxShowName
+            // 
+            this.checkBoxShowName.AutoSize = true;
+            this.checkBoxShowName.Location = new System.Drawing.Point(19, 185);
+            this.checkBoxShowName.Name = "checkBoxShowName";
+            this.checkBoxShowName.Size = new System.Drawing.Size(94, 17);
+            this.checkBoxShowName.TabIndex = 24;
+            this.checkBoxShowName.Text = "Channel name";
+            this.checkBoxShowName.UseVisualStyleBackColor = true;
+            this.checkBoxShowName.CheckStateChanged += new System.EventHandler(this.checkBoxShowChannelName_CheckStateChanged);
+            // 
+            // checkBoxCheckForUpdate
+            // 
+            this.checkBoxCheckForUpdate.AutoSize = true;
+            this.checkBoxCheckForUpdate.Enabled = false;
+            this.checkBoxCheckForUpdate.Location = new System.Drawing.Point(19, 277);
+            this.checkBoxCheckForUpdate.Name = "checkBoxCheckForUpdate";
+            this.checkBoxCheckForUpdate.Size = new System.Drawing.Size(108, 17);
+            this.checkBoxCheckForUpdate.TabIndex = 26;
+            this.checkBoxCheckForUpdate.Text = "Check for update";
+            this.checkBoxCheckForUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBoxCheckForUpdate.UseVisualStyleBackColor = true;
+            // 
             // checkBoxRunWithWindows
             // 
             this.checkBoxRunWithWindows.AutoSize = true;
-            this.checkBoxRunWithWindows.Location = new System.Drawing.Point(19, 210);
+            this.checkBoxRunWithWindows.Location = new System.Drawing.Point(19, 254);
             this.checkBoxRunWithWindows.Name = "checkBoxRunWithWindows";
             this.checkBoxRunWithWindows.Size = new System.Drawing.Size(112, 17);
             this.checkBoxRunWithWindows.TabIndex = 25;
@@ -401,19 +437,18 @@
             // 
             this.groupBoxChannelName.Controls.Add(this.checkBoxFieldName);
             this.groupBoxChannelName.Controls.Add(this.checkBoxChannelName);
-            this.groupBoxChannelName.Location = new System.Drawing.Point(19, 233);
+            this.groupBoxChannelName.Location = new System.Drawing.Point(13, 188);
             this.groupBoxChannelName.Name = "groupBoxChannelName";
-            this.groupBoxChannelName.Size = new System.Drawing.Size(130, 65);
+            this.groupBoxChannelName.Size = new System.Drawing.Size(130, 63);
             this.groupBoxChannelName.TabIndex = 14;
             this.groupBoxChannelName.TabStop = false;
-            this.groupBoxChannelName.Text = "Channel name";
             // 
             // checkBoxFieldName
             // 
             this.checkBoxFieldName.AutoSize = true;
             this.checkBoxFieldName.Checked = true;
             this.checkBoxFieldName.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxFieldName.Location = new System.Drawing.Point(6, 42);
+            this.checkBoxFieldName.Location = new System.Drawing.Point(6, 43);
             this.checkBoxFieldName.Name = "checkBoxFieldName";
             this.checkBoxFieldName.Size = new System.Drawing.Size(104, 17);
             this.checkBoxFieldName.TabIndex = 1;
@@ -425,23 +460,12 @@
             this.checkBoxChannelName.AutoSize = true;
             this.checkBoxChannelName.Checked = true;
             this.checkBoxChannelName.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxChannelName.Location = new System.Drawing.Point(6, 19);
+            this.checkBoxChannelName.Location = new System.Drawing.Point(6, 20);
             this.checkBoxChannelName.Name = "checkBoxChannelName";
             this.checkBoxChannelName.Size = new System.Drawing.Size(123, 17);
             this.checkBoxChannelName.TabIndex = 0;
             this.checkBoxChannelName.Text = "Show channel name";
             this.checkBoxChannelName.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxShowName
-            // 
-            this.checkBoxShowName.AutoSize = true;
-            this.checkBoxShowName.Location = new System.Drawing.Point(19, 187);
-            this.checkBoxShowName.Name = "checkBoxShowName";
-            this.checkBoxShowName.Size = new System.Drawing.Size(148, 17);
-            this.checkBoxShowName.TabIndex = 24;
-            this.checkBoxShowName.Text = "Show channel name label";
-            this.checkBoxShowName.UseVisualStyleBackColor = true;
-            this.checkBoxShowName.CheckStateChanged += new System.EventHandler(this.checkBoxShowChannelName_CheckStateChanged);
             // 
             // groupBox2
             // 
@@ -665,17 +689,6 @@
             this.buttonRemoveWidget.UseVisualStyleBackColor = true;
             this.buttonRemoveWidget.Click += new System.EventHandler(this.buttonRemoveWidget_Click);
             // 
-            // checkBoxPublicChannel
-            // 
-            this.checkBoxPublicChannel.AutoSize = true;
-            this.checkBoxPublicChannel.Location = new System.Drawing.Point(292, 20);
-            this.checkBoxPublicChannel.Name = "checkBoxPublicChannel";
-            this.checkBoxPublicChannel.Size = new System.Drawing.Size(55, 17);
-            this.checkBoxPublicChannel.TabIndex = 14;
-            this.checkBoxPublicChannel.Text = "Public";
-            this.checkBoxPublicChannel.UseVisualStyleBackColor = true;
-            this.checkBoxPublicChannel.CheckedChanged += new System.EventHandler(this.checkBoxPublicChannel_CheckedChanged);
-            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -752,5 +765,6 @@
         private System.Windows.Forms.RadioButton radioButtonUserUnit;
         private System.Windows.Forms.TextBox textBoxUserUnits;
         private System.Windows.Forms.CheckBox checkBoxPublicChannel;
+        private System.Windows.Forms.CheckBox checkBoxCheckForUpdate;
     }
 }

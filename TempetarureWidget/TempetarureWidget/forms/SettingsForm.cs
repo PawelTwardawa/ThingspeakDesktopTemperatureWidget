@@ -90,7 +90,7 @@ namespace TempetarureWidget
                 
             checkBoxDateLabel.Checked = _settings.dateVisable;
             checkBoxShowName.Checked = _settings.nameVisable;
-            groupBoxChannelName.Visible = _settings.nameVisable;
+            groupBoxChannelName.Enabled = _settings.nameVisable;
 
             if (_settings.refreshTime >= 1000 && _settings.refreshTime < 60000)
             {
@@ -118,6 +118,7 @@ namespace TempetarureWidget
 
             checkBoxChannelName.Checked = _settings.channelNameVisable;
             checkBoxFieldName.Checked = _settings.fieldNameVisable;
+            checkBoxCheckForUpdate.Checked = _appSettings.checkForUpdate;
 
             //checkBoxRunWithWindows.Checked = _settings.runWithWindows;
             checkBoxRunWithWindows.Checked = _appSettings.runWithWindows;
@@ -209,6 +210,7 @@ namespace TempetarureWidget
 
             //_settings.runWithWindows = checkBoxRunWithWindows.Checked;
             _appSettings.runWithWindows = checkBoxRunWithWindows.Checked;
+            _appSettings.checkForUpdate = checkBoxCheckForUpdate.Checked;
 
             _settings.timezone = comboBoxTimezone.SelectedItem.ToString();
 
@@ -285,9 +287,9 @@ namespace TempetarureWidget
         private void checkBoxShowChannelName_CheckStateChanged(object sender, EventArgs e)
         {
             if (checkBoxShowName.Checked)
-                groupBoxChannelName.Visible = true;
+                groupBoxChannelName.Enabled = true;
             else
-                groupBoxChannelName.Visible = false;
+                groupBoxChannelName.Enabled = false;
         }
 
         private void runWithWindows()

@@ -21,7 +21,7 @@ namespace TempetarureWidget
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Update.Start();
+            //Update.Start();
 
             int openWidget = 0;
 

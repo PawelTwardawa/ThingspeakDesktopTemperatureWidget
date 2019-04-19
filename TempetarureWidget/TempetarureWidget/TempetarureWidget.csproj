@@ -132,7 +132,6 @@
     </Compile>
     <Compile Include="settingsApp\AppSettings.cs" />
     <Compile Include="settingsApp\SettingsManager.cs" />
-    <Compile Include="Update.cs" />
     <Compile Include="WidgetNotifyIcon.cs" />
     <Compile Include="WidgetToolStripMenuItem.cs">
       <SubType>Component</SubType>
