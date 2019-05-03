@@ -100,31 +100,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9268AB07972072EA75BB55785FCE5553"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B8903078C8BC0521CCEA99CB5C7992D8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1E18CA9B73BF69C7E93DAF27AB8DA222"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EBEC735CFD5187CADE3CB78CF5A01418"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9E7219624C6A31E2110D9883FAA8134E"
+        "OwnerKey" = "8:_F2B5CD8DA56385F2A7B9C1E0C4418CB7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -136,7 +112,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F2B5CD8DA56385F2A7B9C1E0C4418CB7"
+        "OwnerKey" = "8:_9E7219624C6A31E2110D9883FAA8134E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EBEC735CFD5187CADE3CB78CF5A01418"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1E18CA9B73BF69C7E93DAF27AB8DA222"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B8903078C8BC0521CCEA99CB5C7992D8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9268AB07972072EA75BB55785FCE5553"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -241,11 +241,6 @@
             "AssemblyAsmDisplayName" = "8:netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51"
                 "ScatterAssemblies"
                 {
-                    "_1E18CA9B73BF69C7E93DAF27AB8DA222"
-                    {
-                    "Name" = "8:netstandard.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:netstandard.dll"
             "TargetName" = "8:"
@@ -272,11 +267,6 @@
             "AssemblyAsmDisplayName" = "8:System.Json, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_3CECD1FE24EECAF2769F1946F5543EB8"
-                    {
-                    "Name" = "8:System.Json.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Json.dll"
             "TargetName" = "8:"
@@ -354,11 +344,6 @@
             "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_9268AB07972072EA75BB55785FCE5553"
-                    {
-                    "Name" = "8:Newtonsoft.Json.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Newtonsoft.Json.dll"
             "TargetName" = "8:"
@@ -416,11 +401,6 @@
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_B8903078C8BC0521CCEA99CB5C7992D8"
-                    {
-                    "Name" = "8:System.Net.Http.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
@@ -589,15 +569,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TemperatureWidget"
-        "ProductCode" = "8:{12D2C761-6FD7-44B4-A9F3-4FCCDD8A1635}"
-        "PackageCode" = "8:{CBD9E056-6089-4C50-90B5-DD31DE9C07C8}"
+        "ProductCode" = "8:{348C7B8A-57C6-4A6F-B366-A6B0A018B43B}"
+        "PackageCode" = "8:{64BBCC33-D98F-4D5B-95C9-CC11073EAA3E}"
         "UpgradeCode" = "8:{62B13BE1-6CDE-4C86-8539-A8AF82045291}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.2.1"
+        "ProductVersion" = "8:0.3.0"
         "Manufacturer" = "8:TemperatureWidget"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
