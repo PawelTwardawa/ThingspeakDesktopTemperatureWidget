@@ -73,8 +73,8 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetAutoUpdate, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetAutoUpdate.1.0.3\lib\netstandard2.0\DotNetAutoUpdate.dll</HintPath>
+    <Reference Include="DotNetAutoUpdate, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetAutoUpdate.1.0.4\lib\netstandard2.0\DotNetAutoUpdate.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -132,6 +132,7 @@
     </Compile>
     <Compile Include="settingsApp\AppSettings.cs" />
     <Compile Include="settingsApp\SettingsManager.cs" />
+    <Compile Include="Update.cs" />
     <Compile Include="WidgetNotifyIcon.cs" />
     <Compile Include="WidgetToolStripMenuItem.cs">
       <SubType>Component</SubType>
