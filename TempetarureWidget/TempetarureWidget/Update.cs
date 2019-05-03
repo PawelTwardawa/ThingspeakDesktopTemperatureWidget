@@ -39,7 +39,7 @@ namespace TempetarureWidget
 
            }));
 
-            thread.Start();
+           thread.Start();
             
         }
         
