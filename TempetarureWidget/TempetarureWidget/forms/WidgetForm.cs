@@ -11,6 +11,7 @@ using System.Json;
 using TempetarureWidget.DTO;
 using TempetarureWidget.SettingsApp;
 using System.IO;
+using TempetarureWidget.forms;
 
 namespace TempetarureWidget
 {
@@ -26,20 +27,40 @@ namespace TempetarureWidget
 
         private AppSettings _appSettings;
 
+        private  WidgetUC widgetUC;
+
         private WidgetForm()
         {
             InitializeComponent();
+
+
             BackColor = Color.Gray;
 
             _manager = new Manager();
-            _manager.SetTemperatureLabel += UpdateTemperatureLabel;
-            _manager.SetUpdataDataLabel += UpdataDateTimeLabel;
-            _manager.SetNameLabel += UpdateNameLabel;
+            //_manager.SetTemperatureLabel += UpdateTemperatureLabel;
+            //_manager.SetUpdataDataLabel += UpdataDateTimeLabel;
+            //_manager.SetNameLabel += UpdateNameLabel;
             _manager.ShowNoConnIcon += ShowNoConnIcon;
         }
 
         public WidgetForm(Settings settings) : this()
         {
+            widgetUC = new WidgetUC(settings);
+            widgetUC.Location = new Point(0, 0);
+            widgetUC.Widget_MouseUp += WidgetForm_MouseUp;
+            widgetUC.Widget_MouseMove += Form1_MouseMove;
+            widgetUC.Widget_MouseDown += Form1_MouseDown;
+
+            this.Controls.Add(widgetUC);
+
+            _manager.SetTemperatureLabel += widgetUC.UpdateTemperatureLabel;
+            _manager.SetUpdataDataLabel += widgetUC.UpdataDateTimeLabel;
+            _manager.SetNameLabel += widgetUC.UpdateNameLabel;
+            widgetUC.ResizeWidgetEvent += ResizeWidget;
+
+            widgetUC.Visible = true;
+            widgetUC.Show();
+
             loadSettings(settings);
         }
 
@@ -51,49 +72,7 @@ namespace TempetarureWidget
         private void ShowNoConnIcon(bool value)
         {
             pictureBoxNoConn.Invoke(new Action(() => pictureBoxNoConn.Visible = value));
-        }
-
-        private void UpdateNameLabel(string channel, string field)
-        {
-            Name = channel + field;
-
-            UpdateToolStripMenuItemText?.Invoke(channel + " " + field);
-
-            if (labelName.IsHandleCreated)
-            {
-
-                if (_settings.channelNameVisable && _settings.fieldNameVisable)
-                    labelName.Invoke(new Action(() => labelName.Text = channel + " " + field));
-                else if (_settings.channelNameVisable)
-                    labelName.Invoke(new Action(() => labelName.Text = channel));
-                else if (_settings.fieldNameVisable)
-                    labelName.Invoke(new Action(() => labelName.Text = field));
-                else
-                    labelName.Invoke(new Action(() => labelName.Text = ""));
-
-                Invoke(new Action(() => ResizeWidget()));
-            }
-        }
-
-        private void UpdataDateTimeLabel(string date, string time, string timeZone)
-        {
-            if (labelUpdateDate.InvokeRequired)
-            {
-                labelUpdateDate.Invoke(new Action(() => labelUpdateDate.Text = date + " " + time));
-                Invoke(new Action(() => ResizeWidget()));
-            }
-        }
-
-        private void UpdateTemperatureLabel(string value)
-        {
-            if (labelTemp.InvokeRequired)
-            {
-                labelTemp.Invoke(new Action(() => labelTemp.Text = value + " "  + (_settings.deegree != Deegree.User ? "\u00B0" + _settings.deegree.ToString() : _settings.unit)));// " \u00B0" + _settings.deegree.ToString()));
-                Invoke(new Action(() => ResizeWidget()));
-            }
-        }
-
-        
+        }     
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -119,18 +98,6 @@ namespace TempetarureWidget
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //if (_settings.IsEmpty)
-            if (_settings.IsEmptyChannel)
-            {
-                labelTemp.Text = "Go to Settings ↗";
-            }
-            else
-            {
-                labelTemp.Text = "Loading...";
-                labelName.Text = "";
-                labelUpdateDate.Text = "";
-            }
-            ResizeWidget();
             if (!_settings.location.IsEmpty)
                 Location = _settings.location;
             _manager.Start();
@@ -153,34 +120,17 @@ namespace TempetarureWidget
 
         private void loadSettings(Settings settings)
         {
+            widgetUC.loadSettings(settings);
+
             //if (!settings.IsEmpty)
             if (!settings.IsEmptyChannel)
             {
                 _manager.ChangeSetting(settings);
-                BackColor = settings.backColor;
-                labelTemp.ForeColor = settings.textColor;
-                labelUpdateDate.ForeColor = settings.textColor;
-                labelName.ForeColor = settings.textColor;
                 Opacity = settings.opacity;
-                labelUpdateDate.Visible = settings.dateVisable;
-                labelName.Visible = settings.nameVisable;
-                labelName.Font = new Font(labelName.Font.FontFamily, settings.dateSize, labelName.Font.Style);
-                labelUpdateDate.Font = new Font(labelUpdateDate.Font.FontFamily, settings.dateSize, labelUpdateDate.Font.Style);
-                labelTemp.Font = new Font(labelTemp.Font.FontFamily, settings.temperatureSize, labelTemp.Font.Style);
-
-                ResizeWidget();
             }
             else
             {
-                settings.backColor = BackColor;
-                settings.textColor = labelTemp.ForeColor;
                 settings.opacity = (float)Opacity;
-                settings.dateVisable = labelUpdateDate.Visible;
-                settings.nameVisable = labelName.Visible;
-                settings.dateSize = labelUpdateDate.Font.Size;
-                settings.temperatureSize = labelTemp.Font.Size;
-                settings.channelNameVisable = true;
-                settings.fieldNameVisable = true;
             }
             _settings = settings;
         }
@@ -200,18 +150,11 @@ namespace TempetarureWidget
 
         private void ResizeWidget()
         {
-            int pom = Math.Max(labelName.Visible ? labelName.Width + buttonSettings.Width : 0, labelUpdateDate.Visible ? labelUpdateDate.Width : 0);
-            Width = Math.Max(labelTemp.Width, pom == 0 ? labelTemp.Width + buttonSettings.Width : pom );
-            Height = labelTemp.Height + (labelName.Visible ? labelName.Height : 0) + (labelUpdateDate.Visible ? labelUpdateDate.Height : 0);
-
-            labelName.Width = Width - buttonSettings.Width;
-            labelUpdateDate.Width = Width;
+            Width = widgetUC.Width;
+            Height = widgetUC.Height;
 
             buttonSettings.Location = new Point(Width - buttonSettings.Width, buttonSettings.Location.Y);
             pictureBoxNoConn.Location = new Point(Width - pictureBoxNoConn.Width, buttonSettings.Height);
-            labelUpdateDate.Location = new Point((Width - labelUpdateDate.Width)/2, Height - labelUpdateDate.Height);
-            labelTemp.Location = new Point((Width - labelTemp.Width)/2, (labelName.Visible ? labelName.Height : 0));
-            labelName.Location = new Point((Width - buttonSettings.Width - labelName.Width) / 2, 0);
         }
     }
 }

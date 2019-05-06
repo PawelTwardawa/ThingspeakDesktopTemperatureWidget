@@ -111,6 +111,12 @@
     <Compile Include="enumerate\Deegree.cs" />
     <Compile Include="enumerate\Fields.cs" />
     <Compile Include="forms\IWidgetForm.cs" />
+    <Compile Include="forms\WidgetUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="forms\WidgetUC.Designer.cs">
+      <DependentUpon>WidgetUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="IManager.cs" />
     <Compile Include="MultiWidgetContext.cs" />
     <Compile Include="settingsApp\Settings.cs" />
@@ -140,6 +146,9 @@
     <EmbeddedResource Include="forms\WidgetForm.resx">
       <DependentUpon>WidgetForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\WidgetUC.resx">
+      <DependentUpon>WidgetUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

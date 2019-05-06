@@ -18,10 +18,13 @@ namespace TempetarureWidget
     {
         private Settings _settings;
         private AppSettings _appSettings;
+        private bool _expand = false;
+        private int _normalSize = 435;
 
         public SettingsForm()
         {
             InitializeComponent();
+            Width = _normalSize;
         }
 
         public SettingsForm(ref Settings settings) : this()
@@ -146,6 +149,7 @@ namespace TempetarureWidget
             textBoxApi.TextChanged += textBoxChannel_TextChanged;
             textBoxChannel.TextChanged += textBoxChannel_TextChanged;
 
+            updatePreviewWidget();
         }
 
         private void trackBarRefreshTime_ValueChanged(object sender, EventArgs e)
@@ -153,91 +157,97 @@ namespace TempetarureWidget
             textBoxRefreshTime.Text = trackBarRefreshTime.Value.ToString();
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void LoadToSettings(ref Settings settings)
         {
-            if(string.IsNullOrWhiteSpace(textBoxChannel.Text) && checkBoxPublicChannel.Checked)
+            if (string.IsNullOrWhiteSpace(textBoxChannel.Text) && checkBoxPublicChannel.Checked)
             {
                 MessageBox.Show("Cannot save with empty channel id", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if((string.IsNullOrWhiteSpace(textBoxApi.Text) || string.IsNullOrWhiteSpace(textBoxChannel.Text)) && !checkBoxPublicChannel.Checked)
+            if ((string.IsNullOrWhiteSpace(textBoxApi.Text) || string.IsNullOrWhiteSpace(textBoxChannel.Text)) && !checkBoxPublicChannel.Checked)
             {
                 MessageBox.Show("Cannot save with empty Api key or Channel id", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            _settings.channel = textBoxChannel.Text;
+            settings.channel = textBoxChannel.Text;
 
             if (checkBoxPublicChannel.Checked)
             {
-                _settings.api_key = "";
-                _settings.publicChannel = true;
+                settings.api_key = "";
+                settings.publicChannel = true;
             }
             else
             {
-                _settings.publicChannel = false;
-                _settings.api_key = textBoxApi.Text;
+                settings.publicChannel = false;
+                settings.api_key = textBoxApi.Text;
             }
             try
             {
-                Fields field  = ((KeyValuePair<Fields, string>)comboBoxFields.SelectedItem).Key;
-                if(field == Fields.unknown)
+                Fields field = ((KeyValuePair<Fields, string>)comboBoxFields.SelectedItem).Key;
+                if (field == Fields.unknown)
                 {
                     MessageBox.Show("Cannot save with incorrect or unknown field name", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                _settings.field = field;
+                settings.field = field;
             }
-            catch(InvalidCastException ex)
+            catch (InvalidCastException ex)
             {
                 MessageBox.Show("Cannot save with incorrect field name", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            catch(NullReferenceException ex)
+            catch (NullReferenceException ex)
             {
                 MessageBox.Show("Cannot save with empty field name", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            _settings.backColor = colorDialogBackground.Color;
-            _settings.textColor = colorDialogText.Color;
-            _settings.dateVisable = checkBoxDateLabel.Checked;
-            _settings.nameVisable = checkBoxShowName.Checked;
-            _settings.opacity = (float)trackBarTransparency.Value / 100;
-            _settings.dateSize = (float)numericUpDownDateSize.Value;
-            _settings.temperatureSize = (float)numericUpDownTemperatureSize.Value;
-            _settings.fieldNameVisable = checkBoxFieldName.Checked;
-            _settings.channelNameVisable = checkBoxChannelName.Checked;
+            settings.backColor = colorDialogBackground.Color;
+            settings.textColor = colorDialogText.Color;
+            settings.dateVisable = checkBoxDateLabel.Checked;
+            settings.nameVisable = checkBoxShowName.Checked;
+            settings.opacity = (float)trackBarTransparency.Value / 100;
+            settings.dateSize = (float)numericUpDownDateSize.Value;
+            settings.temperatureSize = (float)numericUpDownTemperatureSize.Value;
+            settings.fieldNameVisable = checkBoxFieldName.Checked;
+            settings.channelNameVisable = checkBoxChannelName.Checked;
 
-            //_settings.runWithWindows = checkBoxRunWithWindows.Checked;
-            _appSettings.runWithWindows = checkBoxRunWithWindows.Checked;
-            _appSettings.checkForUpdate = checkBoxCheckForUpdate.Checked;
+            
 
-            _settings.timezone = comboBoxTimezone.SelectedItem.ToString();
+            settings.timezone = comboBoxTimezone.SelectedItem.ToString();
 
             runWithWindows();
 
             if (radioButtonCelsiusUnit.Checked)
-                _settings.deegree = Deegree.C;
+                settings.deegree = Deegree.C;
             else if (radioButtonFahrentheitUnit.Checked)
-                _settings.deegree = Deegree.F;
+                settings.deegree = Deegree.F;
             else if (radioButtonUserUnit.Checked)
             {
-                _settings.deegree = Deegree.User;
-                _settings.unit = textBoxUserUnits.Text;
+                settings.deegree = Deegree.User;
+                settings.unit = textBoxUserUnits.Text;
             }
 
             if (comboBoxRefreshTimeUnit.SelectedItem.Equals("s"))
             {
-                _settings.refreshTime = trackBarRefreshTime.Value * 1000;
+                settings.refreshTime = trackBarRefreshTime.Value * 1000;
             }
             else if (comboBoxRefreshTimeUnit.SelectedItem.Equals("m"))
             {
-                _settings.refreshTime = trackBarRefreshTime.Value * 60000;
+                settings.refreshTime = trackBarRefreshTime.Value * 60000;
             }
             else if (comboBoxRefreshTimeUnit.SelectedItem.Equals("h"))
             {
-                _settings.refreshTime = trackBarRefreshTime.Value * 3600000;
+                settings.refreshTime = trackBarRefreshTime.Value * 3600000;
             }
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            LoadToSettings(ref _settings);
+
+            _appSettings.runWithWindows = checkBoxRunWithWindows.Checked;
+            _appSettings.checkForUpdate = checkBoxCheckForUpdate.Checked;
 
             _settings.Save();
 
@@ -251,6 +261,18 @@ namespace TempetarureWidget
             {
                 buttonBackColor.BackColor = colorDialogBackground.Color;
             }
+
+            updatePreviewWidget();
+        }
+
+        private void buttonTextColor_Click(object sender, EventArgs e)
+        {
+            if (colorDialogText.ShowDialog() == DialogResult.OK)
+            {
+                buttonTextColor.BackColor = colorDialogText.Color;
+            }
+
+            updatePreviewWidget();
         }
 
         private void trackBarTransparency_ValueChanged(object sender, EventArgs e)
@@ -269,20 +291,16 @@ namespace TempetarureWidget
         private void numericUpDownTemperatureSize_ValueChanged(object sender, EventArgs e)
         {
             labelTempratureSize.Font = new Font(labelTempratureSize.Font.FontFamily, ((float)numericUpDownTemperatureSize.Value > 80 ? 80 : (float)numericUpDownTemperatureSize.Value), labelTempratureSize.Font.Style);
+            updatePreviewWidget();
         }
 
         private void numericUpDownDateSize_ValueChanged(object sender, EventArgs e)
         {
             labelDateSize.Font = new Font(labelDateSize.Font.FontFamily, ((float)numericUpDownDateSize.Value > 80 ? 80 : (float)numericUpDownDateSize.Value), labelDateSize.Font.Style);
+            updatePreviewWidget();
         }
 
-        private void buttonTextColor_Click(object sender, EventArgs e)
-        {
-            if (colorDialogText.ShowDialog() == DialogResult.OK)
-            {
-                buttonTextColor.BackColor = colorDialogText.Color;
-            }
-        }
+        
 
         private void checkBoxShowChannelName_CheckStateChanged(object sender, EventArgs e)
         {
@@ -290,6 +308,8 @@ namespace TempetarureWidget
                 groupBoxChannelName.Enabled = true;
             else
                 groupBoxChannelName.Enabled = false;
+
+            updatePreviewWidget();
         }
 
         private void runWithWindows()
@@ -385,6 +405,8 @@ namespace TempetarureWidget
                 textBoxUserUnits.Enabled = true;
             else
                 textBoxUserUnits.Enabled = false;
+
+            updatePreviewWidget();
         }
 
         private void checkBoxPublicChannel_CheckedChanged(object sender, EventArgs e)
@@ -395,6 +417,70 @@ namespace TempetarureWidget
                 textBoxApi.Enabled = true;
 
             textBoxChannel_TextChanged(null, null);
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(!_expand)
+            {
+                Width = _normalSize + widgetUC.Width + 20; 
+                _expand = true;
+                buttonExpand.Text = "<<";
+                updatePreviewWidget();
+            }
+            else
+            {
+                Width = _normalSize;
+                _expand = false;
+                buttonExpand.Text = ">>";
+            }
+        }
+
+        private void updatePreviewWidget()
+        {
+            if (_expand)
+            {
+                Settings settings = new Settings();
+
+                LoadToSettings(ref settings);
+
+                widgetUC.loadSettings(settings);
+                widgetUC.UpdateNameLabel("channel name", "field name");
+                widgetUC.UpdateTemperatureLabel("-00.00");
+
+                Width = _normalSize + widgetUC.Width + 20;
+            }
+        }
+
+        private void radioButtonFahrentheitUnit_CheckedChanged(object sender, EventArgs e)
+        {
+            updatePreviewWidget();
+        }
+
+        private void radioButtonCelsiusUnit_CheckedChanged(object sender, EventArgs e)
+        {
+            updatePreviewWidget();
+        }
+
+        private void textBoxUserUnits_TextChanged(object sender, EventArgs e)
+        {
+            updatePreviewWidget();
+        }
+
+        private void checkBoxDateLabel_CheckedChanged(object sender, EventArgs e)
+        {
+            updatePreviewWidget();
+        }
+
+        private void checkBoxChannelName_CheckedChanged(object sender, EventArgs e)
+        {
+            updatePreviewWidget();
+        }
+
+        private void checkBoxFieldName_CheckedChanged(object sender, EventArgs e)
+        {
+            updatePreviewWidget();
         }
     }
 }

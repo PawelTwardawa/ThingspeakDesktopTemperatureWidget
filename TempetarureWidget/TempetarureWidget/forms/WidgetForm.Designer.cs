@@ -30,62 +30,10 @@ namespace TempetarureWidget
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WidgetForm));
-            this.labelTemp = new System.Windows.Forms.Label();
-            this.labelUpdateDate = new System.Windows.Forms.Label();
-            this.labelName = new System.Windows.Forms.Label();
             this.pictureBoxNoConn = new System.Windows.Forms.PictureBox();
             this.buttonSettings = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNoConn)).BeginInit();
             this.SuspendLayout();
-            // 
-            // labelTemp
-            // 
-            this.labelTemp.AutoSize = true;
-            this.labelTemp.BackColor = System.Drawing.Color.Transparent;
-            this.labelTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelTemp.Location = new System.Drawing.Point(0, 25);
-            this.labelTemp.Name = "labelTemp";
-            this.labelTemp.Size = new System.Drawing.Size(249, 63);
-            this.labelTemp.TabIndex = 2;
-            this.labelTemp.Text = "-00.00 °F";
-            this.labelTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelTemp.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
-            this.labelTemp.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
-            this.labelTemp.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);
-            // 
-            // labelUpdateDate
-            // 
-            this.labelUpdateDate.AutoSize = true;
-            this.labelUpdateDate.BackColor = System.Drawing.Color.Transparent;
-            this.labelUpdateDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelUpdateDate.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.labelUpdateDate.Location = new System.Drawing.Point(18, 88);
-            this.labelUpdateDate.Name = "labelUpdateDate";
-            this.labelUpdateDate.Size = new System.Drawing.Size(217, 25);
-            this.labelUpdateDate.TabIndex = 4;
-            this.labelUpdateDate.Text = "2019-02-27T10:20:57Z";
-            this.labelUpdateDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelUpdateDate.Visible = false;
-            this.labelUpdateDate.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
-            this.labelUpdateDate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
-            this.labelUpdateDate.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);
-            // 
-            // labelName
-            // 
-            this.labelName.AutoSize = true;
-            this.labelName.BackColor = System.Drawing.Color.Transparent;
-            this.labelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelName.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.labelName.Location = new System.Drawing.Point(39, 0);
-            this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(156, 25);
-            this.labelName.TabIndex = 5;
-            this.labelName.Text = "Temperature out";
-            this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelName.Visible = false;
-            this.labelName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
-            this.labelName.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
-            this.labelName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);
             // 
             // pictureBoxNoConn
             // 
@@ -93,7 +41,7 @@ namespace TempetarureWidget
             this.pictureBoxNoConn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pictureBoxNoConn.Cursor = System.Windows.Forms.Cursors.Default;
             this.pictureBoxNoConn.Image = global::TempetarureWidget.Properties.Resources.noConn2;
-            this.pictureBoxNoConn.Location = new System.Drawing.Point(229, 20);
+            this.pictureBoxNoConn.Location = new System.Drawing.Point(229, 21);
             this.pictureBoxNoConn.Name = "pictureBoxNoConn";
             this.pictureBoxNoConn.Size = new System.Drawing.Size(20, 20);
             this.pictureBoxNoConn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -124,10 +72,7 @@ namespace TempetarureWidget
             this.BackColor = System.Drawing.Color.Yellow;
             this.ClientSize = new System.Drawing.Size(249, 113);
             this.Controls.Add(this.pictureBoxNoConn);
-            this.Controls.Add(this.labelName);
-            this.Controls.Add(this.labelUpdateDate);
             this.Controls.Add(this.buttonSettings);
-            this.Controls.Add(this.labelTemp);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -142,15 +87,11 @@ namespace TempetarureWidget
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.WidgetForm_MouseUp);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNoConn)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        public System.Windows.Forms.Label labelTemp;
         private System.Windows.Forms.Button buttonSettings;
-        public System.Windows.Forms.Label labelUpdateDate;
-        public System.Windows.Forms.Label labelName;
         private System.Windows.Forms.PictureBox pictureBoxNoConn;
     }
 }
