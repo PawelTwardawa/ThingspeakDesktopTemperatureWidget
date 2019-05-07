@@ -10,6 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using TempetarureWidget.DTO;
+using TempetarureWidget.forms;
 using TempetarureWidget.SettingsApp;
 
 namespace TempetarureWidget
@@ -19,7 +22,7 @@ namespace TempetarureWidget
         private Settings _settings;
         private AppSettings _appSettings;
         private bool _expand = false;
-        private int _normalSize = 435;
+        private int _normalSize = 405;
 
         public SettingsForm()
         {
@@ -52,6 +55,7 @@ namespace TempetarureWidget
             numericUpDownDateSize.Value = numericUpDownDateSize.Maximum;
             numericUpDownTemperatureSize.Value = numericUpDownTemperatureSize.Maximum;
             comboBoxTimezone.SelectedIndex = 1;
+            buttonLineColor.BackColor = colorDialogChartLine.Color;
 
             
             switch (_settings.deegree)
@@ -128,6 +132,46 @@ namespace TempetarureWidget
 
             if (!string.IsNullOrWhiteSpace(_settings.timezone))
                 comboBoxTimezone.SelectedItem = _settings.timezone;
+
+
+            ////////////////////////////////////////////////////////////////////////////////
+            /// CHART
+            /// ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+            if (_settings.chartSettings != null)
+            {
+                colorDialogChartLine.Color = _settings.chartSettings.LineColor;
+                numericUpDownLineWidth.Value = _settings.chartSettings.LineWidth;
+                numericUpDownAverage.Value = _settings.chartSettings.Average;
+                numericUpDownMedian.Value = _settings.chartSettings.Median;
+                switch (_settings.chartSettings.GroupType)
+                {
+                    case ChartGroupType.None:
+                        checkBoxAverage.Checked = false;
+                        checkBoxMedian.Checked = false;
+                        break;
+
+                    case ChartGroupType.Median:
+                        checkBoxMedian.Checked = true;
+                        break;
+
+                    case ChartGroupType.Average:
+                        checkBoxAverage.Checked = true;
+                        break;
+                }
+
+                numericUpDownNumberPoints.Value = _settings.chartSettings.NumberOfPoints;
+                textBoxTitleX.Text = _settings.chartSettings.TitleX;
+                textBoxTitleY.Text = _settings.chartSettings.TitleY;
+                checBoxTitleX.Checked = _settings.chartSettings.TitleXVisable;
+                checkBoxTitleY.Checked = _settings.chartSettings.TitleYVisable;
+                checkBoxChartVisable.Checked = _settings.chartSettings.Visable;
+                buttonLineColor.BackColor = _settings.chartSettings.LineColor;
+                textBoxDateFormat.Text = _settings.chartSettings.DataLabelFormat;
+            }
+            /// //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
             //if (!_settings.IsEmpty)
             if ((!_settings.IsEmpty && !_settings.publicChannel) || (!_settings.IsEmptyChannel && _settings.publicChannel))
@@ -240,6 +284,50 @@ namespace TempetarureWidget
             {
                 settings.refreshTime = trackBarRefreshTime.Value * 3600000;
             }
+
+            /////////////////////////////////////////////////////////////////////////
+            /// CHART
+            /////////////////////////////////////////////////////////////////////////
+
+            if(settings.chartSettings == null)
+                settings.chartSettings = new ChartSettings();
+
+            
+
+            settings.chartSettings.LineColor = colorDialogChartLine.Color;
+            settings.chartSettings.ChartType = SeriesChartType.Line;
+            settings.chartSettings.LineWidth = (int)numericUpDownLineWidth.Value;
+            settings.chartSettings.Average = (int) numericUpDownAverage.Value;
+            settings.chartSettings.Median = (int) numericUpDownMedian.Value;
+            if (checkBoxAverage.Checked)
+            {
+                settings.chartSettings.GroupType = ChartGroupType.Average;
+                settings.chartSettings.NumberOfData =
+                    (int) (numericUpDownNumberPoints.Value * numericUpDownAverage.Value);
+            }
+            else if (checkBoxMedian.Checked)
+            {
+                settings.chartSettings.GroupType = ChartGroupType.Median;
+                settings.chartSettings.NumberOfData =
+                    (int) (numericUpDownNumberPoints.Value * numericUpDownMedian.Value);
+            }
+            else
+            {
+                settings.chartSettings.GroupType = ChartGroupType.None;
+                settings.chartSettings.NumberOfData = (int) numericUpDownNumberPoints.Value;
+            }
+
+            if (!checkBoxChartVisable.Checked)
+                settings.chartSettings.NumberOfData = 1;
+
+            settings.chartSettings.NumberOfPoints = (int) numericUpDownNumberPoints.Value;
+            settings.chartSettings.TitleX = textBoxTitleX.Text;
+            settings.chartSettings.TitleY = textBoxTitleY.Text;
+            settings.chartSettings.TitleXVisable = checBoxTitleX.Checked;
+            settings.chartSettings.TitleYVisable = checkBoxTitleY.Checked;
+            settings.chartSettings.Visable = checkBoxChartVisable.Checked;
+            settings.chartSettings.DataLabelFormat = textBoxDateFormat.Text;
+
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
@@ -420,20 +508,20 @@ namespace TempetarureWidget
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonExpand_Click(object sender, EventArgs e)
         {
             if(!_expand)
             {
                 Width = _normalSize + widgetUC.Width + 20; 
                 _expand = true;
-                buttonExpand.Text = "<<";
+                buttonExpand.Text = "Preview <<";
                 updatePreviewWidget();
             }
             else
             {
                 Width = _normalSize;
                 _expand = false;
-                buttonExpand.Text = ">>";
+                buttonExpand.Text = "Preview >>";
             }
         }
 
@@ -448,6 +536,29 @@ namespace TempetarureWidget
                 widgetUC.loadSettings(settings);
                 widgetUC.UpdateNameLabel("channel name", "field name");
                 widgetUC.UpdateTemperatureLabel("-00.00");
+
+                if (settings.chartSettings.Visable)
+                {
+                    chartUC.Visible = true;
+                    chartUC.Location = new Point(chartUC.Location.X, widgetUC.Location.Y + widgetUC.Height);
+                    chartUC.Width = widgetUC.Width;
+                    chartUC.Height = chartUC.Width / 2;
+
+                    List<Data<dynamic>> dataList = new List<Data<dynamic>>();
+                    for (int i = 0; i < numericUpDownNumberPoints.Value; i++)
+                    {
+                        dataList.Add(new Data<dynamic>()
+                            {value = i % 3 + "", date = new DateTime(2000 + i, 1, 1, 00, 00, 00)});
+                    }
+
+                    
+                    chartUC.LoadSetting(settings);
+                    chartUC.UpdateData(dataList);
+                }
+                else
+                {
+                    chartUC.Visible = false;
+                }
 
                 Width = _normalSize + widgetUC.Width + 20;
             }
@@ -479,6 +590,110 @@ namespace TempetarureWidget
         }
 
         private void checkBoxFieldName_CheckedChanged(object sender, EventArgs e)
+        {
+            updatePreviewWidget();
+        }
+
+        private void checkBoxChartVisable_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxChartVisable.Checked)
+            {
+                groupBoxChart.Enabled = true;
+            }
+            else
+            {
+                groupBoxChart.Enabled = false;
+            }
+            updatePreviewWidget();
+        }
+
+        private void checBoxTitleX_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checBoxTitleX.Checked)
+            {
+                textBoxTitleX.Enabled = true;
+            }
+            else
+            {
+                textBoxTitleX.Enabled = false;
+            }
+            updatePreviewWidget();
+        }
+
+        private void checkBoxTitleY_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxTitleY.Checked)
+            {
+                textBoxTitleY.Enabled = true;
+            }
+            else
+            {
+                textBoxTitleY.Enabled = false;
+            }
+            updatePreviewWidget();
+        }
+
+        private void buttonLineColor_Click(object sender, EventArgs e)
+        {
+            if (colorDialogChartLine.ShowDialog() == DialogResult.OK)
+            {
+                buttonLineColor.BackColor = colorDialogChartLine.Color;
+            }
+
+            updatePreviewWidget();
+        }
+
+        private void textBoxTitleX_TextChanged(object sender, EventArgs e)
+        {
+            updatePreviewWidget();
+        }
+
+        private void textBoxTitleY_TextChanged(object sender, EventArgs e)
+        {
+            updatePreviewWidget();
+        }
+
+        private void numericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            updatePreviewWidget();
+        }
+
+        private void checkBoxMedian_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxMedian.Checked)
+            {
+                numericUpDownMedian.Enabled = true;
+                if (checkBoxAverage.Checked)
+                    checkBoxAverage.Checked = false;
+            }
+            else
+            {
+                numericUpDownMedian.Enabled = false;
+            }
+            updatePreviewWidget();
+        }
+
+        private void checkBoxAverage_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxAverage.Checked)
+            {
+                numericUpDownAverage.Enabled = true;
+                if (checkBoxMedian.Checked)
+                    checkBoxMedian.Checked = false;
+            }
+            else
+            {
+                numericUpDownAverage.Enabled = false;
+            }
+            updatePreviewWidget();
+        }
+
+        private void textBoxDateFormat_TextChanged(object sender, EventArgs e)
+        {
+            updatePreviewWidget();
+        }
+
+        private void textBoxDateFormat_Validating(object sender, CancelEventArgs e)
         {
             updatePreviewWidget();
         }

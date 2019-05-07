@@ -28,6 +28,7 @@ namespace TempetarureWidget
         private AppSettings _appSettings;
 
         private  WidgetUC widgetUC;
+        private ChartUc chartUc;
 
         private WidgetForm()
         {
@@ -38,7 +39,7 @@ namespace TempetarureWidget
 
             _manager = new Manager();
             //_manager.SetTemperatureLabel += UpdateTemperatureLabel;
-            //_manager.SetUpdataDataLabel += UpdataDateTimeLabel;
+            //_manager.SetUpdateDataLabel += UpdataDateTimeLabel;
             //_manager.SetNameLabel += UpdateNameLabel;
             _manager.ShowNoConnIcon += ShowNoConnIcon;
         }
@@ -53,8 +54,22 @@ namespace TempetarureWidget
 
             this.Controls.Add(widgetUC);
 
+            chartUc = new ChartUc();
+            chartUc.Location = new Point(widgetUC.Location.X, widgetUC.Location.Y + widgetUC.Height);
+            chartUc.LoadSetting(settings);
+            
+            if(settings.chartSettings != null)
+                if (settings.chartSettings.Visable)
+                    chartUc.Visible = true;
+                else
+                    chartUc.Visible = false;
+            _manager.SetData += chartUc.UpdateData;
+
+            Controls.Add(chartUc);
+
             _manager.SetTemperatureLabel += widgetUC.UpdateTemperatureLabel;
-            _manager.SetUpdataDataLabel += widgetUC.UpdataDateTimeLabel;
+            //_manager.SetUpdateDataLabel += widgetUC.UpdataDateTimeLabel;
+            _manager.SetUpdateDataLabel += widgetUC.UpdataDateTimeLabel;
             _manager.SetNameLabel += widgetUC.UpdateNameLabel;
             widgetUC.ResizeWidgetEvent += ResizeWidget;
 
@@ -121,6 +136,19 @@ namespace TempetarureWidget
         private void loadSettings(Settings settings)
         {
             widgetUC.loadSettings(settings);
+            chartUc.LoadSetting(settings);
+
+            if (settings.chartSettings != null)
+            {
+                if (settings.chartSettings.Visable)
+                {
+                    chartUc.Visible = true;
+                }
+                else
+                {
+                    chartUc.Visible = false;
+                }
+            }
 
             //if (!settings.IsEmpty)
             if (!settings.IsEmptyChannel)
@@ -150,8 +178,12 @@ namespace TempetarureWidget
 
         private void ResizeWidget()
         {
+            chartUc.Width = widgetUC.Width;
+            chartUc.Height = chartUc.Width / 2;
+            chartUc.Location = new Point(widgetUC.Location.X, widgetUC.Height);
+
             Width = widgetUC.Width;
-            Height = widgetUC.Height;
+            Height = !chartUc.Visible ? widgetUC.Height : widgetUC.Height + chartUc.Height;
 
             buttonSettings.Location = new Point(Width - buttonSettings.Width, buttonSettings.Location.Y);
             pictureBoxNoConn.Location = new Point(Width - pictureBoxNoConn.Width, buttonSettings.Height);

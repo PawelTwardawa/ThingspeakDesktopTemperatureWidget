@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Json;
-using System.Runtime.Serialization.Json;
-using TempetarureWidget.DTO;
 using System.IO;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace TempetarureWidget
 {
     class GetData
     {
-        public async Task<(Data, HttpStatusCode)> GetDataAsync(string uri)
+        //public async Task<(Data, HttpStatusCode)> GetDataAsync(string uri)
+        public async Task<(T, HttpStatusCode)> GetDataAsync<T>(string uri)
         {
             GC.Collect(2, GCCollectionMode.Forced);
 
@@ -23,10 +18,9 @@ namespace TempetarureWidget
             {
                 using (var response = await request.GetResponseAsync())
                 using (var content = response.GetResponseStream())
+                using (var stream = new StreamReader(content ?? throw new NullReferenceException()))
                 {
-                    int status = (int)(response as HttpWebResponse).StatusCode;
-                    DataContractJsonSerializer serialize = new DataContractJsonSerializer(typeof(Data));
-                    return await Task.Run(() => (serialize.ReadObject(content) as Data, (response as HttpWebResponse).StatusCode));
+                    return await Task.Run(() => (JsonConvert.DeserializeObject<T>(stream.ReadToEnd()), ((HttpWebResponse) response).StatusCode));
                 }
             }
             catch (WebException ex)
@@ -35,12 +29,11 @@ namespace TempetarureWidget
                 {
                     if (response != null)
                     {
-                        //int status = (int)response.StatusCode;
-                        return (null, response.StatusCode);
+                        return (default(T), response.StatusCode);
                     }
                     else
                     {
-                        return (null, HttpStatusCode.ServiceUnavailable);
+                        return (default(T), HttpStatusCode.ServiceUnavailable);
                     }
 
                 }

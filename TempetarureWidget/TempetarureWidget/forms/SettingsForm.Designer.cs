@@ -73,7 +73,27 @@
             this.colorDialogText = new System.Windows.Forms.ColorDialog();
             this.buttonRemoveWidget = new System.Windows.Forms.Button();
             this.buttonExpand = new System.Windows.Forms.Button();
+            this.chartUC = new TempetarureWidget.forms.ChartUc();
             this.widgetUC = new TempetarureWidget.forms.WidgetUC();
+            this.groupBoxChart = new System.Windows.Forms.GroupBox();
+            this.labelDateFormat = new System.Windows.Forms.Label();
+            this.textBoxDateFormat = new System.Windows.Forms.TextBox();
+            this.checkBoxAverage = new System.Windows.Forms.CheckBox();
+            this.checkBoxMedian = new System.Windows.Forms.CheckBox();
+            this.checkBoxTitleY = new System.Windows.Forms.CheckBox();
+            this.checBoxTitleX = new System.Windows.Forms.CheckBox();
+            this.textBoxTitleY = new System.Windows.Forms.TextBox();
+            this.textBoxTitleX = new System.Windows.Forms.TextBox();
+            this.numericUpDownAverage = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownMedian = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownNumberPoints = new System.Windows.Forms.NumericUpDown();
+            this.labelchartPointsNumber = new System.Windows.Forms.Label();
+            this.numericUpDownLineWidth = new System.Windows.Forms.NumericUpDown();
+            this.labelchartLineWidth = new System.Windows.Forms.Label();
+            this.buttonLineColor = new System.Windows.Forms.Button();
+            this.labelchartLineColor = new System.Windows.Forms.Label();
+            this.checkBoxChartVisable = new System.Windows.Forms.CheckBox();
+            this.colorDialogChartLine = new System.Windows.Forms.ColorDialog();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarRefreshTime)).BeginInit();
             this.groupBoxConnections.SuspendLayout();
             this.groupBoxProperties.SuspendLayout();
@@ -84,11 +104,16 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTemperatureSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarTransparency)).BeginInit();
+            this.groupBoxChart.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAverage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMedian)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumberPoints)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLineWidth)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(302, 521);
+            this.buttonSave.Location = new System.Drawing.Point(213, 629);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(75, 23);
             this.buttonSave.TabIndex = 0;
@@ -99,7 +124,7 @@
             // checkBoxDateLabel
             // 
             this.checkBoxDateLabel.AutoSize = true;
-            this.checkBoxDateLabel.Location = new System.Drawing.Point(19, 172);
+            this.checkBoxDateLabel.Location = new System.Drawing.Point(19, 164);
             this.checkBoxDateLabel.Name = "checkBoxDateLabel";
             this.checkBoxDateLabel.Size = new System.Drawing.Size(102, 17);
             this.checkBoxDateLabel.TabIndex = 1;
@@ -147,7 +172,7 @@
             this.trackBarRefreshTime.Minimum = 1;
             this.trackBarRefreshTime.Name = "trackBarRefreshTime";
             this.trackBarRefreshTime.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.trackBarRefreshTime.Size = new System.Drawing.Size(145, 38);
+            this.trackBarRefreshTime.Size = new System.Drawing.Size(145, 21);
             this.trackBarRefreshTime.TabIndex = 6;
             this.trackBarRefreshTime.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBarRefreshTime.Value = 1;
@@ -201,6 +226,7 @@
             // 
             // groupBoxConnections
             // 
+            this.groupBoxConnections.Controls.Add(this.trackBarRefreshTime);
             this.groupBoxConnections.Controls.Add(this.checkBoxPublicChannel);
             this.groupBoxConnections.Controls.Add(this.comboBoxTimezone);
             this.groupBoxConnections.Controls.Add(this.label4);
@@ -210,14 +236,13 @@
             this.groupBoxConnections.Controls.Add(this.labelField);
             this.groupBoxConnections.Controls.Add(this.labelRefresh);
             this.groupBoxConnections.Controls.Add(this.labelChannel);
-            this.groupBoxConnections.Controls.Add(this.trackBarRefreshTime);
             this.groupBoxConnections.Controls.Add(this.labelApi);
             this.groupBoxConnections.Controls.Add(this.comboBoxFields);
             this.groupBoxConnections.Controls.Add(this.textBoxApi);
-            this.groupBoxConnections.Location = new System.Drawing.Point(12, 15);
+            this.groupBoxConnections.Location = new System.Drawing.Point(12, 12);
             this.groupBoxConnections.Name = "groupBoxConnections";
             this.groupBoxConnections.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.groupBoxConnections.Size = new System.Drawing.Size(365, 179);
+            this.groupBoxConnections.Size = new System.Drawing.Size(365, 167);
             this.groupBoxConnections.TabIndex = 12;
             this.groupBoxConnections.TabStop = false;
             this.groupBoxConnections.Text = "Connection";
@@ -397,9 +422,9 @@
             this.groupBoxProperties.Controls.Add(this.label1);
             this.groupBoxProperties.Controls.Add(this.trackBarTransparency);
             this.groupBoxProperties.Controls.Add(this.checkBoxDateLabel);
-            this.groupBoxProperties.Location = new System.Drawing.Point(12, 200);
+            this.groupBoxProperties.Location = new System.Drawing.Point(12, 185);
             this.groupBoxProperties.Name = "groupBoxProperties";
-            this.groupBoxProperties.Size = new System.Drawing.Size(365, 315);
+            this.groupBoxProperties.Size = new System.Drawing.Size(365, 304);
             this.groupBoxProperties.TabIndex = 13;
             this.groupBoxProperties.TabStop = false;
             this.groupBoxProperties.Text = "Widget Properties";
@@ -407,7 +432,7 @@
             // checkBoxShowName
             // 
             this.checkBoxShowName.AutoSize = true;
-            this.checkBoxShowName.Location = new System.Drawing.Point(19, 195);
+            this.checkBoxShowName.Location = new System.Drawing.Point(19, 187);
             this.checkBoxShowName.Name = "checkBoxShowName";
             this.checkBoxShowName.Size = new System.Drawing.Size(94, 17);
             this.checkBoxShowName.TabIndex = 24;
@@ -419,7 +444,7 @@
             // 
             this.checkBoxCheckForUpdate.AutoSize = true;
             this.checkBoxCheckForUpdate.Enabled = false;
-            this.checkBoxCheckForUpdate.Location = new System.Drawing.Point(19, 287);
+            this.checkBoxCheckForUpdate.Location = new System.Drawing.Point(19, 279);
             this.checkBoxCheckForUpdate.Name = "checkBoxCheckForUpdate";
             this.checkBoxCheckForUpdate.Size = new System.Drawing.Size(108, 17);
             this.checkBoxCheckForUpdate.TabIndex = 26;
@@ -430,7 +455,7 @@
             // checkBoxRunWithWindows
             // 
             this.checkBoxRunWithWindows.AutoSize = true;
-            this.checkBoxRunWithWindows.Location = new System.Drawing.Point(19, 264);
+            this.checkBoxRunWithWindows.Location = new System.Drawing.Point(19, 256);
             this.checkBoxRunWithWindows.Name = "checkBoxRunWithWindows";
             this.checkBoxRunWithWindows.Size = new System.Drawing.Size(112, 17);
             this.checkBoxRunWithWindows.TabIndex = 25;
@@ -441,7 +466,7 @@
             // 
             this.groupBoxChannelName.Controls.Add(this.checkBoxFieldName);
             this.groupBoxChannelName.Controls.Add(this.checkBoxChannelName);
-            this.groupBoxChannelName.Location = new System.Drawing.Point(13, 198);
+            this.groupBoxChannelName.Location = new System.Drawing.Point(13, 190);
             this.groupBoxChannelName.Name = "groupBoxChannelName";
             this.groupBoxChannelName.Size = new System.Drawing.Size(130, 63);
             this.groupBoxChannelName.TabIndex = 14;
@@ -477,7 +502,7 @@
             // 
             this.groupBox2.Controls.Add(this.numericUpDownDateSize);
             this.groupBox2.Controls.Add(this.labelDateSize);
-            this.groupBox2.Location = new System.Drawing.Point(173, 184);
+            this.groupBox2.Location = new System.Drawing.Point(173, 176);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(186, 124);
             this.groupBox2.TabIndex = 20;
@@ -513,7 +538,7 @@
             this.labelDateSize.Location = new System.Drawing.Point(3, 26);
             this.labelDateSize.Margin = new System.Windows.Forms.Padding(0);
             this.labelDateSize.Name = "labelDateSize";
-            this.labelDateSize.Size = new System.Drawing.Size(181, 105);
+            this.labelDateSize.Size = new System.Drawing.Size(181, 95);
             this.labelDateSize.TabIndex = 0;
             this.labelDateSize.Text = "Aa";
             this.labelDateSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -524,7 +549,7 @@
             this.groupBoxDeegrees.Controls.Add(this.radioButtonUserUnit);
             this.groupBoxDeegrees.Controls.Add(this.radioButtonCelsiusUnit);
             this.groupBoxDeegrees.Controls.Add(this.radioButtonFahrentheitUnit);
-            this.groupBoxDeegrees.Location = new System.Drawing.Point(19, 116);
+            this.groupBoxDeegrees.Location = new System.Drawing.Point(13, 108);
             this.groupBoxDeegrees.Name = "groupBoxDeegrees";
             this.groupBoxDeegrees.Size = new System.Drawing.Size(148, 50);
             this.groupBoxDeegrees.TabIndex = 23;
@@ -579,7 +604,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 92);
+            this.label3.Location = new System.Drawing.Point(16, 84);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(54, 13);
             this.label3.TabIndex = 22;
@@ -587,7 +612,7 @@
             // 
             // buttonTextColor
             // 
-            this.buttonTextColor.Location = new System.Drawing.Point(113, 87);
+            this.buttonTextColor.Location = new System.Drawing.Point(113, 79);
             this.buttonTextColor.Name = "buttonTextColor";
             this.buttonTextColor.Size = new System.Drawing.Size(23, 23);
             this.buttonTextColor.TabIndex = 21;
@@ -598,7 +623,7 @@
             // 
             this.groupBox1.Controls.Add(this.numericUpDownTemperatureSize);
             this.groupBox1.Controls.Add(this.labelTempratureSize);
-            this.groupBox1.Location = new System.Drawing.Point(173, 55);
+            this.groupBox1.Location = new System.Drawing.Point(173, 47);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(186, 124);
             this.groupBox1.TabIndex = 19;
@@ -635,7 +660,7 @@
             this.labelTempratureSize.Location = new System.Drawing.Point(3, 26);
             this.labelTempratureSize.Margin = new System.Windows.Forms.Padding(0);
             this.labelTempratureSize.Name = "labelTempratureSize";
-            this.labelTempratureSize.Size = new System.Drawing.Size(181, 105);
+            this.labelTempratureSize.Size = new System.Drawing.Size(181, 95);
             this.labelTempratureSize.TabIndex = 0;
             this.labelTempratureSize.Text = "Aa";
             this.labelTempratureSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -643,7 +668,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 63);
+            this.label2.Location = new System.Drawing.Point(16, 55);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(91, 13);
             this.label2.TabIndex = 16;
@@ -651,7 +676,7 @@
             // 
             // buttonBackColor
             // 
-            this.buttonBackColor.Location = new System.Drawing.Point(113, 58);
+            this.buttonBackColor.Location = new System.Drawing.Point(113, 50);
             this.buttonBackColor.Name = "buttonBackColor";
             this.buttonBackColor.Size = new System.Drawing.Size(23, 23);
             this.buttonBackColor.TabIndex = 15;
@@ -660,7 +685,7 @@
             // 
             // textBoxTransparency
             // 
-            this.textBoxTransparency.Location = new System.Drawing.Point(239, 29);
+            this.textBoxTransparency.Location = new System.Drawing.Point(239, 21);
             this.textBoxTransparency.Name = "textBoxTransparency";
             this.textBoxTransparency.Size = new System.Drawing.Size(59, 20);
             this.textBoxTransparency.TabIndex = 14;
@@ -669,7 +694,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 32);
+            this.label1.Location = new System.Drawing.Point(16, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(72, 13);
             this.label1.TabIndex = 13;
@@ -677,12 +702,13 @@
             // 
             // trackBarTransparency
             // 
-            this.trackBarTransparency.Location = new System.Drawing.Point(88, 29);
+            this.trackBarTransparency.AutoSize = false;
+            this.trackBarTransparency.Location = new System.Drawing.Point(88, 21);
             this.trackBarTransparency.Maximum = 100;
             this.trackBarTransparency.Minimum = 10;
             this.trackBarTransparency.Name = "trackBarTransparency";
             this.trackBarTransparency.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.trackBarTransparency.Size = new System.Drawing.Size(145, 45);
+            this.trackBarTransparency.Size = new System.Drawing.Size(145, 20);
             this.trackBarTransparency.TabIndex = 12;
             this.trackBarTransparency.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBarTransparency.Value = 10;
@@ -690,7 +716,7 @@
             // 
             // buttonRemoveWidget
             // 
-            this.buttonRemoveWidget.Location = new System.Drawing.Point(199, 521);
+            this.buttonRemoveWidget.Location = new System.Drawing.Point(110, 629);
             this.buttonRemoveWidget.Name = "buttonRemoveWidget";
             this.buttonRemoveWidget.Size = new System.Drawing.Size(97, 23);
             this.buttonRemoveWidget.TabIndex = 14;
@@ -700,32 +726,273 @@
             // 
             // buttonExpand
             // 
-            this.buttonExpand.Location = new System.Drawing.Point(383, 15);
+            this.buttonExpand.Location = new System.Drawing.Point(294, 629);
             this.buttonExpand.Name = "buttonExpand";
-            this.buttonExpand.Size = new System.Drawing.Size(27, 529);
+            this.buttonExpand.Size = new System.Drawing.Size(83, 23);
             this.buttonExpand.TabIndex = 15;
-            this.buttonExpand.Text = ">>";
+            this.buttonExpand.Text = "Preview >>";
             this.buttonExpand.UseVisualStyleBackColor = true;
-            this.buttonExpand.Click += new System.EventHandler(this.button1_Click);
+            this.buttonExpand.Click += new System.EventHandler(this.buttonExpand_Click);
+            // 
+            // chartUC
+            // 
+            this.chartUC.Location = new System.Drawing.Point(400, 125);
+            this.chartUC.Name = "chartUC";
+            this.chartUC.Size = new System.Drawing.Size(249, 125);
+            this.chartUC.TabIndex = 17;
             // 
             // widgetUC
             // 
-            this.widgetUC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.widgetUC.Location = new System.Drawing.Point(429, 12);
+            this.widgetUC.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.widgetUC.Location = new System.Drawing.Point(400, 12);
             this.widgetUC.Name = "widgetUC";
             this.widgetUC.Size = new System.Drawing.Size(249, 113);
             this.widgetUC.TabIndex = 16;
+            // 
+            // groupBoxChart
+            // 
+            this.groupBoxChart.Controls.Add(this.labelDateFormat);
+            this.groupBoxChart.Controls.Add(this.textBoxDateFormat);
+            this.groupBoxChart.Controls.Add(this.checkBoxAverage);
+            this.groupBoxChart.Controls.Add(this.checkBoxMedian);
+            this.groupBoxChart.Controls.Add(this.checkBoxTitleY);
+            this.groupBoxChart.Controls.Add(this.checBoxTitleX);
+            this.groupBoxChart.Controls.Add(this.textBoxTitleY);
+            this.groupBoxChart.Controls.Add(this.textBoxTitleX);
+            this.groupBoxChart.Controls.Add(this.numericUpDownAverage);
+            this.groupBoxChart.Controls.Add(this.numericUpDownMedian);
+            this.groupBoxChart.Controls.Add(this.numericUpDownNumberPoints);
+            this.groupBoxChart.Controls.Add(this.labelchartPointsNumber);
+            this.groupBoxChart.Controls.Add(this.numericUpDownLineWidth);
+            this.groupBoxChart.Controls.Add(this.labelchartLineWidth);
+            this.groupBoxChart.Controls.Add(this.buttonLineColor);
+            this.groupBoxChart.Controls.Add(this.labelchartLineColor);
+            this.groupBoxChart.Enabled = false;
+            this.groupBoxChart.Location = new System.Drawing.Point(12, 495);
+            this.groupBoxChart.Name = "groupBoxChart";
+            this.groupBoxChart.Size = new System.Drawing.Size(365, 128);
+            this.groupBoxChart.TabIndex = 18;
+            this.groupBoxChart.TabStop = false;
+            // 
+            // labelDateFormat
+            // 
+            this.labelDateFormat.AutoSize = true;
+            this.labelDateFormat.Location = new System.Drawing.Point(16, 75);
+            this.labelDateFormat.Name = "labelDateFormat";
+            this.labelDateFormat.Size = new System.Drawing.Size(62, 13);
+            this.labelDateFormat.TabIndex = 46;
+            this.labelDateFormat.Text = "Date format";
+            // 
+            // textBoxDateFormat
+            // 
+            this.textBoxDateFormat.Location = new System.Drawing.Point(90, 72);
+            this.textBoxDateFormat.Name = "textBoxDateFormat";
+            this.textBoxDateFormat.Size = new System.Drawing.Size(126, 20);
+            this.textBoxDateFormat.TabIndex = 45;
+            this.textBoxDateFormat.Text = "yyyy.dd.MM HH:mm";
+            this.textBoxDateFormat.Validating += new System.ComponentModel.CancelEventHandler(this.textBoxDateFormat_Validating);
+            // 
+            // checkBoxAverage
+            // 
+            this.checkBoxAverage.AutoSize = true;
+            this.checkBoxAverage.Location = new System.Drawing.Point(225, 99);
+            this.checkBoxAverage.Name = "checkBoxAverage";
+            this.checkBoxAverage.Size = new System.Drawing.Size(66, 17);
+            this.checkBoxAverage.TabIndex = 44;
+            this.checkBoxAverage.Text = "Average";
+            this.checkBoxAverage.UseVisualStyleBackColor = true;
+            this.checkBoxAverage.CheckedChanged += new System.EventHandler(this.checkBoxAverage_CheckedChanged);
+            // 
+            // checkBoxMedian
+            // 
+            this.checkBoxMedian.AutoSize = true;
+            this.checkBoxMedian.Location = new System.Drawing.Point(225, 75);
+            this.checkBoxMedian.Name = "checkBoxMedian";
+            this.checkBoxMedian.Size = new System.Drawing.Size(61, 17);
+            this.checkBoxMedian.TabIndex = 43;
+            this.checkBoxMedian.Text = "Median";
+            this.checkBoxMedian.UseVisualStyleBackColor = true;
+            this.checkBoxMedian.CheckedChanged += new System.EventHandler(this.checkBoxMedian_CheckedChanged);
+            // 
+            // checkBoxTitleY
+            // 
+            this.checkBoxTitleY.AutoSize = true;
+            this.checkBoxTitleY.Location = new System.Drawing.Point(19, 48);
+            this.checkBoxTitleY.Name = "checkBoxTitleY";
+            this.checkBoxTitleY.Size = new System.Drawing.Size(56, 17);
+            this.checkBoxTitleY.TabIndex = 40;
+            this.checkBoxTitleY.Text = "Title Y";
+            this.checkBoxTitleY.UseVisualStyleBackColor = true;
+            this.checkBoxTitleY.CheckedChanged += new System.EventHandler(this.checkBoxTitleY_CheckedChanged);
+            // 
+            // checBoxTitleX
+            // 
+            this.checBoxTitleX.AutoSize = true;
+            this.checBoxTitleX.Location = new System.Drawing.Point(19, 22);
+            this.checBoxTitleX.Name = "checBoxTitleX";
+            this.checBoxTitleX.Size = new System.Drawing.Size(56, 17);
+            this.checBoxTitleX.TabIndex = 19;
+            this.checBoxTitleX.Text = "Title X";
+            this.checBoxTitleX.UseVisualStyleBackColor = true;
+            this.checBoxTitleX.CheckedChanged += new System.EventHandler(this.checBoxTitleX_CheckedChanged);
+            // 
+            // textBoxTitleY
+            // 
+            this.textBoxTitleY.Enabled = false;
+            this.textBoxTitleY.Location = new System.Drawing.Point(90, 46);
+            this.textBoxTitleY.Name = "textBoxTitleY";
+            this.textBoxTitleY.Size = new System.Drawing.Size(126, 20);
+            this.textBoxTitleY.TabIndex = 39;
+            this.textBoxTitleY.TextChanged += new System.EventHandler(this.checkBoxMedian_CheckedChanged);
+            // 
+            // textBoxTitleX
+            // 
+            this.textBoxTitleX.Enabled = false;
+            this.textBoxTitleX.Location = new System.Drawing.Point(90, 20);
+            this.textBoxTitleX.Name = "textBoxTitleX";
+            this.textBoxTitleX.Size = new System.Drawing.Size(126, 20);
+            this.textBoxTitleX.TabIndex = 37;
+            this.textBoxTitleX.TextChanged += new System.EventHandler(this.textBoxTitleX_TextChanged);
+            // 
+            // numericUpDownAverage
+            // 
+            this.numericUpDownAverage.Enabled = false;
+            this.numericUpDownAverage.Location = new System.Drawing.Point(315, 98);
+            this.numericUpDownAverage.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDownAverage.Name = "numericUpDownAverage";
+            this.numericUpDownAverage.Size = new System.Drawing.Size(44, 20);
+            this.numericUpDownAverage.TabIndex = 35;
+            this.numericUpDownAverage.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDownAverage.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            // 
+            // numericUpDownMedian
+            // 
+            this.numericUpDownMedian.Enabled = false;
+            this.numericUpDownMedian.Location = new System.Drawing.Point(315, 72);
+            this.numericUpDownMedian.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDownMedian.Name = "numericUpDownMedian";
+            this.numericUpDownMedian.Size = new System.Drawing.Size(44, 20);
+            this.numericUpDownMedian.TabIndex = 33;
+            this.numericUpDownMedian.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDownMedian.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            // 
+            // numericUpDownNumberPoints
+            // 
+            this.numericUpDownNumberPoints.Location = new System.Drawing.Point(315, 20);
+            this.numericUpDownNumberPoints.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownNumberPoints.Name = "numericUpDownNumberPoints";
+            this.numericUpDownNumberPoints.Size = new System.Drawing.Size(44, 20);
+            this.numericUpDownNumberPoints.TabIndex = 31;
+            this.numericUpDownNumberPoints.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDownNumberPoints.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            // 
+            // labelchartPointsNumber
+            // 
+            this.labelchartPointsNumber.AutoSize = true;
+            this.labelchartPointsNumber.Location = new System.Drawing.Point(222, 23);
+            this.labelchartPointsNumber.Name = "labelchartPointsNumber";
+            this.labelchartPointsNumber.Size = new System.Drawing.Size(87, 13);
+            this.labelchartPointsNumber.TabIndex = 30;
+            this.labelchartPointsNumber.Text = "Number of points";
+            // 
+            // numericUpDownLineWidth
+            // 
+            this.numericUpDownLineWidth.Location = new System.Drawing.Point(315, 46);
+            this.numericUpDownLineWidth.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.numericUpDownLineWidth.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownLineWidth.Name = "numericUpDownLineWidth";
+            this.numericUpDownLineWidth.Size = new System.Drawing.Size(44, 20);
+            this.numericUpDownLineWidth.TabIndex = 29;
+            this.numericUpDownLineWidth.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDownLineWidth.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
+            // 
+            // labelchartLineWidth
+            // 
+            this.labelchartLineWidth.AutoSize = true;
+            this.labelchartLineWidth.Location = new System.Drawing.Point(222, 49);
+            this.labelchartLineWidth.Name = "labelchartLineWidth";
+            this.labelchartLineWidth.Size = new System.Drawing.Size(55, 13);
+            this.labelchartLineWidth.TabIndex = 28;
+            this.labelchartLineWidth.Text = "Line width";
+            // 
+            // buttonLineColor
+            // 
+            this.buttonLineColor.Location = new System.Drawing.Point(90, 98);
+            this.buttonLineColor.Name = "buttonLineColor";
+            this.buttonLineColor.Size = new System.Drawing.Size(23, 23);
+            this.buttonLineColor.TabIndex = 27;
+            this.buttonLineColor.UseVisualStyleBackColor = true;
+            this.buttonLineColor.Click += new System.EventHandler(this.buttonLineColor_Click);
+            // 
+            // labelchartLineColor
+            // 
+            this.labelchartLineColor.AutoSize = true;
+            this.labelchartLineColor.Location = new System.Drawing.Point(16, 103);
+            this.labelchartLineColor.Name = "labelchartLineColor";
+            this.labelchartLineColor.Size = new System.Drawing.Size(53, 13);
+            this.labelchartLineColor.TabIndex = 0;
+            this.labelchartLineColor.Text = "Line color";
+            // 
+            // checkBoxChartVisable
+            // 
+            this.checkBoxChartVisable.AutoSize = true;
+            this.checkBoxChartVisable.Location = new System.Drawing.Point(22, 494);
+            this.checkBoxChartVisable.Name = "checkBoxChartVisable";
+            this.checkBoxChartVisable.Size = new System.Drawing.Size(51, 17);
+            this.checkBoxChartVisable.TabIndex = 19;
+            this.checkBoxChartVisable.Text = "Chart";
+            this.checkBoxChartVisable.UseVisualStyleBackColor = true;
+            this.checkBoxChartVisable.CheckedChanged += new System.EventHandler(this.checkBoxChartVisable_CheckedChanged);
             // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(705, 550);
+            this.ClientSize = new System.Drawing.Size(848, 659);
+            this.Controls.Add(this.checkBoxChartVisable);
+            this.Controls.Add(this.groupBoxConnections);
+            this.Controls.Add(this.groupBoxChart);
+            this.Controls.Add(this.chartUC);
             this.Controls.Add(this.widgetUC);
             this.Controls.Add(this.buttonExpand);
             this.Controls.Add(this.buttonRemoveWidget);
             this.Controls.Add(this.groupBoxProperties);
-            this.Controls.Add(this.groupBoxConnections);
             this.Controls.Add(this.buttonSave);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "SettingsForm";
@@ -745,7 +1012,14 @@
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTemperatureSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarTransparency)).EndInit();
+            this.groupBoxChart.ResumeLayout(false);
+            this.groupBoxChart.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAverage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMedian)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumberPoints)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLineWidth)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -797,5 +1071,25 @@
         private System.Windows.Forms.CheckBox checkBoxCheckForUpdate;
         private System.Windows.Forms.Button buttonExpand;
         private forms.WidgetUC widgetUC;
+        private forms.ChartUc chartUC;
+        private System.Windows.Forms.GroupBox groupBoxChart;
+        private System.Windows.Forms.NumericUpDown numericUpDownLineWidth;
+        private System.Windows.Forms.Label labelchartLineWidth;
+        private System.Windows.Forms.Button buttonLineColor;
+        private System.Windows.Forms.Label labelchartLineColor;
+        private System.Windows.Forms.CheckBox checkBoxChartVisable;
+        private System.Windows.Forms.CheckBox checkBoxTitleY;
+        private System.Windows.Forms.CheckBox checBoxTitleX;
+        private System.Windows.Forms.TextBox textBoxTitleY;
+        private System.Windows.Forms.TextBox textBoxTitleX;
+        private System.Windows.Forms.NumericUpDown numericUpDownAverage;
+        private System.Windows.Forms.NumericUpDown numericUpDownMedian;
+        private System.Windows.Forms.NumericUpDown numericUpDownNumberPoints;
+        private System.Windows.Forms.Label labelchartPointsNumber;
+        private System.Windows.Forms.ColorDialog colorDialogChartLine;
+        private System.Windows.Forms.CheckBox checkBoxAverage;
+        private System.Windows.Forms.CheckBox checkBoxMedian;
+        private System.Windows.Forms.Label labelDateFormat;
+        private System.Windows.Forms.TextBox textBoxDateFormat;
     }
 }

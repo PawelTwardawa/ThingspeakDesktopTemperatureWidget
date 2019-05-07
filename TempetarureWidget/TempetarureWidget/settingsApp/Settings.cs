@@ -29,6 +29,7 @@ namespace TempetarureWidget.SettingsApp
         public Point location;
         public string timezone;
         public bool publicChannel;
+        public ChartSettings chartSettings;
 
         internal bool IsEmpty
         {

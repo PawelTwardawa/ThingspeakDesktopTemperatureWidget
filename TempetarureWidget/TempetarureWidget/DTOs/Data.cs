@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace TempetarureWidget.DTO
 {
+    public struct Data<T>
+    {
+        public T value;
+        public DateTime date;
+    }
+
     [DataContract]
     class Data
     {

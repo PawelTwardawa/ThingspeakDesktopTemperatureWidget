@@ -55,6 +55,15 @@ namespace TempetarureWidget.forms
             }
         }
 
+        public void UpdataDateTimeLabel(DateTime date)
+        {
+            if (labelUpdateDate.InvokeRequired)
+            {
+                labelUpdateDate.Invoke(new Action(() => labelUpdateDate.Text = date.ToString()));
+                Invoke(new Action(() => ResizeWidget()));
+            }
+        }
+
         public void UpdataDateTimeLabel(string date, string time, string timeZone)
         {
             if (labelUpdateDate.InvokeRequired)

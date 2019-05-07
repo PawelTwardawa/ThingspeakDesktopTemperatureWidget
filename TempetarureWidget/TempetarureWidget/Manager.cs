@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -15,15 +16,18 @@ namespace TempetarureWidget
    public class Manager : IDisposable, IManager
     {
         public event Action<string> SetTemperatureLabel;
-        public event Action<string, string, string> SetUpdataDataLabel;
+        //public event Action<string, string, string> SetUpdateDataLabel;
+        public event Action<DateTime> SetUpdateDataLabel;
         public event Action<string, string> SetNameLabel;
         public event Action<bool> ShowNoConnIcon;
+        public event Action<List<Data<dynamic>>> SetData;
 
         private int _refreshTime = 2000;
         private Data _data;
         private static GetData _getData;
         private Thread mainThread;
         private bool _internetConnection = true;
+        private int _dataCount = 1;
 
         private string host = "api.thingspeak.com";
 
@@ -78,8 +82,10 @@ namespace TempetarureWidget
             ApiKey = settings.api_key;
             Timezone = settings.timezone;
 
+            if(settings.chartSettings != null)
+                _dataCount = settings.chartSettings.NumberOfData;
              _data = (await getDataAsync(Field)).Item1;
-
+            
 
             ChannelName = channelName();
             FieldName = fieldName(Field);
@@ -149,19 +155,24 @@ namespace TempetarureWidget
 
         private async Task<(Data, System.Net.HttpStatusCode)> getDataAsync()
         {
-            return await _getData.GetDataAsync($"https://{host}/channels/{Channel}/feeds.json?api_key={ApiKey}&results=1&timezone={Timezone}");
+            return await _getData.GetDataAsync<Data>($"https://{host}/channels/{Channel}/feeds.json?api_key={ApiKey}&results=1&timezone={Timezone}");
         }
 
         private async Task<(Data, System.Net.HttpStatusCode)> getDataAsync(Fields field)
         {
-            return await _getData.GetDataAsync($"https://{host}/channels/{Channel}/fields/{(int)field}.json?api_key={ApiKey}&results=1&timezone={Timezone}");
+            return await _getData.GetDataAsync<Data>($"https://{host}/channels/{Channel}/fields/{(int)field}.json?api_key={ApiKey}&results=1&timezone={Timezone}");
+        }
+
+        private async Task<(Data, System.Net.HttpStatusCode)> GetDataAsync(Fields field, int count)
+        {
+            return await _getData.GetDataAsync<Data>($"https://{host}/channels/{Channel}/fields/{(int)field}.json?api_key={ApiKey}&results={count}&timezone={Timezone}");
         }
 
         private async void GetTemperatureAsync()
         {
             System.Net.HttpStatusCode status;
-
-            (_data, status) = await getDataAsync(Field);
+            (_data, status)= await GetDataAsync(Field, _dataCount);
+            //(_data, status) = await getDataAsync(Field);
 
             if (status.Equals(System.Net.HttpStatusCode.OK))
             {
@@ -171,20 +182,27 @@ namespace TempetarureWidget
                 FieldName = fieldName(Field);
                 SetNameLabel?.Invoke(ChannelName, FieldName);
 
-                string value = temperatureFromFieldAsync(_data);
+                List<Data<dynamic>> dataList = new List<Data<dynamic>>();
 
-                if (value != null)
+                for (int i = 0; i < _data.feeds.Count; i++)
                 {
-                    SetTemperatureLabel?.Invoke(value);
+                    string value = temperatureFromFieldAsync(_data, i);
 
-                    string[] dateTime = _data.feeds[0].created_at.Split('T');
-                    string[] time = Regex.Split(dateTime[1], @"(?=[+-])");
-                    SetUpdataDataLabel?.Invoke(dateTime[0], time[0], time[1]);
+                    if (value != null)
+                    {
+                        string[] dateTime = _data.feeds[i].created_at.Split('T');
+                        string[] time = Regex.Split(dateTime[1], @"(?=[+-])");
+                        DateTime date = Convert.ToDateTime(dateTime[0] + " " + time[0]);
+
+                        dataList.Add(new Data<dynamic>(){ date = date, value = value});
+                    }
                 }
+                SetTemperatureLabel?.Invoke(dataList[dataList.Count -1].value);
+                SetUpdateDataLabel?.Invoke(dataList[dataList.Count - 1].date);
+                SetData?.Invoke(dataList);
             }
             else if(status.Equals(System.Net.HttpStatusCode.ServiceUnavailable))
             {
-                //SetTemperatureLabel?.Invoke("INTERNET CONNECTION ERROR");
                 ShowNoConnIcon(true);
             }
 
@@ -246,67 +264,72 @@ namespace TempetarureWidget
             return fields;
         }
 
-        private string temperatureFromFieldAsync( Data data)
+        private string temperatureFromFieldAsync(Data data)
+        {
+            return temperatureFromFieldAsync(data, data.feeds.Count - 1);
+        }
+
+        private string temperatureFromFieldAsync( Data data, int fieldNumber)
         {
 
-            switch(Field)
+            switch (Field)
             {
                 case Fields.field1:
                     {
 
-                        if (data.feeds[0].field1 != null)
-                            return data.feeds[0].field1.Replace("\r\n", string.Empty);
+                        if (data.feeds[fieldNumber].field1 != null)
+                            return data.feeds[fieldNumber].field1.Replace("\r\n", string.Empty);
                         else
-                            return data.feeds[0].field1;
+                            return data.feeds[fieldNumber].field1;
                     }
                 case Fields.field2:
                     {
-                        if (data.feeds[0].field2 != null)
-                            return data.feeds[0].field2.Replace("\r\n", string.Empty);
+                        if (data.feeds[fieldNumber].field2 != null)
+                            return data.feeds[fieldNumber].field2.Replace("\r\n", string.Empty);
                         else
-                            return data.feeds[0].field2;
+                            return data.feeds[fieldNumber].field2;
                     }
                 case Fields.field3:
                     {
-                        if (data.feeds[0].field3 != null)
-                            return data.feeds[0].field3.Replace("\r\n", string.Empty);
+                        if (data.feeds[fieldNumber].field3 != null)
+                            return data.feeds[fieldNumber].field3.Replace("\r\n", string.Empty);
                         else
-                            return data.feeds[0].field3;
+                            return data.feeds[fieldNumber].field3;
                     }
                 case Fields.field4:
                     {
-                        if (data.feeds[0].field4 != null)
-                            return data.feeds[0].field4.Replace("\r\n", string.Empty);
+                        if (data.feeds[fieldNumber].field4 != null)
+                            return data.feeds[fieldNumber].field4.Replace("\r\n", string.Empty);
                         else
-                            return data.feeds[0].field4;
+                            return data.feeds[fieldNumber].field4;
                     }
                 case Fields.field5:
                     {
-                        if (data.feeds[0].field5 != null)
-                            return data.feeds[0].field5.Replace("\r\n", string.Empty);
+                        if (data.feeds[fieldNumber].field5 != null)
+                            return data.feeds[fieldNumber].field5.Replace("\r\n", string.Empty);
                         else
-                            return data.feeds[0].field5;
+                            return data.feeds[fieldNumber].field5;
                     }
                 case Fields.field6:
                     {
-                        if (data.feeds[0].field6 != null)
-                            return data.feeds[0].field6.Replace("\r\n", string.Empty);
+                        if (data.feeds[fieldNumber].field6 != null)
+                            return data.feeds[fieldNumber].field6.Replace("\r\n", string.Empty);
                         else
-                            return data.feeds[0].field6;
+                            return data.feeds[fieldNumber].field6;
                     }
                 case Fields.field7:
                     {
-                        if (data.feeds[0].field7 != null)
-                            return data.feeds[0].field7.Replace("\r\n", string.Empty);
+                        if (data.feeds[fieldNumber].field7 != null)
+                            return data.feeds[fieldNumber].field7.Replace("\r\n", string.Empty);
                         else
-                            return data.feeds[0].field7;
+                            return data.feeds[fieldNumber].field7;
                     }
                 case Fields.field8:
                     {
-                        if (data.feeds[0].field8 != null)
-                            return data.feeds[0].field8.Replace("\r\n", string.Empty);
+                        if (data.feeds[fieldNumber].field8 != null)
+                            return data.feeds[fieldNumber].field8.Replace("\r\n", string.Empty);
                         else
-                            return data.feeds[0].field8;
+                            return data.feeds[fieldNumber].field8;
                     }
                 default:
                     {

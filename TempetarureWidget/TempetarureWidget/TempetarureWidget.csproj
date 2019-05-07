@@ -94,6 +94,7 @@
     <Reference Include="System.Security.Principal.Windows, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Principal.Windows.4.5.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -110,6 +111,12 @@
     <Compile Include="DTOs\Feed.cs" />
     <Compile Include="enumerate\Deegree.cs" />
     <Compile Include="enumerate\Fields.cs" />
+    <Compile Include="forms\ChartUc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="forms\ChartUc.Designer.cs">
+      <DependentUpon>ChartUc.cs</DependentUpon>
+    </Compile>
     <Compile Include="forms\IWidgetForm.cs" />
     <Compile Include="forms\WidgetUC.cs">
       <SubType>UserControl</SubType>
@@ -119,7 +126,8 @@
     </Compile>
     <Compile Include="IManager.cs" />
     <Compile Include="MultiWidgetContext.cs" />
-    <Compile Include="settingsApp\Settings.cs" />
+    <Compile Include="SettingsApp\ChartSettings.cs" />
+    <Compile Include="SettingsApp\Settings.cs" />
     <Compile Include="forms\WidgetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,13 +144,16 @@
     <Compile Include="forms\SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="settingsApp\AppSettings.cs" />
-    <Compile Include="settingsApp\SettingsManager.cs" />
+    <Compile Include="SettingsApp\AppSettings.cs" />
+    <Compile Include="SettingsApp\SettingsManager.cs" />
     <Compile Include="Update.cs" />
     <Compile Include="WidgetNotifyIcon.cs" />
     <Compile Include="WidgetToolStripMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="forms\ChartUc.resx">
+      <DependentUpon>ChartUc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="forms\WidgetForm.resx">
       <DependentUpon>WidgetForm.cs</DependentUpon>
       <SubType>Designer</SubType>
