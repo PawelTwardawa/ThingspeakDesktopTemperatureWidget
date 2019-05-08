@@ -42,11 +42,11 @@ namespace TempetarureWidget.forms
             if (labelName.IsHandleCreated)
             {
 
-                if (_settings.channelNameVisable && _settings.fieldNameVisable)
+                if (_settings.ChannelNameVisable && _settings.FieldNameVisable)
                     labelName.Invoke(new Action(() => labelName.Text = channel + " " + field));
-                else if (_settings.channelNameVisable)
+                else if (_settings.ChannelNameVisable)
                     labelName.Invoke(new Action(() => labelName.Text = channel));
-                else if (_settings.fieldNameVisable)
+                else if (_settings.FieldNameVisable)
                     labelName.Invoke(new Action(() => labelName.Text = field));
                 else
                     labelName.Invoke(new Action(() => labelName.Text = ""));
@@ -77,12 +77,12 @@ namespace TempetarureWidget.forms
         {
             if (labelTemp.InvokeRequired)
             {
-                labelTemp.Invoke(new Action(() => labelTemp.Text = value + " " + (_settings.deegree != Deegree.User ? "\u00B0" + _settings.deegree.ToString() : _settings.unit)));// " \u00B0" + _settings.deegree.ToString()));
+                labelTemp.Invoke(new Action(() => labelTemp.Text = value + " " + (_settings.Deegree != Deegree.User ? "\u00B0" + _settings.Deegree.ToString() : _settings.Unit)));// " \u00B0" + _settings.deegree.ToString()));
                 Invoke(new Action(() => ResizeWidget()));
             }
             else
             {
-                labelTemp.Text = value + " " + (_settings.deegree != Deegree.User ? "\u00B0" + _settings.deegree.ToString() : _settings.unit);
+                labelTemp.Text = value + " " + (_settings.Deegree != Deegree.User ? "\u00B0" + _settings.Deegree.ToString() : _settings.Unit);
             }
         }
 
@@ -90,28 +90,28 @@ namespace TempetarureWidget.forms
         {
             if (!settings.IsEmptyChannel)
             {
-                BackColor = settings.backColor;
-                labelTemp.ForeColor = settings.textColor;
-                labelUpdateDate.ForeColor = settings.textColor;
-                labelName.ForeColor = settings.textColor;
-                labelUpdateDate.Visible = settings.dateVisable;
-                labelName.Visible = settings.nameVisable;
-                labelName.Font = new Font(labelName.Font.FontFamily, settings.dateSize, labelName.Font.Style);
-                labelUpdateDate.Font = new Font(labelUpdateDate.Font.FontFamily, settings.dateSize, labelUpdateDate.Font.Style);
-                labelTemp.Font = new Font(labelTemp.Font.FontFamily, settings.temperatureSize, labelTemp.Font.Style);
+                BackColor = settings.BackColor;
+                labelTemp.ForeColor = settings.TextColor;
+                labelUpdateDate.ForeColor = settings.TextColor;
+                labelName.ForeColor = settings.TextColor;
+                labelUpdateDate.Visible = settings.DateVisable;
+                labelName.Visible = settings.NameVisable;
+                labelName.Font = new Font(labelName.Font.FontFamily, settings.DateSize, labelName.Font.Style);
+                labelUpdateDate.Font = new Font(labelUpdateDate.Font.FontFamily, settings.DateSize, labelUpdateDate.Font.Style);
+                labelTemp.Font = new Font(labelTemp.Font.FontFamily, settings.TemperatureSize, labelTemp.Font.Style);
 
                 ResizeWidget();
             }
             else
             {
-                settings.backColor = BackColor;
-                settings.textColor = labelTemp.ForeColor;
-                settings.dateVisable = labelUpdateDate.Visible;
-                settings.nameVisable = labelName.Visible;
-                settings.dateSize = labelUpdateDate.Font.Size;
-                settings.temperatureSize = labelTemp.Font.Size;
-                settings.channelNameVisable = true;
-                settings.fieldNameVisable = true;
+                settings.BackColor = BackColor;
+                settings.TextColor = labelTemp.ForeColor;
+                settings.DateVisable = labelUpdateDate.Visible;
+                settings.NameVisable = labelName.Visible;
+                settings.DateSize = labelUpdateDate.Font.Size;
+                settings.TemperatureSize = labelTemp.Font.Size;
+                settings.ChannelNameVisable = true;
+                settings.FieldNameVisable = true;
             }
             _settings = settings;
         }

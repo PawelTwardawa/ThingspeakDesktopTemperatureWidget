@@ -1,4 +1,4 @@
-﻿namespace TempetarureWidget
+﻿namespace TempetarureWidget.forms
 {
     partial class SettingsForm
     {

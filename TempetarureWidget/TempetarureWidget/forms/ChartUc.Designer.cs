@@ -36,6 +36,7 @@
             // 
             // chart
             // 
+            chartArea1.BorderWidth = 10;
             chartArea1.Name = "ChartArea1";
             this.chart.ChartAreas.Add(chartArea1);
             this.chart.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -49,6 +50,9 @@
             this.chart.TabIndex = 0;
             this.chart.Text = "chart1";
             this.chart.TextAntiAliasingQuality = System.Windows.Forms.DataVisualization.Charting.TextAntiAliasingQuality.SystemDefault;
+            this.chart.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChartUc_MouseDown);
+            this.chart.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ChartUc_MouseMove);
+            this.chart.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ChartUc_MouseUp);
             // 
             // ChartUc
             // 

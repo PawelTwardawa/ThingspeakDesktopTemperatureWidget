@@ -31,7 +31,7 @@ namespace TempetarureWidget.SettingsApp
         {
             for(int i = 0; i <appSettings.settings.Count; i++)
             {
-                if(appSettings.settings[i]._id == id)
+                if(appSettings.settings[i].id == id)
                 {
                     appSettings.settings[i] = settings;
                     Save();

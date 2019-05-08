@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TempetarureWidget.SettingsApp;
-using DotNetAutoUpdate.Framework;
+using TempetarureWidget.forms;
 
 namespace TempetarureWidget
 {
@@ -41,7 +38,7 @@ namespace TempetarureWidget
                 }
                 if (openWidget == 0)
                     forms.Add(new WidgetForm(ref appSettings, new Settings()));
-                    //forms.Add(new WidgetForm(new Settings()));
+                //forms.Add(new WidgetForm(new Settings()));
             }
             else
             {

@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Json;
-using TempetarureWidget.DTO;
 using TempetarureWidget.SettingsApp;
-using System.IO;
-using TempetarureWidget.forms;
 
-namespace TempetarureWidget
+namespace TempetarureWidget.forms
 {
     public partial class WidgetForm : Form, IWidgetForm
     {
@@ -48,18 +38,24 @@ namespace TempetarureWidget
         {
             widgetUC = new WidgetUC(settings);
             widgetUC.Location = new Point(0, 0);
+            widgetUC.ResizeWidgetEvent += ResizeWidget;
+            widgetUC.UpdateToolStripMenuItemText += s => UpdateToolStripMenuItemText?.Invoke(s);
             widgetUC.Widget_MouseUp += WidgetForm_MouseUp;
             widgetUC.Widget_MouseMove += Form1_MouseMove;
             widgetUC.Widget_MouseDown += Form1_MouseDown;
 
-            this.Controls.Add(widgetUC);
+            Controls.Add(widgetUC);
 
             chartUc = new ChartUc();
             chartUc.Location = new Point(widgetUC.Location.X, widgetUC.Location.Y + widgetUC.Height);
+            chartUc.Chart_MouseDown += WidgetForm_MouseUp;
+            chartUc.Chart_MouseMove += Form1_MouseMove;
+            chartUc.Chart_MouseDown += Form1_MouseDown;
             chartUc.LoadSetting(settings);
+            chartUc.Visible = false;
             
-            if(settings.chartSettings != null)
-                if (settings.chartSettings.Visable)
+            if(settings.ChartSettings != null)
+                if (settings.ChartSettings.Visable)
                     chartUc.Visible = true;
                 else
                     chartUc.Visible = false;
@@ -71,12 +67,12 @@ namespace TempetarureWidget
             //_manager.SetUpdateDataLabel += widgetUC.UpdataDateTimeLabel;
             _manager.SetUpdateDataLabel += widgetUC.UpdataDateTimeLabel;
             _manager.SetNameLabel += widgetUC.UpdateNameLabel;
-            widgetUC.ResizeWidgetEvent += ResizeWidget;
+            
 
             widgetUC.Visible = true;
             widgetUC.Show();
 
-            loadSettings(settings);
+            LoadSettings(settings);
         }
 
         public WidgetForm(ref AppSettings appSettings, Settings settings) : this(settings)
@@ -99,13 +95,13 @@ namespace TempetarureWidget
         {
             if(e.Button == MouseButtons.Left)
             {
-                this.Left = e.X + this.Left - _mouseDownPoint.X;
-                this.Top = e.Y + this.Top - _mouseDownPoint.Y;
+                Left = e.X + Left - _mouseDownPoint.X;
+                Top = e.Y + Top - _mouseDownPoint.Y;
             }
         }
         private void WidgetForm_MouseUp(object sender, MouseEventArgs e)
         {
-            _settings.location = new Point(Left, Top);
+            _settings.Location = new Point(Left, Top);
             //if(!_settings.IsEmpty)
             if(!_settings.IsEmptyChannel)
                 _settings.Save();
@@ -113,8 +109,8 @@ namespace TempetarureWidget
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (!_settings.location.IsEmpty)
-                Location = _settings.location;
+            if (!_settings.Location.IsEmpty)
+                Location = _settings.Location;
             _manager.Start();
             
         }
@@ -127,20 +123,20 @@ namespace TempetarureWidget
             var v = settings.ShowDialog(this);
 
             if (v == DialogResult.OK)
-                loadSettings(_settings);
+                LoadSettings(_settings);
             else if (v == DialogResult.Abort)
                 ExitWidget();
 
         }
 
-        private void loadSettings(Settings settings)
+        private void LoadSettings(Settings settings)
         {
             widgetUC.loadSettings(settings);
             chartUc.LoadSetting(settings);
 
-            if (settings.chartSettings != null)
+            if (settings.ChartSettings != null)
             {
-                if (settings.chartSettings.Visable)
+                if (settings.ChartSettings.Visable)
                 {
                     chartUc.Visible = true;
                 }
@@ -154,11 +150,11 @@ namespace TempetarureWidget
             if (!settings.IsEmptyChannel)
             {
                 _manager.ChangeSetting(settings);
-                Opacity = settings.opacity;
+                Opacity = settings.Opacity;
             }
             else
             {
-                settings.opacity = (float)Opacity;
+                settings.Opacity = (float)Opacity;
             }
             _settings = settings;
         }
@@ -166,8 +162,8 @@ namespace TempetarureWidget
         public void ExitWidget()
         {
             _manager.Stop();
-            RemoveToolStripMenuItem();
-            this.Close();
+            RemoveToolStripMenuItem?.Invoke();
+            Close();
             Dispose();
         }
 

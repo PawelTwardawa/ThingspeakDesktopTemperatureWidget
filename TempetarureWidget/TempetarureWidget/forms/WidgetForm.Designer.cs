@@ -1,5 +1,5 @@
 ﻿
-namespace TempetarureWidget
+namespace TempetarureWidget.forms
 {
     partial class WidgetForm
     {

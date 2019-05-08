@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+using TempetarureWidget.DTO;
 
-namespace TempetarureWidget.DTO
+namespace TempetarureWidget.DTOs
 {
     public struct Data<T>
     {
@@ -17,8 +15,8 @@ namespace TempetarureWidget.DTO
     class Data
     {
         [DataMember]
-        public Channel channel { get; set; }
+        public Channel Channel { get; set; }
         [DataMember]
-        public List<Feed> feeds { get; set; }
+        public List<Feed> Feeds { get; set; }
     }
 }

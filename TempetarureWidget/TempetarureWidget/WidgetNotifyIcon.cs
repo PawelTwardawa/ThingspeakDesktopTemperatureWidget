@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using TempetarureWidget.forms;
 using TempetarureWidget.SettingsApp;
 
 namespace TempetarureWidget
@@ -60,25 +57,25 @@ namespace TempetarureWidget
 
             for (int i = 0; i < forms.Count; i++)
             {
-                contextMenu.Items.Add(addWidget(forms[i])); 
+                contextMenu.Items.Add(AddWidget(forms[i])); 
             }
 
-            ToolStripMenuItem AddWidgetToolStripMenuItem = new ToolStripMenuItem();
-            AddWidgetToolStripMenuItem.Text = "Add Widget";
-            AddWidgetToolStripMenuItem.Click += (sender, e) =>
+            ToolStripMenuItem addWidgetToolStripMenuItem = new ToolStripMenuItem();
+            addWidgetToolStripMenuItem.Text = @"Add Widget";
+            addWidgetToolStripMenuItem.Click += (sender, e) =>
             {
                 //MultiWidgetContext.AddForms();
                 //WidgetForm form = new WidgetForm(new Settings());
                 WidgetForm form = new WidgetForm(ref _appSettings, new Settings());
                 MultiWidgetContext.AddForm(form);
-                contextMenu.Items.Insert(0, addWidget(form));
+                contextMenu.Items.Insert(0, AddWidget(form));
                 form.Show();
             };
-            contextMenu.Items.Add(AddWidgetToolStripMenuItem);
+            contextMenu.Items.Add(addWidgetToolStripMenuItem);
 
 
             ToolStripMenuItem exitToolStripMenuItem = new ToolStripMenuItem();
-            exitToolStripMenuItem.Text = "Exit";
+            exitToolStripMenuItem.Text = @"Exit";
             exitToolStripMenuItem.Click += (sender, e) =>
             {
                 System.Environment.Exit(0);
@@ -88,10 +85,10 @@ namespace TempetarureWidget
             _notifyIcon.ContextMenuStrip = contextMenu;
         }
 
-        private WidgetToolStripMenuItem addWidget(IWidgetForm form)
+        private WidgetToolStripMenuItem AddWidget(IWidgetForm form)
         {
             WidgetToolStripMenuItem exitWidgetMenuItem = new WidgetToolStripMenuItem();
-            exitWidgetMenuItem.Text = "Exit";
+            exitWidgetMenuItem.Text = @"Exit";
             exitWidgetMenuItem.WidgetForm = form;
             exitWidgetMenuItem.Click += (sender, e) =>
             {
@@ -101,7 +98,7 @@ namespace TempetarureWidget
 
 
             WidgetToolStripMenuItem settingWidgetMenuItem = new WidgetToolStripMenuItem();
-            settingWidgetMenuItem.Text = "Settings";
+            settingWidgetMenuItem.Text = @"Settings";
             settingWidgetMenuItem.WidgetForm = form;
             settingWidgetMenuItem.Click += (sender, e) =>
             {

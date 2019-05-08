@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TempetarureWidget
@@ -11,19 +7,19 @@ namespace TempetarureWidget
     class MultiWidgetContext : ApplicationContext
     {
         //private int openForms;
-        private static int openForms;
+        private static int _openForms;
 
         public MultiWidgetContext(params Form[] forms)
         {
-            openForms = forms.Length;
+            _openForms = forms.Length;
 
             foreach(var form in forms)
             {
                 //form.FormClosed += Close;
                 form.FormClosed += (s, args) =>
                 {
-                    if (Interlocked.Decrement(ref openForms) == 0)
-                        System.Environment.Exit(0);
+                    if (Interlocked.Decrement(ref _openForms) == 0)
+                        Environment.Exit(0);
                 };
 
                 form.Show();
@@ -32,12 +28,12 @@ namespace TempetarureWidget
 
         public static void AddForm(Form form)
         {
-            Interlocked.Increment(ref openForms);
+            Interlocked.Increment(ref _openForms);
 
             form.FormClosed += (s, args) =>
             {
-                if (Interlocked.Decrement(ref openForms) == 0)
-                    System.Environment.Exit(0);
+                if (Interlocked.Decrement(ref _openForms) == 0)
+                    Environment.Exit(0);
             };
         }
     }

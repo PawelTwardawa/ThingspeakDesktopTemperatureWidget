@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TempetarureWidget.DTO;
+using TempetarureWidget.DTOs;
 using TempetarureWidget.SettingsApp;
 
 namespace TempetarureWidget
